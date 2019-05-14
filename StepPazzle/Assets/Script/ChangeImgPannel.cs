@@ -22,8 +22,8 @@ public class ChangeImgPannel : MonoBehaviour {
         if (other.tag == "Player" && changedTex == false)
         {
             this.GetComponent<Renderer>().material = changeMaterial;
+            this.tag = "changedPannel";
             changedTex = true;
-            Debug.Log("Hit!");
         }
     }
 }

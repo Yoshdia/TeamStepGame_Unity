@@ -21,7 +21,6 @@ public class Player : MonoBehaviour {
     {
         target = transform.position;
         movePannelSize = pannel.GetComponent<MeshRenderer>().bounds.size.x;
-        Debug.Log("" + movePannelSize);
     }
 
     // Update is called once per frame
