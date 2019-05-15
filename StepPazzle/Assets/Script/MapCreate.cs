@@ -11,43 +11,61 @@ public class MapCreate : MonoBehaviour
     [SerializeField]
     private GameObject ground = null;
     //パネルすべてを管理するList
-    //private List<GameObject> pannelList = new List<GameObject>();
-    
-    //クリアしたかどうかのフラグ。シーン遷移が実装されたら削除する予定
-    private bool clearFlag = false;
+    private List<GameObject> pannelList = new List<GameObject>();
     //ステージ情報を持ったMapInfo
     MapInfo mapInfo;
+    //マップ情報をMapInfoから受け取り格納するList
+    private List<int> mapList = new List<int>();
+
+    //クリアしたかどうかのフラグ。シーン遷移が実装されたら削除する予定
+    private bool clearFlag = false;
 
     void Start()
     {
         clearFlag = false;
 
-        //ステージの生成、子要素に追加してpannelListに加えていく
         mapInfo = MapInfo.Instance;
-        
-        for (int x = 0; x < stageWidth; x++)
+        mapList = mapInfo.GetStageList();
+
+        int mapWidth = 0;
+        int mapHeight = 0;
+
+        int mapHeightMaxSize = mapInfo.GetStageHeight();
+
+        //ステージの生成、子要素に追加してpannelListに加えていく
+        foreach (int num in mapList)
         {
-            for (int z = 0; z < stageHeight; z++)
+
+            GameObject mapObject = null;
+            if (num == 0)
             {
-                Vector3 pannelPos = new Vector3(z * 1, 0, x * 1);
-                Quaternion pannelQua = new Quaternion();
-                GameObject mapObject=null;
-                if(mapInfo.GetStageInfo(stageWidth-1-x,z)==0)
-                {
-                    mapObject = Instantiate(pannel, pannelPos, pannelQua);
-                }
-                else if(mapInfo.GetStageInfo(stageWidth -1- x, z) == 1)
-                {
-                    mapObject = Instantiate(wall, pannelPos, pannelQua);
-                }
-                else
-                {
-                    mapObject = Instantiate(ground, pannelPos, pannelQua);
-                }
-                mapObject.transform.parent = transform;
-                pannelList.Add(mapObject);
-                //yield return new WaitForSeconds(0.01f);
+                mapWidth++;
+                mapObject = pannel;
             }
+            else if (num == 1)
+            {
+                mapWidth++;
+                mapObject = wall;
+            }
+            else if (num == 2)
+            {
+                mapWidth++;
+                mapObject = ground;
+            }
+            else
+            {
+                mapWidth = 0;
+                mapHeight++;
+                continue;
+            }
+
+            Vector3 objectPos = new Vector3(mapWidth - 1, 0, mapHeightMaxSize - mapHeight);
+            Quaternion objectQua = new Quaternion();
+
+            mapObject = Instantiate(mapObject, objectPos, objectQua);
+
+            mapObject.transform.parent = transform;
+            pannelList.Add(mapObject);
         }
         int cnt = 0;
         foreach (GameObject child in pannelList)

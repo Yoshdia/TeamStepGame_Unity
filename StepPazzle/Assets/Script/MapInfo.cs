@@ -8,25 +8,33 @@ public class MapInfo : MonoBehaviour
     private int[] stage =
         {
         0,0,0,0,0 ,5,
-        0,1,1,1,0 ,5,
+        0,0,1,1,0 ,5,
         0,0,2,0,0 ,5,
         0,0,1,0,0 ,5,
-        0,0,0,0,0
+        0,0,0,0,0 
     };
 
     List<int> stageList = new List<int>();
     int playerPosX = 0;
     int playerPosZ = 0;
+    ////ステージの幅。ステージ情報で改行が行われるとカウントが終了される
+    //int stageWidth = 0;
     //ステージの高さ。ステージ情報で改行が行われるたびにカウントが増える
     int stageHeight = 0;
 
     private void Awake()
     {
+        //bool stageWidthCountEnd = false;
         for (int x = 0; x < stage.Length; x++)
         {
             stageList.Add(stage[x]);
+            //if (stageWidthCountEnd == false)
+            //{
+            //    stageWidth++;
+            //}
             if (stage[x] == 5)
             {
+                //stageWidthCountEnd = true;
                 stageHeight++;
             }
         }
@@ -77,6 +85,16 @@ public class MapInfo : MonoBehaviour
     public int GetplayerPositionZ()
     {
         return playerPosZ;
+    }
+
+    //public int GetstageWidth()
+    //{
+    //    return stageWidth;
+    //}
+
+    public int GetStageHeight()
+    {
+        return stageHeight;
     }
 
     //public int GetStageInfo(int x, int z)
