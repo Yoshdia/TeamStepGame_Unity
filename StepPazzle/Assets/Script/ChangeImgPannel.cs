@@ -8,12 +8,16 @@ public class ChangeImgPannel : MonoBehaviour {
     [SerializeField]
     private Material changeMaterial = null;
 
+    BoxCollider pannelCollider;
+
     private bool changedTex = false;
     public bool GetChangeTexFlag() { return changedTex; }
 
     public void Start()
     {
-        this.GetComponent<Renderer>().material = initMaterial;
+        transform.GetComponent<Renderer>().material = initMaterial;
+        pannelCollider = GetComponent<BoxCollider>();
+        pannelCollider.size = new Vector3(0.5f,1.0f,0.5f);
         changedTex = false;
     }
 
@@ -21,9 +25,10 @@ public class ChangeImgPannel : MonoBehaviour {
     {
         if (other.tag == "Player" && changedTex == false)
         {
-            this.GetComponent<Renderer>().material = changeMaterial;
-            this.tag = "changedPannel";
+            transform.GetComponent<Renderer>().material = changeMaterial;
+            transform.tag = "changedPannel";
             changedTex = true;
+            pannelCollider.size = new Vector3(1, 2, 1);
         }
     }
 }

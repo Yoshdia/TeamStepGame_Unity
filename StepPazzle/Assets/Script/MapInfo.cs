@@ -4,26 +4,41 @@ using UnityEngine;
 
 public class MapInfo : MonoBehaviour
 {
+    //ステージ情報を格納したシングルトン。MapCreaterとPlayerから呼ばれる。
+    private int[,] stage = {
+        {0,0,0,0,0 },
+        {0,1,1,1,0 },
+        {0,0,2,0,0 },
+        {0,0,1,0,0 },
+        {0,0,0,0,0 }
+    };
 
-    private static MapInfo instance;
+    private static MapInfo mInstance;
     public static MapInfo Instance
     {
         get
         {
-
-            return instance;
+            if (mInstance == null)
+            {
+                GameObject obj = new GameObject("MapInfo");
+                mInstance = obj.AddComponent<MapInfo>();
+            }
+            return mInstance;
         }
     }
 
-    // Use this for initialization
-    void Start()
+    public int GetStageInfo(int x,int z)
     {
-
+        return stage[x,z];
     }
 
-    // Update is called once per frame
-    void Update()
+    public int GetStageSizeWidth()
     {
+        return stage.GetLength(1);
+    }
 
+    public int GetStageSizeHeight()
+    {
+        return stage.GetLength(0);
     }
 }

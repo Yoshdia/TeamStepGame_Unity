@@ -8,27 +8,23 @@ public class MapCreate : MonoBehaviour
     private GameObject pannel = null;
     [SerializeField]
     private GameObject wall = null;
+    [SerializeField]
+    private GameObject ground = null;
     //パネルすべてを管理するList
     private List<GameObject> pannelList = new List<GameObject>();
     //クリアしたかどうかのフラグ。シーン遷移が実装されたら削除する予定
     private bool clearFlag = false;
-    //ステージの幅、高さ
-    private int stageHeight = 5, stageWidth = 5;
-    //ステージ情報
-    private int[,] stage = {
-        {0,0,0,0,0 },
-        {0,1,1,1,0 },
-        {0,0,0,0,0 },
-        {0,0,1,0,0 },
-        {0,0,0,0,0 }
-    };
-
-
+    //ステージ情報を持ったMapInfo
+    MapInfo mapInfo;
 
     void Start()
     {
         clearFlag = false;
+
         //ステージの生成、子要素に追加してpannelListに加えていく
+        mapInfo = MapInfo.Instance;
+        int stageHeight = mapInfo.GetStageSizeHeight();
+        int stageWidth = mapInfo.GetStageSizeWidth();
         for (int x = 0; x < stageWidth; x++)
         {
             for (int z = 0; z < stageHeight; z++)
@@ -36,13 +32,17 @@ public class MapCreate : MonoBehaviour
                 Vector3 pannelPos = new Vector3(z * 1, 0, x * 1);
                 Quaternion pannelQua = new Quaternion();
                 GameObject mapObject=null;
-                if(stage[x,z]==0)
+                if(mapInfo.GetStageInfo(stageWidth-1-x,z)==0)
                 {
                     mapObject = Instantiate(pannel, pannelPos, pannelQua);
                 }
-                if(stage[x,z]==1)
+                else if(mapInfo.GetStageInfo(stageWidth -1- x, z) == 1)
                 {
                     mapObject = Instantiate(wall, pannelPos, pannelQua);
+                }
+                else
+                {
+                    mapObject = Instantiate(ground, pannelPos, pannelQua);
                 }
                 mapObject.transform.parent = transform;
                 pannelList.Add(mapObject);

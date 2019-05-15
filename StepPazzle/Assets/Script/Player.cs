@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
 {
     // 移動速度
     [SerializeField]
-    private float speed=5;
+    private float speed = 5;
     // 入力受付時、移動先の位置を算出して保存 
     private Vector3 targetPos;
     //移動方向ベクトル
@@ -18,9 +18,29 @@ public class Player : MonoBehaviour
     private GameObject pannel = null;
     //移動する距離。pannelにタッチされたオブジェクトのサイズをここに保存する
     private float movePannelSize;
+    //ステージ情報、Playerの初期座標をここから入手する
+    MapInfo mapInfo;
 
     void Start()
     {
+        //マップ情報に応じてPlayerの初期座標を変更する
+        mapInfo = MapInfo.Instance;
+        Vector3 playerPos=new Vector3(0,0,0);
+        int stageHeight = mapInfo.GetStageSizeHeight();
+        int stageWidth = mapInfo.GetStageSizeWidth();
+        for (int x = 0; x < stageWidth; x++)
+        {
+            for (int z = 0; z < stageHeight; z++)
+            {
+                if(mapInfo.GetStageInfo(x,z)==2)
+                {
+                    playerPos = new Vector3(x, 1, z);
+                    break;
+                }
+            }
+        }
+        transform.position = playerPos;
+
         //移動方向ベクトルの初期化
         moveVector = new Vector3(0, 0, 0);
         //目的座標をリセット
