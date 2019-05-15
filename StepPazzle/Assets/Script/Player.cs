@@ -1,25 +1,29 @@
-﻿using System.Collections;
+﻿
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour {
-    //[SerializeField]
-    //float movePannelSize = 0.64f;  //移動する距離、マスのサイズ
-
+public class Player : MonoBehaviour
+{
+    // 移動速度
     [SerializeField]
-    private float step = 2f;     // 移動速度
+    private float step = 2f;
+    // 入力受付時、移動先の位置を算出して保存 
+    Vector3 target;
+    // 何らかの理由で移動できなかった場合、元の位置に戻すため移動前の位置を保存
+    Vector3 prevPos;
 
-    Vector3 target;      // 入力受付時、移動先の位置を算出して保存 
-    Vector3 prevPos;     // 何らかの理由で移動できなかった場合、元の位置に戻すため移動前の位置を保存
-
+    //これから移動するpannelのサイズ
     [SerializeField]
     private GameObject pannel = null;
-    //[SerializeField]
+    //移動する距離。pannelにタッチされたオブジェクトのサイズをここに保存する
     private float movePannelSize;
 
     void Start()
     {
+        //目的座標をリセット
         target = transform.position;
+        //アタッチされたオブジェクトのサイズを所得
         movePannelSize = pannel.GetComponent<MeshRenderer>().bounds.size.x;
     }
 
@@ -37,28 +41,43 @@ public class Player : MonoBehaviour {
     // ② 入力に応じて移動後の位置を算出
     void SetTargetPosition()
     {
+        //移動先に壁があるか
+        bool targetPositionNoWallFlag = false;
+
         prevPos = target;
 
-        if (Input.GetKey(KeyCode.RightArrow))
+        Vector3 moveVector = new Vector3(0, 0, 0);
+        //斜め移動を防ぐためのフラグ
+        bool oneBottonInputFlag = false;
+
+        if (Input.GetKey(KeyCode.RightArrow) && oneBottonInputFlag == false)
         {
-            target = transform.position + new Vector3(movePannelSize, 0, 0);
-            return;
+            moveVector.x = +movePannelSize;
+            oneBottonInputFlag = true;
         }
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKey(KeyCode.LeftArrow) && oneBottonInputFlag == false)
         {
-            target = transform.position - new Vector3(movePannelSize, 0, 0);
-            return;
+            moveVector.x = -movePannelSize;
+            oneBottonInputFlag = true;
         }
-        if (Input.GetKey(KeyCode.UpArrow))
+        if (Input.GetKey(KeyCode.UpArrow) && oneBottonInputFlag == false)
         {
-            target = transform.position + new Vector3(0, 0, movePannelSize);
-            return;
+            moveVector.z = +movePannelSize;
+            oneBottonInputFlag = true;
         }
-        if (Input.GetKey(KeyCode.DownArrow))
+        if (Input.GetKey(KeyCode.DownArrow) && oneBottonInputFlag == false)
         {
-            target = transform.position - new Vector3(0, 0, movePannelSize);
-            return;
+            moveVector.z = -movePannelSize;
+            oneBottonInputFlag = true;
         }
+
+        targetPositionNoWallFlag = Physics.Raycast(transform.position, moveVector, 1);
+
+        if (targetPositionNoWallFlag == false)
+        {
+            target = transform.position + moveVector;
+        }
+
     }
 
     // ③ 目的地へ移動する
