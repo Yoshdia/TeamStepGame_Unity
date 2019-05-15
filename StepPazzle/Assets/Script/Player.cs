@@ -26,19 +26,12 @@ public class Player : MonoBehaviour
         //マップ情報に応じてPlayerの初期座標を変更する
         mapInfo = MapInfo.Instance;
         Vector3 playerPos=new Vector3(0,0,0);
-        int stageHeight = mapInfo.GetStageSizeHeight();
-        int stageWidth = mapInfo.GetStageSizeWidth();
-        for (int x = 0; x < stageWidth; x++)
-        {
-            for (int z = 0; z < stageHeight; z++)
-            {
-                if(mapInfo.GetStageInfo(x,z)==2)
-                {
-                    playerPos = new Vector3(x, 1, z);
-                    break;
-                }
-            }
-        }
+
+        int playerX = mapInfo.GetplayerPositionX();
+        int playerZ = mapInfo.GetplayerPositionZ();
+        playerPos = new Vector3(playerX, 1, playerZ);
+
+        
         transform.position = playerPos;
 
         //移動方向ベクトルの初期化

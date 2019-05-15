@@ -5,13 +5,50 @@ using UnityEngine;
 public class MapInfo : MonoBehaviour
 {
     //ステージ情報を格納したシングルトン。MapCreaterとPlayerから呼ばれる。
-    private int[,] stage = {
-        {0,0,0,0,0 },
-        {0,1,1,1,0 },
-        {0,0,2,0,0 },
-        {0,0,1,0,0 },
-        {0,0,0,0,0 }
+    private int[] stage =
+        {
+        0,0,0,0,0 ,5,
+        0,1,1,1,0 ,5,
+        0,0,2,0,0 ,5,
+        0,0,1,0,0 ,5,
+        0,0,0,0,0
     };
+
+    List<int> stageList = new List<int>();
+    int playerPosX = 0;
+    int playerPosZ = 0;
+    //ステージの高さ。ステージ情報で改行が行われるたびにカウントが増える
+    int stageHeight = 0;
+
+    private void Awake()
+    {
+        for (int x = 0; x < stage.Length; x++)
+        {
+            stageList.Add(stage[x]);
+            if (stage[x] == 5)
+            {
+                stageHeight++;
+            }
+        }
+        //PlayerがMap情報上でどこにいるかを探す。
+        foreach (int x in stageList)
+        {
+            if (x == 0 || x == 1)
+            {
+                playerPosX++;
+            }
+            else if (x == 5)
+            {
+                playerPosX = 0;
+                playerPosZ++;
+            }
+            else if (x == 2)
+            {
+                break;
+            }
+        }
+
+    }
 
     private static MapInfo mInstance;
     public static MapInfo Instance
@@ -27,18 +64,32 @@ public class MapInfo : MonoBehaviour
         }
     }
 
-    public int GetStageInfo(int x,int z)
+    public List<int> GetStageList()
     {
-        return stage[x,z];
+        return stageList;
     }
 
-    public int GetStageSizeWidth()
+    public int GetplayerPositionX()
     {
-        return stage.GetLength(1);
+        return playerPosX;
     }
 
-    public int GetStageSizeHeight()
+    public int GetplayerPositionZ()
     {
-        return stage.GetLength(0);
+        return playerPosZ;
     }
+
+    //public int GetStageInfo(int x, int z)
+    //{
+    //    return stage[x, z];
+    //}
+    //public int GetStageSizeWidth()
+    //{
+    //    return stage.GetLength(1);
+    //}
+
+    //public int GetStageSizeHeight()
+    //{
+    //    return stage.GetLength(0);
+    //}
 }

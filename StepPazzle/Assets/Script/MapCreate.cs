@@ -11,7 +11,8 @@ public class MapCreate : MonoBehaviour
     [SerializeField]
     private GameObject ground = null;
     //パネルすべてを管理するList
-    private List<GameObject> pannelList = new List<GameObject>();
+    //private List<GameObject> pannelList = new List<GameObject>();
+    
     //クリアしたかどうかのフラグ。シーン遷移が実装されたら削除する予定
     private bool clearFlag = false;
     //ステージ情報を持ったMapInfo
@@ -23,8 +24,7 @@ public class MapCreate : MonoBehaviour
 
         //ステージの生成、子要素に追加してpannelListに加えていく
         mapInfo = MapInfo.Instance;
-        int stageHeight = mapInfo.GetStageSizeHeight();
-        int stageWidth = mapInfo.GetStageSizeWidth();
+        
         for (int x = 0; x < stageWidth; x++)
         {
             for (int z = 0; z < stageHeight; z++)
