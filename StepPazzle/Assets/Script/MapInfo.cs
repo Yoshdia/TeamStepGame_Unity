@@ -9,9 +9,9 @@ public class MapInfo : MonoBehaviour
         {
         0,0,0,0,0 ,5,
         0,0,1,1,0 ,5,
-        0,0,2,0,0 ,5,
+        0,0,0,0,0 ,5,
         0,0,1,0,0 ,5,
-        0,0,0,0,0 
+        0,0,0,0,2 
     };
 
     List<int> stageList = new List<int>();
@@ -84,7 +84,7 @@ public class MapInfo : MonoBehaviour
 
     public int GetplayerPositionZ()
     {
-        return playerPosZ;
+        return stageHeight - playerPosZ;
     }
 
     //public int GetstageWidth()
