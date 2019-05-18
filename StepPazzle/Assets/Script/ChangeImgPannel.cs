@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChangeImgPannel : MonoBehaviour {
+public class ChangeImgPannel : MonoBehaviour
+{
     [SerializeField]
-    private Material initMaterial = null;
+    private Material defaultMaterial = null;
     [SerializeField]
     private Material changeMaterial = null;
 
@@ -15,9 +16,9 @@ public class ChangeImgPannel : MonoBehaviour {
 
     public void Start()
     {
-        transform.GetComponent<Renderer>().material = initMaterial;
+        transform.GetComponent<Renderer>().material = defaultMaterial;
         pannelCollider = GetComponent<BoxCollider>();
-        pannelCollider.size = new Vector3(0.5f,1.0f,0.5f);
+        pannelCollider.size = new Vector3(0.5f, 1.0f, 0.5f);
         changedTex = false;
     }
 
@@ -25,10 +26,23 @@ public class ChangeImgPannel : MonoBehaviour {
     {
         if (other.tag == "Player" && changedTex == false)
         {
-            transform.GetComponent<Renderer>().material = changeMaterial;
-            transform.tag = "changedPannel";
-            changedTex = true;
-            pannelCollider.size = new Vector3(1, 2, 1);
+            StepedMarterialChange();
+            //pannelCollider.size = new Vector3(1, 2, 1);
         }
     }
+
+    private void StepedMarterialChange()
+    {
+        transform.GetComponent<Renderer>().material = changeMaterial;
+        transform.tag = "changedPannel";
+        changedTex = true;
+    }
+
+    private void ReturnMarterialChange()
+    {
+        transform.GetComponent<Renderer>().material = defaultMaterial;
+        transform.tag = "defaultPannel";
+        changedTex = false;
+    }
+
 }

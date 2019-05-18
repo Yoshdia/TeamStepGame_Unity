@@ -38,7 +38,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1008677771808178}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.22053218, y: 0.5, z: -2.127547}
+  m_LocalPosition: {x: -2.6775136, y: 0.01596737, z: 5.072662}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -53,6 +53,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -68,6 +69,7 @@ MeshRenderer:
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -121,5 +123,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14f7494c43d66334bac35f2222053121, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initMaterial: {fileID: 2100000, guid: d1b8569078c6fec409acdc40d2aad0c2, type: 2}
+  defaultMaterial: {fileID: 2100000, guid: d1b8569078c6fec409acdc40d2aad0c2, type: 2}
   changeMaterial: {fileID: 2100000, guid: 75c1d3d284de847498e3b44875f43e70, type: 2}

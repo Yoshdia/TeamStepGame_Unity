@@ -19,19 +19,28 @@ public class Player : MonoBehaviour
     //移動する距離。pannelにタッチされたオブジェクトのサイズをここに保存する
     private float movePannelSize;
     //ステージ情報、Playerの初期座標をここから入手する
-    MapInfo mapInfo;
+    private MapInfo mapInfo;
+
+    private int stageHeight;
+    private int stageWidth;
+
+    int playerX;
+    int playerZ;
 
     void Start()
     {
+
         //マップ情報に応じてPlayerの初期座標を変更する
         mapInfo = MapInfo.Instance;
-        Vector3 playerPos=new Vector3(0,0,0);
+        Vector3 playerPos = new Vector3(0, 0, 0);
+        stageHeight = mapInfo.GetStageHeight();
+        stageWidth = mapInfo.GetstageWidth();
 
-        int playerX = mapInfo.GetplayerPositionX();
-        int playerZ = mapInfo.GetplayerPositionZ();
+        playerX = mapInfo.GetplayerPositionX();
+        playerZ = mapInfo.GetplayerPositionZ();
         playerPos = new Vector3(playerX, 1, playerZ);
 
-        
+
         transform.position = playerPos;
 
         //移動方向ベクトルの初期化
@@ -53,6 +62,10 @@ public class Player : MonoBehaviour
             if (TargetPositionHaveWall() == false)
             {
                 targetPos = transform.position + moveVector;
+                playerX += (int)moveVector.x;
+                playerZ += (int)moveVector.z;
+                Debug.Log("x: y:" + playerX + playerZ);
+                
             }
         }
         Move();
