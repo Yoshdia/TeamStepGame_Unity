@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//改善の必要しかないプログラムなのでこれを参考にしないこと
 public class MapInfo : MonoBehaviour
 {
     //ステージ情報を格納したシングルトン。MapCreaterとPlayerから呼ばれる。
@@ -97,17 +98,14 @@ public class MapInfo : MonoBehaviour
         return stageHeight;
     }
 
-    //public int GetStageInfo(int x, int z)
-    //{
-    //    return stage[x, z];
-    //}
-    //public int GetStageSizeWidth()
-    //{
-    //    return stage.GetLength(1);
-    //}
+    private void Update()
+    {
+        foreach(int num in stageList)
+        {
+            if(num==3)
+            {
 
-    //public int GetStageSizeHeight()
-    //{
-    //    return stage.GetLength(0);
-    //}
+            }
+        }
+    }
 }
