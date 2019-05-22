@@ -13,28 +13,43 @@ public class PlayerMoveContloller : MonoBehaviour
     //移動方向ベクトル
     private Vector3 moveVector;
 
-    //地面のオブジェクトをここに保存
     [SerializeField]
     private GameObject pannel = null;
-    //移動する距離。pannelにタッチされたオブジェクトのサイズをここに保存する
+    //移動する距離。pannelにのサイズをここに保存し移動距離に使用
     private float movePannelSize;
-    //マップデータ、MapDateからマップ情報を受け取る
+
+    //MapDateがコンポーネントされているGameObject
+    [SerializeField]
+    private GameObject haveMapDateObject;
+    //haveMapDateObjectからマップ情報を受け取る
     private int[,] mapDate ;
+    //マップデータ上のPlayerの位置
+    private Vector3 playerPosOnMapDate;
+
+    //private enum eStateForWall
+    //{
+    //    eCanMove = 0,
+    //    eCanNotMove=1
+    //}
+    //;
+
 
     void Start()
     {
-        mapDate = GetComponent<MapController>().GetMapDate();
+        //アタッチされたオブジェクト、地面のパネルのサイズを所得
+        movePannelSize = pannel.GetComponent<MeshRenderer>().bounds.size.x;
+
+        //mapDateにステージ情報をコピー
+        mapDate = haveMapDateObject.GetComponent<MapController>().GetMapDate();
         //プレイヤーの初期座標を受け取り入れる
-        Vector2 playerPos = GetComponent<MapController>().GetFirstPositionPlayer();
-        playerPos.y = movePannelSize;
-        transform.position = playerPos;
+        playerPosOnMapDate = haveMapDateObject.GetComponent<MapController>().GetFirstPositionPlayer();
+        playerPosOnMapDate.y = movePannelSize;
+        transform.position = playerPosOnMapDate;
 
         //移動方向ベクトルの初期化
         moveVector = new Vector3(0, 0, 0);
         //目的座標をリセット
         targetPos = transform.position;
-        //アタッチされたオブジェクト、地面のパネルのサイズを所得
-        movePannelSize = pannel.GetComponent<MeshRenderer>().bounds.size.x;
     }
 
     void Update()
@@ -44,8 +59,10 @@ public class PlayerMoveContloller : MonoBehaviour
         {
             SetTargetPosition();
             //移動先に壁がない場合targetPosを更新させる
-            if (TargetPositionHaveWall() == false)
+            if (TargetPositionHaveWall() ==false)
             {
+                haveMapDateObject.GetComponent<MapController>().PlayerMovedChangeMapDate(playerPosOnMapDate,moveVector);
+                playerPosOnMapDate += moveVector;
                 targetPos = transform.position + moveVector;
             }
         }
@@ -79,16 +96,20 @@ public class PlayerMoveContloller : MonoBehaviour
         }
     }
 
-    //移動先に壁があるか(ある場合trueを返す
+    //移動先が移動可能か
     bool TargetPositionHaveWall()
     {
-        bool targetPositionNoWallFlag = false;
+        bool targetPositionNoWallFlag =false;
 
+        int targetPosZ=(int)(playerPosOnMapDate.z+moveVector.z);
+        int targetPosX=(int)(playerPosOnMapDate.x+moveVector.x);
 
-        ////自分の移動先にレイを飛ばし障害物を検知する
-        //targetPositionNoWallFlag = Physics.Raycast(transform.position, moveVector, 1);
-        //int info = mapList[(((playerZ + (int)moveVector.z) * stageWidth) + (playerX + (int)moveVector.x))];
-
+        //壁だった場合移動できない
+        if(mapDate[targetPosZ, targetPosX]==(int)MapDate.eGroundName.eWall)
+        {
+            targetPositionNoWallFlag =true;
+        }
+        
         return targetPositionNoWallFlag;
     }
 
@@ -96,6 +117,9 @@ public class PlayerMoveContloller : MonoBehaviour
     {
         transform.position = Vector3.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
     }
+    private void OnTriggerEnter(Collider other)
+    {
 
+    }
 }
 

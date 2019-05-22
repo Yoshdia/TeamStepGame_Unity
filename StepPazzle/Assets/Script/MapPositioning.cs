@@ -34,7 +34,7 @@ public class MapPositioning : MonoBehaviour {
                 {
                     setObject = pannelObject;
                 }
-                if (pannelInfo == (int)MapDate.eGroundName.ePlayerDefaultPosition ||
+                if (pannelInfo == (int)MapDate.eGroundName.ePlayerPosition ||
                     pannelInfo == (int)MapDate.eGroundName.eWhite)
                 {
                     setObject = whiteObject;

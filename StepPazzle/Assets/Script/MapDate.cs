@@ -10,7 +10,7 @@ public class MapDate : MonoBehaviour
         eChangedPannel = 1,
         eWall = 2,
         eWhite=3,
-        ePlayerDefaultPosition = 4
+        ePlayerPosition = 4
     }
 
     int[,] mapDate =
@@ -18,7 +18,7 @@ public class MapDate : MonoBehaviour
         {0,2,0,0,0,2 },
         {0,0,0,2,0,2 },
         {0,0,0,0,0,2 },
-        {0,2,2,4,0,2 },
+        {0,2,2,2,4,2 },
         {0,0,0,0,0,0 }
     };
 

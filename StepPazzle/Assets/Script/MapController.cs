@@ -32,7 +32,7 @@ public class MapController : MonoBehaviour {
         {
             for (playerPosition.x = 0; playerPosition.x < mapDate.GetLength(1); playerPosition.x++)
             {
-                if (mapDate[(int)playerPosition.z, (int)playerPosition.x] ==(int) MapDate.eGroundName.ePlayerDefaultPosition)
+                if (mapDate[(int)playerPosition.z, (int)playerPosition.x] ==(int) MapDate.eGroundName.ePlayerPosition)
                 {
                     checkEnd = true;
                     break;
@@ -47,9 +47,12 @@ public class MapController : MonoBehaviour {
         return playerPosition;
     }
 
-    //プレイヤーが移動したのでマップデータを書き直す
-    public void PlayerMovedChangeMapDate()
+    //プレイヤーが移動したときに呼ばれる関数。マップデータを書き直す
+    public void PlayerMovedChangeMapDate(Vector3 playerPos,Vector3 movePos)
     {
+        mapDate[(int)playerPos.z, (int)playerPos.x] = (int)MapDate.eGroundName.eChangedPannel;
+
+        mapDate[(int)(playerPos.z + movePos.z), (int)(playerPos.x + movePos.x)] = (int)MapDate.eGroundName.ePlayerPosition;
 
     }
 
