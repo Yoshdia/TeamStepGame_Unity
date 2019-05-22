@@ -22,8 +22,8 @@ GameObject:
   - component: {fileID: 33953715051393322}
   - component: {fileID: 65455013521197814}
   - component: {fileID: 23542428362266168}
-  - component: {fileID: 114713755393845620}
   - component: {fileID: 54989067281472476}
+  - component: {fileID: 114872506721328476}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -53,6 +53,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -68,6 +69,7 @@ MeshRenderer:
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -110,7 +112,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114713755393845620
+--- !u!114 &114872506721328476
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -118,8 +120,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 1353757762130178}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99b08c450113f8b41a4a348563ce1005, type: 3}
+  m_Script: {fileID: 11500000, guid: 13f33d9bdf07eaa498ca662ea6fa22fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  step: 5
+  speed: 5
   pannel: {fileID: 1008677771808178, guid: 5a31228bb7a26a740950c779d3a0cc63, type: 2}

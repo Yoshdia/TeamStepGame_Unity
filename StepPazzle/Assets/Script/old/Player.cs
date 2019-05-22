@@ -25,7 +25,7 @@ public class Player : MonoBehaviour
     private List<int> mapList = new List<int>();
 
     //下４つの変数はまだ実装途中
-    private int stageHeight;
+    //private int stageHeight;
     private int stageWidth;
 
     int playerX;
@@ -45,7 +45,7 @@ public class Player : MonoBehaviour
         transform.position = playerPos;
 
         //この2文は気にしないこと
-        stageHeight = mapInfo.GetStageHeight();
+        //stageHeight = mapInfo.GetStageHeight();
         stageWidth = mapInfo.GetstageWidth();
 
         //移動方向ベクトルの初期化
