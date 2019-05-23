@@ -22,7 +22,7 @@ public class PlayerMoveContloller : MonoBehaviour
     [SerializeField]
     private GameObject haveMapDateObject;
     //haveMapDateObjectからマップ情報を受け取る
-    private int[,] mapDate ;
+    private int[,] mapDate;
     //マップデータ上のPlayerの位置
     private Vector3 playerPosOnMapDate;
 
@@ -54,19 +54,31 @@ public class PlayerMoveContloller : MonoBehaviour
 
     void Update()
     {
+        bool moving = true;
         //移動中かどうかの判定。移動中でなければ入力を受付
         if (transform.position == targetPos)
         {
+            moving = false;
             SetTargetPosition();
             //移動先に壁がない場合targetPosを更新させる
-            if (TargetPositionHaveWall() ==false)
+            if (TargetPositionHaveWall() == false)
             {
-                haveMapDateObject.GetComponent<MapController>().PlayerMovedChangeMapDate(playerPosOnMapDate,moveVector);
-                playerPosOnMapDate += moveVector;
                 targetPos = transform.position + moveVector;
             }
         }
-        Move();
+
+
+        if (transform.position != targetPos)
+        {
+            if(moving==false)
+            {
+                haveMapDateObject.GetComponent<MapController>().PlayerMovedChangeMapDate(playerPosOnMapDate, moveVector);
+                playerPosOnMapDate += moveVector;
+                mapDate = haveMapDateObject.GetComponent<MapController>().GetMapDate();
+
+            }
+            Move();
+        }
     }
 
 
@@ -99,17 +111,17 @@ public class PlayerMoveContloller : MonoBehaviour
     //移動先が移動可能か
     bool TargetPositionHaveWall()
     {
-        bool targetPositionNoWallFlag =false;
+        bool targetPositionNoWallFlag = false;
 
-        int targetPosZ=(int)(playerPosOnMapDate.z+moveVector.z);
-        int targetPosX=(int)(playerPosOnMapDate.x+moveVector.x);
+        int targetPosZ = (int)(playerPosOnMapDate.z + moveVector.z);
+        int targetPosX = (int)(playerPosOnMapDate.x + moveVector.x);
 
         //壁だった場合移動できない
-        if(mapDate[targetPosZ, targetPosX]==(int)MapDate.eGroundName.eWall)
+        if (mapDate[targetPosZ, targetPosX] == (int)MapDate.eGroundName.eWall)
         {
-            targetPositionNoWallFlag =true;
+            targetPositionNoWallFlag = true;
         }
-        
+
         return targetPositionNoWallFlag;
     }
 
@@ -117,6 +129,8 @@ public class PlayerMoveContloller : MonoBehaviour
     {
         transform.position = Vector3.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
     }
+
+
     private void OnTriggerEnter(Collider other)
     {
 

@@ -24,7 +24,7 @@ public class MapController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-    }
+        }
 
     // Update is called once per frame
     void Update()
@@ -60,6 +60,7 @@ public class MapController : MonoBehaviour
     //プレイヤーが移動したときに呼ばれる関数。マップデータを書き直す
     public void PlayerMovedChangeMapDate(Vector3 playerPos, Vector3 movePos)
     {
+        Debug.Log("" + playerPos + mapDate.mapNumberDate[(int)playerPos.z, (int)playerPos.x]);
         if (mapDate.mapNumberDate[(int)playerPos.z, (int)playerPos.x] == (int)MapDate.eGroundName.eDefaultPannel)
         {
             //プレイヤーがいたマップ座標をchangedPannelに変え、ChangedMaterialPannelのマテリアルを変えさせる関数を呼ぶ
@@ -72,8 +73,7 @@ public class MapController : MonoBehaviour
             mapDate.mapObjectDate[(int)playerPos.z, (int)playerPos.x].GetComponent<ChangeMaterialPannel>().ReturnMarterialChange();
         }
         //移動先の座標をPlayerがいる番号に書き換える
-        mapDate.mapNumberDate[(int)(playerPos.z + movePos.z), (int)(playerPos.x + movePos.x)] = (int)MapDate.eGroundName.ePlayerPosition;
-
+        //mapDate.mapNumberDate[(int)(playerPos.z + movePos.z), (int)(playerPos.x + movePos.x)] = (int)MapDate.eGroundName.ePlayerPosition;
     }
 
     //二次元配列を返す
