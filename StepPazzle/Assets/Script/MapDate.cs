@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MapDate : MonoBehaviour
 {
+
     public enum eGroundName
     {
         eDefaultPannel = 0,
@@ -22,6 +23,15 @@ public class MapDate : MonoBehaviour
         {0,0,0,0,0,0 }
     };
 
+    GameObject[,] mapObjectDate =
+    {
+        {null, null,null,null,null,null},
+        {null, null,null,null,null,null},
+        {null, null,null,null,null,null},
+        {null, null,null,null,null,null},
+        {null, null,null,null,null,null}
+    };
+
     
 
     //二次元配列を返す
@@ -30,5 +40,9 @@ public class MapDate : MonoBehaviour
         return mapDate;
     }
 
+    public GameObject[,] GetNullObjectDate()
+    {
+        return mapObjectDate;
+    }
 
 }

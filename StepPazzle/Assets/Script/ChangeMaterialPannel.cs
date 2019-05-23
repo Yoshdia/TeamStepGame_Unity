@@ -22,7 +22,7 @@ public class ChangeMaterialPannel : MonoBehaviour {
         }
     }
 
-    private void StepedMarterialChange()
+    public void StepedMarterialChange()
     {
         transform.GetComponent<Renderer>().material = changeMaterial;
         transform.tag = "changedPannel";
