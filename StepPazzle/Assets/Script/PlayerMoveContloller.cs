@@ -21,26 +21,14 @@ public class PlayerMoveContloller : MonoBehaviour
     //MapDateがコンポーネントされているGameObject
     [SerializeField]
     private GameObject haveMapDateObject;
-    //haveMapDateObjectからマップ情報を受け取る
-    private int[,] mapDate;
     //マップデータ上のPlayerの位置
     private Vector3 playerPosOnMapDate;
-
-    //private enum eStateForWall
-    //{
-    //    eCanMove = 0,
-    //    eCanNotMove=1
-    //}
-    //;
-
 
     void Start()
     {
         //アタッチされたオブジェクト、地面のパネルのサイズを所得
         movePannelSize = pannel.GetComponent<MeshRenderer>().bounds.size.x;
 
-        //mapDateにステージ情報をコピー
-        mapDate = haveMapDateObject.GetComponent<MapController>().GetMapDate();
         //プレイヤーの初期座標を受け取り入れる
         playerPosOnMapDate = haveMapDateObject.GetComponent<MapController>().GetFirstPositionPlayer();
         playerPosOnMapDate.y = movePannelSize;
@@ -72,10 +60,8 @@ public class PlayerMoveContloller : MonoBehaviour
         {
             if(moving==false)
             {
-                haveMapDateObject.GetComponent<MapController>().PlayerMovedChangeMapDate(playerPosOnMapDate, moveVector);
                 playerPosOnMapDate += moveVector;
-                mapDate = haveMapDateObject.GetComponent<MapController>().GetMapDate();
-
+                haveMapDateObject.GetComponent<MapController>().PlayerMovedChangeMapDate(playerPosOnMapDate, moveVector);
             }
             Move();
         }
@@ -117,7 +103,7 @@ public class PlayerMoveContloller : MonoBehaviour
         int targetPosX = (int)(playerPosOnMapDate.x + moveVector.x);
 
         //壁だった場合移動できない
-        if (mapDate[targetPosZ, targetPosX] == (int)MapDate.eGroundName.eWall)
+        if (haveMapDateObject.GetComponent<MapController>().GetNumberOnMap(targetPosZ, targetPosX) == (int)MapDate.eGroundName.eWall)
         {
             targetPositionNoWallFlag = true;
         }

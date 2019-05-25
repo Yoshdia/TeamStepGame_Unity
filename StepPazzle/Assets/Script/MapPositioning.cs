@@ -4,25 +4,17 @@ using UnityEngine;
 
 public class MapPositioning : MonoBehaviour
 {
-
-    private int[,] mapDate = { };
-    private GameObject[,] mapObjectDate = { };
-
     [SerializeField]
     private GameObject wallObject = null;
     [SerializeField]
     private GameObject pannelObject = null;
     [SerializeField]
     private GameObject whiteObject = null;
-    
-    // Use this for initialization
-    void Start()
-    {
-
-    }
 
     public void Positioning()
     {
+        int[,] mapDate = { };
+        GameObject[,] mapObjectDate = { };
         mapDate = GetComponent<MapController>().GetMapDate();
         mapObjectDate = GetComponent<MapController>().GetMapObjectDate();
         //mapDateをもとにステージを配置していく
