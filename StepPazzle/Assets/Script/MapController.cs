@@ -13,12 +13,16 @@ public class MapController : MonoBehaviour
     }
 
     private sMapDate mapDate;
+    private Vector3 mapLengthMin;
+    private Vector3 mapLengthMax;
 
     private void Awake()
     {
         mapDate.mapNumberDate = GetComponent<MapDate>().GetMapDate();
         mapDate.mapObjectDate = GetComponent<MapDate>().GetNullObjectDate();
         GetComponent<MapPositioning>().Positioning();
+        mapLengthMin = new Vector3(0, 0, 0);
+        mapLengthMax = new Vector3(mapDate.mapNumberDate.GetLength(1), 0, mapDate.mapNumberDate.GetLength(0));
     }
 
     // Use this for initialization
@@ -30,7 +34,21 @@ public class MapController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        bool clearFlag = true;
+        for (int z = 0; z < mapLengthMax.z; z++)
+        {
+            for (int x = 0; x < mapLengthMax.x; x++)
+            {
+                if(mapDate.mapNumberDate[z,x]==(int)MapDate.eGroundName.eDefaultPannel)
+                {
+                    clearFlag = false;
+                }
+            }
+        }
+        if(clearFlag==true)
+        {
+            Debug.Log("Clear!");
+        }
     }
 
     //二次元配列からプレイヤー座標を算出し返す
@@ -40,9 +58,9 @@ public class MapController : MonoBehaviour
 
         bool checkEnd = false;
 
-        for (playerPosition.z = 0; playerPosition.z < mapDate.mapNumberDate.GetLength(0); playerPosition.z++)
+        for (playerPosition.z = mapLengthMin.z; playerPosition.z < mapLengthMax.z; playerPosition.z++)
         {
-            for (playerPosition.x = 0; playerPosition.x < mapDate.mapNumberDate.GetLength(1); playerPosition.x++)
+            for (playerPosition.x = mapLengthMin.x; playerPosition.x < mapLengthMax.x; playerPosition.x++)
             {
                 if (mapDate.mapNumberDate[(int)playerPosition.z, (int)playerPosition.x] == (int)MapDate.eGroundName.ePlayerPosition)
                 {
@@ -60,12 +78,12 @@ public class MapController : MonoBehaviour
     }
 
     //プレイヤーが移動したときに呼ばれる関数。マップデータを書き直す
-    public void PlayerMovedChangeMapDate(Vector3 playerPos, Vector3 movePos)
+    public void PlayerdMovedChangeMapDate(Vector3 playerPos, Vector3 movePos)
     {
-        int beforePositionZOnMap = (int)(playerPos.z - movePos.z);
-        int beforePositionXOnMap = (int)(playerPos.x - movePos.x);
-        int nextPositionZOnMap = (int)(playerPos.z);
-        int nextPositionXOnMap = (int)(playerPos.x);
+        int beforePositionZOnMap = (int)(playerPos.z);
+        int beforePositionXOnMap = (int)(playerPos.x);
+        int nextPositionZOnMap = (int)(playerPos.z + movePos.z);
+        int nextPositionXOnMap = (int)(playerPos.x + movePos.x);
 
         //Debug.Log("" + playerPos + mapDate.mapNumberDate[(int)playerPos.z, (int)playerPos.x]);
         if (mapDate.mapNumberDate[nextPositionZOnMap, nextPositionXOnMap] == (int)MapDate.eGroundName.eDefaultPannel)
@@ -74,10 +92,12 @@ public class MapController : MonoBehaviour
             mapDate.mapNumberDate[nextPositionZOnMap, nextPositionXOnMap] = (int)MapDate.eGroundName.eChangedPannel;
             mapDate.mapObjectDate[nextPositionZOnMap, nextPositionXOnMap].GetComponent<ChangeMaterialPannel>().StepedMarterialChange();
         }
-        else if (mapDate.mapNumberDate[(int)playerPos.z, (int)playerPos.x] == (int)MapDate.eGroundName.eChangedPannel)
+        else if (mapDate.mapNumberDate[nextPositionZOnMap, nextPositionXOnMap] == (int)MapDate.eGroundName.eChangedPannel ||
+            mapDate.mapNumberDate[nextPositionZOnMap, nextPositionXOnMap] == (int)MapDate.eGroundName.eWhite ||
+            mapDate.mapNumberDate[nextPositionZOnMap, nextPositionXOnMap] == (int)MapDate.eGroundName.ePlayerPosition)
         {
-            mapDate.mapNumberDate[beforePositionZOnMap, nextPositionXOnMap] = (int)MapDate.eGroundName.eDefaultPannel;
-            mapDate.mapObjectDate[beforePositionZOnMap , nextPositionXOnMap].GetComponent<ChangeMaterialPannel>().ReturnMarterialChange();
+            mapDate.mapNumberDate[beforePositionZOnMap, beforePositionXOnMap] = (int)MapDate.eGroundName.eDefaultPannel;
+            mapDate.mapObjectDate[beforePositionZOnMap, beforePositionXOnMap].GetComponent<ChangeMaterialPannel>().ReturnMarterialChange();
         }
         //移動先の座標をPlayerがいる番号に書き換える
         //mapDate.mapNumberDate[(int)(playerPos.z + movePos.z), (int)(playerPos.x + movePos.x)] = (int)MapDate.eGroundName.ePlayerPosition;

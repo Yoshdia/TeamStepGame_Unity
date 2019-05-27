@@ -60,8 +60,8 @@ public class PlayerMoveContloller : MonoBehaviour
         {
             if(moving==false)
             {
+                haveMapDateObject.GetComponent<MapController>().PlayerdMovedChangeMapDate(playerPosOnMapDate, moveVector);
                 playerPosOnMapDate += moveVector;
-                haveMapDateObject.GetComponent<MapController>().PlayerMovedChangeMapDate(playerPosOnMapDate, moveVector);
             }
             Move();
         }
