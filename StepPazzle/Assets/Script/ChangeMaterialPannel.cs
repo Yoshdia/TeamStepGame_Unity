@@ -6,8 +6,8 @@ public class ChangeMaterialPannel : MonoBehaviour {
 
     [SerializeField]
     private Material defaultMaterial = null;
-    [SerializeField]
-    private Material changeMaterial = null;
+    //[SerializeField]
+    public Material changeMaterial;
 
     void Start () {
         //現在のMarterialをdefault状態にする

@@ -32,8 +32,6 @@ public class MapDate : MonoBehaviour
         {null, null,null,null,null,null}
     };
 
-    
-
     //二次元配列を返す
     public int[,] GetMapDate()
     {

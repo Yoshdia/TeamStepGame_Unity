@@ -11,8 +11,20 @@ public class MapPositioning : MonoBehaviour
     [SerializeField]
     private GameObject whiteObject = null;
 
+    [SerializeField]
+    private Sprite spriteObject = null;
+
     public void Positioning()
     {
+        //Sprite[] mapSprite = Resources.LoadAll<Sprite>("Img/flower");
+        //int num = 0;
+        //for (num = 0; num < mapSprite.Length; num++) ;
+        //    Debug.Log(""+num);
+        //string name = "flower_0";
+        //Sprite oneSprite = System.Array.Find<Sprite>(mapSprite, (sprite) => sprite.name.Equals(name));
+        //Vector3 a = new Vector3(0, 0, 0);
+        //Instantiate(spriteObject, a, new Quaternion());
+
         int[,] mapDate = { };
         GameObject[,] mapObjectDate = { };
         mapDate = GetComponent<MapController>().GetMapDate();
@@ -48,9 +60,17 @@ public class MapPositioning : MonoBehaviour
                 setObject = Instantiate(setObject, objectPos, new Quaternion());
                 mapObjectDate[z, x] = setObject;
                 setObject.transform.parent = transform;
+                //if (pannelInfo == (int)MapDate.eGroundName.eDefaultPannel)
+                //{
+                //    Vector3 spritePos = objectPos + new Vector3(0,3,0);
+                //    Instantiate(oneSprite, spritePos, new Quaternion(0,0,90,0));
+                //    //setObject.GetComponent<ChangeMaterialPannel>().changeMaterial=;
+                //}
             }
         }
     }
+
+
 
     // Update is called once per frame
     void Update()
