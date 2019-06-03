@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//using UnityEngine.UI;
+public class ChangedSprite : MonoBehaviour {
 
-public class ScriptChange : MonoBehaviour
-{
     [SerializeField]
-    private Sprite defaultSprite=null;
-    [HideInInspector]
-    public Sprite changedSprite=null;
+    private Sprite defaultSprite;
+    [SerializeField]
+    private Sprite changedSprite;
 
     // Update is called once per frame
     void Start()
