@@ -23,8 +23,6 @@ GameObject:
   - component: {fileID: 65734287698332172}
   - component: {fileID: 23272688817098450}
   - component: {fileID: 54072949963593782}
-  - component: {fileID: 114443331224154592}
-  - component: {fileID: 114742084475178654}
   m_Layer: 0
   m_Name: Pannel
   m_TagString: defaultPannel
@@ -58,7 +56,6 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
-  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
@@ -114,27 +111,3 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 1.3398778, z: 0.5}
   m_Center: {x: 0, y: 0.1800611, z: 0}
---- !u!114 &114443331224154592
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1008677771808178}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25297051dbe80d24183747f486fa90f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  defaultMaterial: {fileID: 2100000, guid: d1b8569078c6fec409acdc40d2aad0c2, type: 2}
-  changeMaterial: {fileID: 2100000, guid: 75c1d3d284de847498e3b44875f43e70, type: 2}
---- !u!114 &114742084475178654
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1008677771808178}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90c094ce86bffb141bb8c0caebc2d019, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

@@ -23,7 +23,6 @@ GameObject:
   - component: {fileID: 65819656226210260}
   - component: {fileID: 23840419755634072}
   - component: {fileID: 54119959828520382}
-  - component: {fileID: 114928745205847372}
   m_Layer: 0
   m_Name: Wall
   m_TagString: Untagged
@@ -57,7 +56,6 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
-  m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: 812c422dcb51b834a80ac6e47e99d7be, type: 2}
   m_StaticBatchInfo:
@@ -113,14 +111,3 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114928745205847372
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1763309548448948}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90c094ce86bffb141bb8c0caebc2d019, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

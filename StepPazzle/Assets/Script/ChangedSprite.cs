@@ -9,7 +9,6 @@ public class ChangedSprite : MonoBehaviour {
     [SerializeField]
     private Sprite changedSprite = null;
 
-    // Update is called once per frame
     void Start()
     {
         transform.tag = "defaultPannel";

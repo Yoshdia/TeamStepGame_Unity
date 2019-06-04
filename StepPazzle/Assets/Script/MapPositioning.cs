@@ -20,7 +20,6 @@ public class MapPositioning : MonoBehaviour
     public float spriteSizeZ = 1.5f;
 
 
-
     public void Positioning()
     {
         //Sprite[] mapSprite = Resources.LoadAll<Sprite>("Img/flower");
@@ -32,47 +31,49 @@ public class MapPositioning : MonoBehaviour
         //Vector3 a = new Vector3(0, 0, 0);
         //Instantiate(spriteObject, a, new Quaternion());
 
+        //MapControllerからマップ情報をint型で取得
         int[,] mapDate = { };
-        GameObject[,] mapObjectDate = { };
         mapDate = GetComponent<MapController>().GetMapDate();
+        //MapControllerからマップ情報をGameObject型で取得 初期はすべてnull(int型マップ情報の配列と同じサイズの配列)
+        GameObject[,] mapObjectDate = { };
         mapObjectDate = GetComponent<MapController>().GetMapObjectDate();
-        //mapDateをもとにステージを配置していく
-        //パネルのサイズを取得
-        //float movePannelSize = pannelObject.GetComponent<MeshRenderer>().bounds.size.x;
-        float movePannelSize = pannelObject.GetComponent<Transform>().localScale.x;
 
-
+        //MapControllerから配列の最大値やステージ情報を取得し配置する
         for (int z = 0; z < mapDate.GetLength(0); z++)
         {
             for (int x = 0; x < mapDate.GetLength(1); x++)
             {
+                //パネル情報。MapDateのeGroundNameで命名済み
                 int pannelInfo = mapDate[z, x];
+                //設置していくオブジェクトの座標や向き
                 Vector3 objectPos = new Vector3(x * spriteSizeX, 0, z * spriteSizeZ);
                 Quaternion objectQua = new Quaternion(0, 0, 0, 0);
+                //マップ情報によって書き換えられるGameObjectを初期化。初期値はイベントの無い白いブロック
                 GameObject setObject = whiteObject;
 
+                //壁
                 if (pannelInfo == (int)MapDate.eGroundName.eWall)
                 {
                     setObject = wallObject;
                 }
+                //変化前のパネル
                 if (pannelInfo == (int)MapDate.eGroundName.eDefaultPannel)
                 {
                     //90度回転させ上を向かせるようにする
                     objectQua = Quaternion.Euler(90, 0, 0);
                     setObject = pannelObject;
                 }
+                //プレイヤーの初期座標またはイベントの無い白いブロック
                 if (pannelInfo == (int)MapDate.eGroundName.ePlayerPosition ||
                     pannelInfo == (int)MapDate.eGroundName.eWhite)
                 {
                     setObject = whiteObject;
                 }
-                if (setObject != null)
-                {
-                    //Vector3 objectPosOnMap = new Vector3(z, 0, x);
-                    //setObject.GetComponent<GroundCommon>().SetGroundPositionOnMap(objectPosOnMap);
-                }
+                //オブジェクトを生成
                 setObject = Instantiate(setObject, objectPos, objectQua);
+                //すべてnullで登録されていたGameObject型のマップ情報の全てにsetObjectを登録していく
                 mapObjectDate[z, x] = setObject;
+                //このScriptがタッチされているオブジェクトの子にする
                 setObject.transform.parent = transform;
                 //if (pannelInfo == (int)MapDate.eGroundName.eDefaultPannel)
                 //{
@@ -82,13 +83,5 @@ public class MapPositioning : MonoBehaviour
                 //}
             }
         }
-    }
-
-
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 }

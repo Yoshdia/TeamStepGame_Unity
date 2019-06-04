@@ -5,35 +5,33 @@ using UnityEngine;
 //MapDateから受け取った情報をもとに、書き直したり返すクラス
 public class MapController : MonoBehaviour
 {
-
+    //int型とGameObject型を持った構造体 どちらにもMapDateから値を取得する
     public struct sMapDate
     {
         public int[,] mapNumberDate;
         public GameObject[,] mapObjectDate;
     }
-
     private sMapDate mapDate;
+    //mapControllerのマップ情報の配列サイズを取得
     private Vector3 mapLengthMin;
     private Vector3 mapLengthMax;
 
     private void Awake()
     {
+        //int型とGameobject型のマップ情報をmapControllerから取得
         mapDate.mapNumberDate = GetComponent<MapDate>().GetMapDate();
         mapDate.mapObjectDate = GetComponent<MapDate>().GetNullObjectDate();
+        //MapPositioningの、マップ生成関数
         GetComponent<MapPositioning>().Positioning();
+        
         mapLengthMin = new Vector3(0, 0, 0);
         mapLengthMax = new Vector3(mapDate.mapNumberDate.GetLength(1), 0, mapDate.mapNumberDate.GetLength(0));
-    }
-
-    // Use this for initialization
-    void Start()
-    {
-
     }
 
     // Update is called once per frame
     void Update()
     {
+        //GameObject型のマップ情報の中で、一つでも変化前パネルがあった場合クリアフラグを倒しゲームを続行させる
         bool clearFlag = true;
         for (int z = 0; z < mapLengthMax.z; z++)
         {
@@ -85,17 +83,6 @@ public class MapController : MonoBehaviour
 
         int nextPositionZOnMap = (int)((playerPos.z) + (movePos.z));
         int nextPositionXOnMap = (int)((playerPos.x) + (movePos.x));
-
-        if (mapLengthMin.x > nextPositionZOnMap ||
-mapLengthMax.x == nextPositionZOnMap ||
-mapLengthMin.z > nextPositionZOnMap ||
-mapLengthMax.z == nextPositionZOnMap)
-        {
-            Debug.Log("Error!");
-            return;
-
-        }
-
 
         //Debug.Log("" + playerPos + mapDate.mapNumberDate[(int)playerPos.z, (int)playerPos.x]);
         if (mapDate.mapNumberDate[nextPositionZOnMap, nextPositionXOnMap] == (int)MapDate.eGroundName.eDefaultPannel)
