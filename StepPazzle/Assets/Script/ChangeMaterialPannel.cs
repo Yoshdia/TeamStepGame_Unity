@@ -14,14 +14,6 @@ public class ChangeMaterialPannel : MonoBehaviour {
         transform.GetComponent<Renderer>().material = defaultMaterial;
     }
 
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    if (other.tag == "Player")
-    //    {
-    //        StepedMarterialChange();
-    //    }
-    //}
-
     public void StepedMarterialChange()
     {
         transform.GetComponent<Renderer>().material = changeMaterial;

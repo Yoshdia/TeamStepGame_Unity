@@ -11,8 +11,15 @@ public class MapPositioning : MonoBehaviour
     [SerializeField]
     private GameObject whiteObject = null;
 
-    [SerializeField]
-    private Sprite spriteObject = null;
+    //[SerializeField]
+    //private Sprite spriteObject = null;
+
+    [HideInInspector]
+    public float spriteSizeX = 2.0f;
+    [HideInInspector]
+    public float spriteSizeZ = 1.5f;
+
+
 
     public void Positioning()
     {
@@ -34,22 +41,25 @@ public class MapPositioning : MonoBehaviour
         //float movePannelSize = pannelObject.GetComponent<MeshRenderer>().bounds.size.x;
         float movePannelSize = pannelObject.GetComponent<Transform>().localScale.x;
 
+
         for (int z = 0; z < mapDate.GetLength(0); z++)
         {
             for (int x = 0; x < mapDate.GetLength(1); x++)
             {
                 int pannelInfo = mapDate[z, x];
-                Vector3 objectPos = new Vector3(x * movePannelSize, 0, z * movePannelSize);
-                Quaternion objectQua = new Quaternion(0,0,0,0);
+                Vector3 objectPos = new Vector3(x * spriteSizeX, 0, z * spriteSizeZ);
+                Quaternion objectQua = new Quaternion(0, 0, 0, 0);
                 GameObject setObject = whiteObject;
+
                 if (pannelInfo == (int)MapDate.eGroundName.eWall)
                 {
                     setObject = wallObject;
                 }
                 if (pannelInfo == (int)MapDate.eGroundName.eDefaultPannel)
                 {
+                    //90度回転させ上を向かせるようにする
+                    objectQua = Quaternion.Euler(90, 0, 0);
                     setObject = pannelObject;
-                    objectQua.x = 90;
                 }
                 if (pannelInfo == (int)MapDate.eGroundName.ePlayerPosition ||
                     pannelInfo == (int)MapDate.eGroundName.eWhite)

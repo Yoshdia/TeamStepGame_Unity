@@ -5,28 +5,24 @@ using UnityEngine;
 public class ChangedSprite : MonoBehaviour {
 
     [SerializeField]
-    private Sprite defaultSprite;
+    private Sprite defaultSprite=null;
     [SerializeField]
-    private Sprite changedSprite;
+    private Sprite changedSprite = null;
 
     // Update is called once per frame
     void Start()
     {
-        //transform.GetComponent<Renderer>() = changedSprite;
-        //Sprite ss=Instantiate(changedSprite, new Vector3(0,0,0), new Quaternion());
-
-        //transform.GetComponent<SpriteRenderer>().sprite = changedSprite;
         transform.tag = "defaultPannel";
     }
 
-    public void StepedMarterialChange()
+    public void StepedSpriteChange()
     {
         transform.GetComponent<SpriteRenderer>().sprite = changedSprite;
         transform.tag = "changedPannel";
     }
 
     //まだ実装途中の為使用していない関数。
-    public void ReturnMarterialChange()
+    public void ReturnSpriteChange()
     {
         transform.GetComponent<SpriteRenderer>().sprite = defaultSprite;
         transform.tag = "defaultPannel";

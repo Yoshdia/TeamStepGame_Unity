@@ -39,13 +39,13 @@ public class MapController : MonoBehaviour
         {
             for (int x = 0; x < mapLengthMax.x; x++)
             {
-                if(mapDate.mapNumberDate[z,x]==(int)MapDate.eGroundName.eDefaultPannel)
+                if (mapDate.mapNumberDate[z, x] == (int)MapDate.eGroundName.eDefaultPannel)
                 {
                     clearFlag = false;
                 }
             }
         }
-        if(clearFlag==true)
+        if (clearFlag == true)
         {
             Debug.Log("Clear!");
         }
@@ -82,22 +82,34 @@ public class MapController : MonoBehaviour
     {
         int beforePositionZOnMap = (int)(playerPos.z);
         int beforePositionXOnMap = (int)(playerPos.x);
-        int nextPositionZOnMap = (int)(playerPos.z + movePos.z);
-        int nextPositionXOnMap = (int)(playerPos.x + movePos.x);
+
+        int nextPositionZOnMap = (int)((playerPos.z) + (movePos.z));
+        int nextPositionXOnMap = (int)((playerPos.x) + (movePos.x));
+
+        if (mapLengthMin.x > nextPositionZOnMap ||
+mapLengthMax.x == nextPositionZOnMap ||
+mapLengthMin.z > nextPositionZOnMap ||
+mapLengthMax.z == nextPositionZOnMap)
+        {
+            Debug.Log("Error!");
+            return;
+
+        }
+
 
         //Debug.Log("" + playerPos + mapDate.mapNumberDate[(int)playerPos.z, (int)playerPos.x]);
         if (mapDate.mapNumberDate[nextPositionZOnMap, nextPositionXOnMap] == (int)MapDate.eGroundName.eDefaultPannel)
         {
             //プレイヤーがいたマップ座標をchangedPannelに変え、ChangedMaterialPannelのマテリアルを変えさせる関数を呼ぶ
             mapDate.mapNumberDate[nextPositionZOnMap, nextPositionXOnMap] = (int)MapDate.eGroundName.eChangedPannel;
-            mapDate.mapObjectDate[nextPositionZOnMap, nextPositionXOnMap].GetComponent<ChangeMaterialPannel>().StepedMarterialChange();
+            mapDate.mapObjectDate[nextPositionZOnMap, nextPositionXOnMap].GetComponent<ChangedSprite>().StepedSpriteChange();
         }
         else if (mapDate.mapNumberDate[nextPositionZOnMap, nextPositionXOnMap] == (int)MapDate.eGroundName.eChangedPannel ||
             mapDate.mapNumberDate[nextPositionZOnMap, nextPositionXOnMap] == (int)MapDate.eGroundName.eWhite ||
             mapDate.mapNumberDate[nextPositionZOnMap, nextPositionXOnMap] == (int)MapDate.eGroundName.ePlayerPosition)
         {
             mapDate.mapNumberDate[beforePositionZOnMap, beforePositionXOnMap] = (int)MapDate.eGroundName.eDefaultPannel;
-            mapDate.mapObjectDate[beforePositionZOnMap, beforePositionXOnMap].GetComponent<ChangeMaterialPannel>().ReturnMarterialChange();
+            mapDate.mapObjectDate[beforePositionZOnMap, beforePositionXOnMap].GetComponent<ChangedSprite>().ReturnSpriteChange();
         }
         //移動先の座標をPlayerがいる番号に書き換える
         //mapDate.mapNumberDate[(int)(playerPos.z + movePos.z), (int)(playerPos.x + movePos.x)] = (int)MapDate.eGroundName.ePlayerPosition;
@@ -105,6 +117,14 @@ public class MapController : MonoBehaviour
 
     public int GetNumberOnMap(int z, int x)
     {
+        if (mapLengthMin.x > x ||
+    mapLengthMax.x == x ||
+    mapLengthMin.z > z ||
+    mapLengthMax.z == z)
+        {
+            Debug.Log("Error!");
+            return 0;
+        }
         return mapDate.mapNumberDate[z, x];
     }
 
