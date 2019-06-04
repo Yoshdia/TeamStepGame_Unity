@@ -342,7 +342,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wallObject: {fileID: 1763309548448948, guid: af757d1ae97ecdd489e0ffd1800ba9c3, type: 2}
-  pannelObject: {fileID: 1008677771808178, guid: 5a31228bb7a26a740950c779d3a0cc63,
+  pannelObject: {fileID: 1861330887221838, guid: 9ebd1439ac6297b44835e01ce3f03297,
     type: 2}
   whiteObject: {fileID: 1939937097708860, guid: a24af366e06670d42acb7c87c1c5ed6a,
     type: 2}
