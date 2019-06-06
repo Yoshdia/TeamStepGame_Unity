@@ -40,8 +40,10 @@ public class PlayerMoveContloller : MonoBehaviour
         playerPosOnMapDate = haveMapDateObject.GetComponent<MapController>().GetFirstPositionPlayer();
         transform.position = new Vector3(playerPosOnMapDate.x*moveSpriteSizeX, 1, playerPosOnMapDate.z*moveSpriteSizeZ);
 
-        //移動方向ベクトルの初期化
-        moveVector = new Vector3(0, 0, 0);
+
+
+    //移動方向ベクトルの初期化
+    moveVector = new Vector3(0, 0, 0);
         //目的座標をリセット
         targetPos = transform.position;
     }
@@ -67,7 +69,10 @@ public class PlayerMoveContloller : MonoBehaviour
             if(moving==false)
             {
                 targetVector = new Vector3(moveVector.x/moveSpriteSizeX,0,moveVector.z/moveSpriteSizeZ);
-                haveMapDateObject.GetComponent<MapController>().PlayerdMovedChangeMapDate(playerPosOnMapDate, targetVector);
+                //haveMapDateObject.GetComponent<MapController>().PlayerdMovedChangeMapDate(playerPosOnMapDate, targetVector);
+
+                haveMapDateObject.GetComponent<MapController>().MovedPlayer(playerPosOnMapDate, targetVector);
+
                 playerPosOnMapDate += targetVector;
             }
             Move();
@@ -105,16 +110,16 @@ public class PlayerMoveContloller : MonoBehaviour
     //移動先が移動可能か
     bool TargetPositionHaveWall()
     {
-        bool targetPositionNoWallFlag = false;
+        bool targetPositionNoWallFlag = true;
 
         int targetPosZ = (int)(playerPosOnMapDate.z + (moveVector.z/moveSpriteSizeZ));
         int targetPosX = (int)(playerPosOnMapDate.x + (moveVector.x/moveSpriteSizeX));
 
         //Debug.Log("" +targetPosZ+":"+targetPosX);
         //壁だった場合移動できない
-        if (haveMapDateObject.GetComponent<MapController>().GetNumberOnMap(targetPosZ, targetPosX) == (int)MapDate.eGroundName.eWall)
+        if (haveMapDateObject.GetComponent<MapController>().canMove(playerPosOnMapDate+ targetVector) ==true)
         {
-            targetPositionNoWallFlag = true;
+            targetPositionNoWallFlag = false;
         }
 
         return targetPositionNoWallFlag;
