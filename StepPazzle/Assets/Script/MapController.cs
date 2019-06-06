@@ -76,30 +76,29 @@ public class MapController : MonoBehaviour
     }
 
     //プレイヤーが移動したときに呼ばれる関数。マップデータを書き直す
-    public void PlayerdMovedChangeMapDate(Vector3 playerPos, Vector3 movePos)
+    public void PlayerdMovedChangeMapDate(Vector3 playerBeforePosOnMap, Vector3 movePos)
     {
-        int beforePositionZOnMap = (int)(playerPos.z);
-        int beforePositionXOnMap = (int)(playerPos.x);
+        //移動予定地のマップ上の位置を取得
+        int nextPositionZOnMap = (int)((playerBeforePosOnMap.z) + (movePos.z));
+        int nextPositionXOnMap = (int)((playerBeforePosOnMap.x) + (movePos.x));
 
-        int nextPositionZOnMap = (int)((playerPos.z) + (movePos.z));
-        int nextPositionXOnMap = (int)((playerPos.x) + (movePos.x));
+        //移動先のint型マップ情報アドレスを取得
+        int pannelNumberDate = mapDate.mapNumberDate[nextPositionZOnMap, nextPositionXOnMap];
 
-        //Debug.Log("" + playerPos + mapDate.mapNumberDate[(int)playerPos.z, (int)playerPos.x]);
-        if (mapDate.mapNumberDate[nextPositionZOnMap, nextPositionXOnMap] == (int)MapDate.eGroundName.eDefaultPannel)
+       //移動予定地が変化前のパネルだった場合パネルをchangedPannelに変え、Spriteを変化させる
+        if (pannelNumberDate == (int)MapDate.eGroundName.eDefaultPannel)
         {
-            //プレイヤーがいたマップ座標をchangedPannelに変え、ChangedMaterialPannelのマテリアルを変えさせる関数を呼ぶ
-            mapDate.mapNumberDate[nextPositionZOnMap, nextPositionXOnMap] = (int)MapDate.eGroundName.eChangedPannel;
+            pannelNumberDate = (int)MapDate.eGroundName.eChangedPannel;
             mapDate.mapObjectDate[nextPositionZOnMap, nextPositionXOnMap].GetComponent<ChangedSprite>().StepedSpriteChange();
         }
-        else if (mapDate.mapNumberDate[nextPositionZOnMap, nextPositionXOnMap] == (int)MapDate.eGroundName.eChangedPannel ||
-            mapDate.mapNumberDate[nextPositionZOnMap, nextPositionXOnMap] == (int)MapDate.eGroundName.eWhite ||
-            mapDate.mapNumberDate[nextPositionZOnMap, nextPositionXOnMap] == (int)MapDate.eGroundName.ePlayerPosition)
+        //移動予定地が変化後のパネル、白いパネル、Playerの初期座標だった場合移動する直前までいたパネルを変化前のパネルに変えさせる
+        else if (pannelNumberDate == (int)MapDate.eGroundName.eChangedPannel ||
+            pannelNumberDate == (int)MapDate.eGroundName.eWhite ||
+            pannelNumberDate == (int)MapDate.eGroundName.ePlayerPosition)
         {
-            mapDate.mapNumberDate[beforePositionZOnMap, beforePositionXOnMap] = (int)MapDate.eGroundName.eDefaultPannel;
-            mapDate.mapObjectDate[beforePositionZOnMap, beforePositionXOnMap].GetComponent<ChangedSprite>().ReturnSpriteChange();
+            mapDate.mapNumberDate[(int)playerBeforePosOnMap.z, (int)playerBeforePosOnMap.x] = (int)MapDate.eGroundName.eDefaultPannel;
+            mapDate.mapObjectDate[(int)playerBeforePosOnMap.z, (int)playerBeforePosOnMap.x].GetComponent<ChangedSprite>().ReturnSpriteChange();
         }
-        //移動先の座標をPlayerがいる番号に書き換える
-        //mapDate.mapNumberDate[(int)(playerPos.z + movePos.z), (int)(playerPos.x + movePos.x)] = (int)MapDate.eGroundName.ePlayerPosition;
     }
 
     public int GetNumberOnMap(int z, int x)
@@ -109,7 +108,7 @@ public class MapController : MonoBehaviour
     mapLengthMin.z > z ||
     mapLengthMax.z == z)
         {
-            Debug.Log("Error!");
+            Debug.Log("Error!OutOfRangeOnMap!");
             return 0;
         }
         return mapDate.mapNumberDate[z, x];
