@@ -10,9 +10,10 @@ public class PlayerMoveContloller : MonoBehaviour
     private float speed = 5;
     // 入力受付時、移動先の位置を算出して保存 
     private Vector3 targetPos;
-    //移動方向ベクトル
-    private Vector3 moveVector;
-    private Vector3 targetVector;
+    //移動方向ベクトル 
+    private Vector3 moveVectorOnScene;
+    //移動方向ベクトルをSpriteサイズで割った値。xyz全てに1と0しか入らない
+    private Vector3 moveVectorOnMap;
 
     //[SerializeField]
     //private GameObject pannel = null;
@@ -40,10 +41,10 @@ public class PlayerMoveContloller : MonoBehaviour
         playerPosOnMapDate = haveMapDateObject.GetComponent<MapController>().GetFirstPositionPlayer();
         transform.position = new Vector3(playerPosOnMapDate.x*moveSpriteSizeX, 1, playerPosOnMapDate.z*moveSpriteSizeZ);
 
+        //移動方向ベクトルの初期化
+        moveVectorOnScene = new Vector3(0, 0, 0);
+        moveVectorOnMap = new Vector3(0, 0, 0);
 
-
-    //移動方向ベクトルの初期化
-    moveVector = new Vector3(0, 0, 0);
         //目的座標をリセット
         targetPos = transform.position;
     }
@@ -59,7 +60,7 @@ public class PlayerMoveContloller : MonoBehaviour
             //移動先に壁がない場合targetPosを更新させる
             if (TargetPositionHaveWall() == false)
             {
-                targetPos = transform.position + moveVector;
+                targetPos = transform.position + moveVectorOnScene;
             }
         }
 
@@ -68,12 +69,8 @@ public class PlayerMoveContloller : MonoBehaviour
         {
             if(moving==false)
             {
-                targetVector = new Vector3(moveVector.x/moveSpriteSizeX,0,moveVector.z/moveSpriteSizeZ);
-                //haveMapDateObject.GetComponent<MapController>().PlayerdMovedChangeMapDate(playerPosOnMapDate, targetVector);
-
-                haveMapDateObject.GetComponent<MapController>().MovedPlayer(playerPosOnMapDate, targetVector);
-
-                playerPosOnMapDate += targetVector;
+                haveMapDateObject.GetComponent<MapController>().PlayerdMovedChangeMapDate(playerPosOnMapDate, moveVectorOnMap);
+                playerPosOnMapDate += moveVectorOnMap;
             }
             Move();
         }
@@ -83,26 +80,30 @@ public class PlayerMoveContloller : MonoBehaviour
     //入力に応じて移動方向を代入
     private void SetTargetPosition()
     {
-        moveVector = new Vector3(0, 0, 0);
-        targetVector = new Vector3(0, 0, 0);
+        moveVectorOnScene = new Vector3(0, 0, 0);
+        moveVectorOnMap = new Vector3(0, 0, 0);
         if (Input.GetKey(KeyCode.RightArrow))
         {
-            moveVector.x = +moveSpriteSizeX;
+            moveVectorOnScene.x = +moveSpriteSizeX;
+            moveVectorOnMap.x += 1;
             return;
         }
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            moveVector.x = -moveSpriteSizeX;
+            moveVectorOnScene.x = -moveSpriteSizeX;
+            moveVectorOnMap.x -= 1;
             return;
         }
         if (Input.GetKey(KeyCode.UpArrow))
         {
-            moveVector.z = +moveSpriteSizeZ;
+            moveVectorOnScene.z = +moveSpriteSizeZ;
+            moveVectorOnMap.z += 1;
             return;
         }
         if (Input.GetKey(KeyCode.DownArrow))
         {
-            moveVector.z = -moveSpriteSizeZ;
+            moveVectorOnScene.z = -moveSpriteSizeZ;
+            moveVectorOnMap.z -= 1;
             return;
         }
     }
@@ -110,16 +111,16 @@ public class PlayerMoveContloller : MonoBehaviour
     //移動先が移動可能か
     bool TargetPositionHaveWall()
     {
-        bool targetPositionNoWallFlag = true;
+        bool targetPositionNoWallFlag = false;
 
-        int targetPosZ = (int)(playerPosOnMapDate.z + (moveVector.z/moveSpriteSizeZ));
-        int targetPosX = (int)(playerPosOnMapDate.x + (moveVector.x/moveSpriteSizeX));
+        int targetPosZ = (int)(playerPosOnMapDate.z + (moveVectorOnScene.z/moveSpriteSizeZ));
+        int targetPosX = (int)(playerPosOnMapDate.x + (moveVectorOnScene.x/moveSpriteSizeX));
 
         //Debug.Log("" +targetPosZ+":"+targetPosX);
         //壁だった場合移動できない
-        if (haveMapDateObject.GetComponent<MapController>().canMove(playerPosOnMapDate+ targetVector) ==true)
+        if (haveMapDateObject.GetComponent<MapController>().GetNumberOnMap(targetPosZ, targetPosX) == (int)MapDate.eGroundName.eWall)
         {
-            targetPositionNoWallFlag = false;
+            targetPositionNoWallFlag = true;
         }
 
         return targetPositionNoWallFlag;
