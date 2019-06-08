@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlayerMoveContloller : MonoBehaviour
 {
-
     // 移動速度
     [SerializeField]
     private float speed = 5;
@@ -14,11 +13,6 @@ public class PlayerMoveContloller : MonoBehaviour
     private Vector3 moveVectorOnScene;
     //移動方向ベクトルをSpriteサイズで割った値。xyz全てに1と0しか入らない
     private Vector3 moveVectorOnMap;
-
-    //[SerializeField]
-    //private GameObject pannel = null;
-    //移動する距離。pannelにのサイズをここに保存し移動距離に使用
-    //private float movePannelSize;
 
     //MapDateがコンポーネントされているGameObject
     [SerializeField]
@@ -34,16 +28,9 @@ public class PlayerMoveContloller : MonoBehaviour
         moveSpriteSizeX = haveMapDateObject.GetComponent<MapPositioning>().spriteSizeX;
         moveSpriteSizeZ = haveMapDateObject.GetComponent<MapPositioning>().spriteSizeZ;
 
-        //アタッチされたオブジェクト、地面のパネルのサイズを所得
-        //movePannelSize = pannel.GetComponent<MeshRenderer>().bounds.size.x;
-
         //プレイヤーの初期座標を受け取り入れる
         playerPosOnMapDate = haveMapDateObject.GetComponent<MapController>().GetFirstPositionPlayer();
         transform.position = new Vector3(playerPosOnMapDate.x*moveSpriteSizeX, 1, playerPosOnMapDate.z*moveSpriteSizeZ);
-
-        //移動方向ベクトルの初期化
-        //moveVectorOnScene = new Vector3(0, 0, 0);
-        //moveVectorOnMap = new Vector3(0, 0, 0);
 
         //目的座標をリセット
         targetPos = transform.position;
@@ -118,7 +105,6 @@ public class PlayerMoveContloller : MonoBehaviour
         int targetPosZ = (int)(playerPosOnMapDate.z + (moveVectorOnScene.z/moveSpriteSizeZ));
         int targetPosX = (int)(playerPosOnMapDate.x + (moveVectorOnScene.x/moveSpriteSizeX));
 
-        //Debug.Log("" +targetPosZ+":"+targetPosX);
         //壁だった場合移動できない
         if (haveMapDateObject.GetComponent<MapController>().canMove(playerPosOnMapDate+ moveVectorOnMap) ==true)
         {
