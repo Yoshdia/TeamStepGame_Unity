@@ -16,6 +16,9 @@ public class MapController : MonoBehaviour
     private Vector3 mapLengthMin;
     private Vector3 mapLengthMax;
 
+    //マップデータ上でPlayerが移動した位置を記憶
+    private List<Vector3> movedPlayerPosList;
+
     private void Awake()
     {
         //int型とGameobject型のマップ情報をmapControllerから取得
@@ -26,6 +29,9 @@ public class MapController : MonoBehaviour
         
         mapLengthMin = new Vector3(0, 0, 0);
         mapLengthMax = new Vector3(mapDate.mapNumberDate.GetLength(1), 0, mapDate.mapNumberDate.GetLength(0));
+
+        movedPlayerPosList = new List<Vector3>();
+
     }
 
     // Update is called once per frame
@@ -71,47 +77,105 @@ public class MapController : MonoBehaviour
                 break;
             }
         }
+        movedPlayerPosList.Add(playerPosition);
 
         return playerPosition;
     }
 
-    //プレイヤーが移動したときに呼ばれる関数。マップデータを書き直す
-    public void PlayerdMovedChangeMapDate(Vector3 playerBeforePosOnMap, Vector3 movePos)
+    ////プレイヤーが移動したときに呼ばれる関数。マップデータを書き直す
+    //public void PlayerdMovedChangeMapDate(Vector3 playerBeforePosOnMap, Vector3 movePos)
+    //{
+    //    //移動予定地のマップ上の位置を取得
+    //    int nextPositionZOnMap = (int)((playerBeforePosOnMap.z) + (movePos.z));
+    //    int nextPositionXOnMap = (int)((playerBeforePosOnMap.x) + (movePos.x));
+
+    //    //移動先のint型マップ情報アドレスを取得
+    //    int pannelNumberDate = mapDate.mapNumberDate[nextPositionZOnMap, nextPositionXOnMap];
+
+    //   //移動予定地が変化前のパネルだった場合パネルをchangedPannelに変え、Spriteを変化させる
+    //    if (pannelNumberDate == (int)MapDate.eGroundName.eDefaultPannel)
+    //    {
+    //        pannelNumberDate = (int)MapDate.eGroundName.eChangedPannel;
+    //        mapDate.mapObjectDate[nextPositionZOnMap, nextPositionXOnMap].GetComponent<ChangedSprite>().StepedSpriteChange();
+    //    }
+    //    //移動予定地が変化後のパネル、白いパネル、Playerの初期座標だった場合移動する直前までいたパネルを変化前のパネルに変えさせる
+    //    else if (pannelNumberDate == (int)MapDate.eGroundName.eChangedPannel ||
+    //        pannelNumberDate == (int)MapDate.eGroundName.eWhite ||
+    //        pannelNumberDate == (int)MapDate.eGroundName.ePlayerPosition)
+    //    {
+    //        mapDate.mapNumberDate[(int)playerBeforePosOnMap.z, (int)playerBeforePosOnMap.x] = (int)MapDate.eGroundName.eDefaultPannel;
+    //        mapDate.mapObjectDate[(int)playerBeforePosOnMap.z, (int)playerBeforePosOnMap.x].GetComponent<ChangedSprite>().ReturnSpriteChange();
+    //    }
+
+
+    //}
+
+    public void MovedPlayer(Vector3 currentPlayerPosOnMap, Vector3 moveVec)
     {
-        //移動予定地のマップ上の位置を取得
-        int nextPositionZOnMap = (int)((playerBeforePosOnMap.z) + (movePos.z));
-        int nextPositionXOnMap = (int)((playerBeforePosOnMap.x) + (movePos.x));
+        //二次配列上のプレイヤーが移動する予定地
+        Vector3 nextPositionOnMap = currentPlayerPosOnMap + moveVec;
 
-        //移動先のint型マップ情報アドレスを取得
-        int pannelNumberDate = mapDate.mapNumberDate[nextPositionZOnMap, nextPositionXOnMap];
+        //予定地の値を取得
+        //int groundName= mapDate.mapNumberDate[(int)nextPositionOnMap.z,(int)nextPositionOnMap.x];
 
-       //移動予定地が変化前のパネルだった場合パネルをchangedPannelに変え、Spriteを変化させる
-        if (pannelNumberDate == (int)MapDate.eGroundName.eDefaultPannel)
+        //MapDate.eGroundName nextGroundName = MapDate.eGroundName.eWhite;
+        bool changedSprite = false;
+        //二次配列上で、次に書き換える予定の名前
+        MapDate.eGroundName nextGroundName;
+
+        Debug.Log("" + currentPlayerPosOnMap + ":" + nextPositionOnMap + ":");
+
+
+        Vector3 beforePlayerPos = movedPlayerPosList[movedPlayerPosList.Count - 1];
+
+        //移動予定地が前回移動した地点だった場合
+        if (nextPositionOnMap == beforePlayerPos)
         {
-            pannelNumberDate = (int)MapDate.eGroundName.eChangedPannel;
-            mapDate.mapObjectDate[nextPositionZOnMap, nextPositionXOnMap].GetComponent<ChangedSprite>().StepedSpriteChange();
+            changedSprite = true;
+            nextGroundName = MapDate.eGroundName.eDefaultPannel;
+            mapDate.mapNumberDate[(int)currentPlayerPosOnMap.z, (int)currentPlayerPosOnMap.x] = (int)nextGroundName;
+            mapDate.mapObjectDate[(int)currentPlayerPosOnMap.z, (int)currentPlayerPosOnMap.x].GetComponent<ChangedSprite>().ChangeSprite(changedSprite);
+            movedPlayerPosList.RemoveAt(movedPlayerPosList.Count - 1);
         }
-        //移動予定地が変化後のパネル、白いパネル、Playerの初期座標だった場合移動する直前までいたパネルを変化前のパネルに変えさせる
-        else if (pannelNumberDate == (int)MapDate.eGroundName.eChangedPannel ||
-            pannelNumberDate == (int)MapDate.eGroundName.eWhite ||
-            pannelNumberDate == (int)MapDate.eGroundName.ePlayerPosition)
+        //移動予定地が変化前だった場合
+        else if (mapDate.mapNumberDate[(int)nextPositionOnMap.z, (int)nextPositionOnMap.x] == (int)MapDate.eGroundName.eDefaultPannel)
         {
-            mapDate.mapNumberDate[(int)playerBeforePosOnMap.z, (int)playerBeforePosOnMap.x] = (int)MapDate.eGroundName.eDefaultPannel;
-            mapDate.mapObjectDate[(int)playerBeforePosOnMap.z, (int)playerBeforePosOnMap.x].GetComponent<ChangedSprite>().ReturnSpriteChange();
+            changedSprite = false;
+            nextGroundName = MapDate.eGroundName.eChangedPannel;
+            mapDate.mapNumberDate[(int)nextPositionOnMap.z, (int)nextPositionOnMap.x] = (int)nextGroundName;
+            mapDate.mapObjectDate[(int)nextPositionOnMap.z, (int)nextPositionOnMap.x].GetComponent<ChangedSprite>().ChangeSprite(changedSprite);
+            movedPlayerPosList.Add(currentPlayerPosOnMap);
+        }
+        else
+        {
+            return;
         }
     }
 
-    public int GetNumberOnMap(int z, int x)
+    //public int GetNumberOnMap(int z, int x)
+    //{
+    //    if (mapLengthMin.x > x ||
+    //mapLengthMax.x == x ||
+    //mapLengthMin.z > z ||
+    //mapLengthMax.z == z)
+    //    {
+    //        Debug.Log("Error!OutOfRangeOnMap!");
+    //        return 0;
+    //    }
+    //    return mapDate.mapNumberDate[z, x];
+    //}
+
+    //playerから呼ばれる。受け取ったマップ上の位置がplayerにとって移動可能かどうかを調べ可能ならtrueを返す
+    public bool canMove(Vector3 pos)
     {
-        if (mapLengthMin.x > x ||
-    mapLengthMax.x == x ||
-    mapLengthMin.z > z ||
-    mapLengthMax.z == z)
+        int groundName = mapDate.mapNumberDate[(int)pos.z, (int)pos.x];
+        if (groundName == (int)MapDate.eGroundName.eDefaultPannel ||
+            groundName == (int)MapDate.eGroundName.eWhite ||
+            pos == movedPlayerPosList[movedPlayerPosList.Count - 1])
         {
-            Debug.Log("Error!OutOfRangeOnMap!");
-            return 0;
+            return true;
         }
-        return mapDate.mapNumberDate[z, x];
+        return false;
     }
 
     //二次元配列を返す
