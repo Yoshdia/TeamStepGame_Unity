@@ -15,21 +15,23 @@ public class MapPositioning : MonoBehaviour
     //private Sprite spriteObject = null;
 
     [HideInInspector]
-    public float spriteSizeX = 2.0f;
+    public float spriteSizeX = 6.9f;
     [HideInInspector]
-    public float spriteSizeZ = 1.5f;
+    public float spriteSizeZ = 7.0f;
 
 
     public void Positioning()
     {
-        //Sprite[] mapSprite = Resources.LoadAll<Sprite>("Img/flower");
+        spriteSizeX = 0.69f; spriteSizeZ = 0.70f;
+
+        Sprite[] mapSprite = Resources.LoadAll<Sprite>("Img/image0");
+        int spriteCnt = 0;
         //int num = 0;
         //for (num = 0; num < mapSprite.Length; num++) ;
         //    Debug.Log(""+num);
         //string name = "flower_0";
         //Sprite oneSprite = System.Array.Find<Sprite>(mapSprite, (sprite) => sprite.name.Equals(name));
-        //Vector3 a = new Vector3(0, 0, 0);
-        //Instantiate(spriteObject, a, new Quaternion());
+
 
         //MapControllerからマップ情報をint型で取得
         int[,] mapDate = { };
@@ -39,7 +41,7 @@ public class MapPositioning : MonoBehaviour
         mapObjectDate = GetComponent<MapController>().GetMapObjectDate();
 
         //MapControllerから配列の最大値やステージ情報を取得し配置する
-        for (int z = 0; z < mapDate.GetLength(0); z++)
+        for (int z = mapDate.GetLength(0)-1; z >= 0; z--)
         {
             for (int x = 0; x < mapDate.GetLength(1); x++)
             {
@@ -50,6 +52,7 @@ public class MapPositioning : MonoBehaviour
                 Quaternion objectQua = new Quaternion(0, 0, 0, 0);
                 //マップ情報によって書き換えられるGameObjectを初期化。初期値はイベントの無い白いブロック
                 GameObject setObject = whiteObject;
+
 
                 //壁
                 if (pannelInfo == (int)MapDate.eGroundName.eWall)
@@ -62,6 +65,12 @@ public class MapPositioning : MonoBehaviour
                     //90度回転させ上を向かせるようにする
                     objectQua = Quaternion.Euler(90, 0, 0);
                     setObject = pannelObject;
+                    setObject.GetComponent<ChangedSprite>().SetSprite(mapSprite[spriteCnt]);
+                    spriteCnt++;
+                    if (mapSprite.Length==spriteCnt)
+                    {
+                        spriteCnt--;
+                    }
                 }
                 //プレイヤーの初期座標またはイベントの無い白いブロック
                 if (pannelInfo == (int)MapDate.eGroundName.ePlayerPosition ||

@@ -11,8 +11,16 @@ public class ChangedSprite : MonoBehaviour {
 
     void Start()
     {
+        transform.GetComponent<SpriteRenderer>().sprite = defaultSprite;
+
         transform.tag = "defaultPannel";
     }
+
+    public void SetSprite(Sprite sprite)
+    {
+        changedSprite = sprite;
+    }
+
 
     public void ChangeSprite(bool changed)
     { 
