@@ -27,10 +27,14 @@ public class PlayerMoveContloller : MonoBehaviour
     {
         moveSpriteSizeX = haveMapDateObject.GetComponent<MapPositioning>().spriteSizeX;
         moveSpriteSizeZ = haveMapDateObject.GetComponent<MapPositioning>().spriteSizeZ;
+        transform.localScale = new Vector3(moveSpriteSizeX,1,moveSpriteSizeZ);
+
 
         //プレイヤーの初期座標を受け取り入れる
         playerPosOnMapDate = haveMapDateObject.GetComponent<MapController>().GetFirstPositionPlayer();
         transform.position = new Vector3(playerPosOnMapDate.x*moveSpriteSizeX, 1, playerPosOnMapDate.z*moveSpriteSizeZ);
+
+
 
         //目的座標をリセット
         targetPos = transform.position;

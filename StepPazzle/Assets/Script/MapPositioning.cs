@@ -26,12 +26,6 @@ public class MapPositioning : MonoBehaviour
 
         Sprite[] mapSprite = Resources.LoadAll<Sprite>("Img/image0");
         int spriteCnt = 0;
-        //int num = 0;
-        //for (num = 0; num < mapSprite.Length; num++) ;
-        //    Debug.Log(""+num);
-        //string name = "flower_0";
-        //Sprite oneSprite = System.Array.Find<Sprite>(mapSprite, (sprite) => sprite.name.Equals(name));
-
 
         //MapControllerからマップ情報をint型で取得
         int[,] mapDate = { };
@@ -39,6 +33,10 @@ public class MapPositioning : MonoBehaviour
         //MapControllerからマップ情報をGameObject型で取得 初期はすべてnull(int型マップ情報の配列と同じサイズの配列)
         GameObject[,] mapObjectDate = { };
         mapObjectDate = GetComponent<MapController>().GetMapObjectDate();
+
+        whiteObject.transform.localScale = new Vector3(spriteSizeX, 1, spriteSizeZ);
+        wallObject.transform.localScale = new Vector3(spriteSizeX, 1, spriteSizeZ);
+
 
         //MapControllerから配列の最大値やステージ情報を取得し配置する
         for (int z = mapDate.GetLength(0)-1; z >= 0; z--)
@@ -52,7 +50,6 @@ public class MapPositioning : MonoBehaviour
                 Quaternion objectQua = new Quaternion(0, 0, 0, 0);
                 //マップ情報によって書き換えられるGameObjectを初期化。初期値はイベントの無い白いブロック
                 GameObject setObject = whiteObject;
-
 
                 //壁
                 if (pannelInfo == (int)MapDate.eGroundName.eWall)
