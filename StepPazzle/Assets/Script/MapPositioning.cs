@@ -63,10 +63,10 @@ public class MapPositioning : MonoBehaviour
                     objectQua = Quaternion.Euler(90, 0, 0);
                     setObject = pannelObject;
                     setObject.GetComponent<ChangedSprite>().SetSprite(mapSprite[spriteCnt]);
-                    spriteCnt++;
-                    if (mapSprite.Length==spriteCnt)
+                    if (mapSprite.Length != spriteCnt)
                     {
-                        spriteCnt--;
+                        spriteCnt++;
+
                     }
                 }
                 //プレイヤーの初期座標またはイベントの無い白いブロック
@@ -81,6 +81,7 @@ public class MapPositioning : MonoBehaviour
                 mapObjectDate[z, x] = setObject;
                 //このScriptがタッチされているオブジェクトの子にする
                 setObject.transform.parent = transform;
+
                 //if (pannelInfo == (int)MapDate.eGroundName.eDefaultPannel)
                 //{
                 //    Vector3 spritePos = objectPos + new Vector3(0,3,0);

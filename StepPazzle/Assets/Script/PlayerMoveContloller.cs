@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using UnityEngine.UI;
+
 public class PlayerMoveContloller : MonoBehaviour
 {
     // 移動速度
@@ -16,9 +18,15 @@ public class PlayerMoveContloller : MonoBehaviour
 
     //MapDateがコンポーネントされているGameObject
     [SerializeField]
-    private GameObject haveMapDateObject=null;
+    private GameObject haveMapDateObject = null;
     //マップデータ上のPlayerの位置
     private Vector3 playerPosOnMapDate;
+
+    private bool up;
+    private bool down;
+    private bool right;
+    private bool left;
+
 
     private float moveSpriteSizeX;
     private float moveSpriteSizeZ;
@@ -27,12 +35,12 @@ public class PlayerMoveContloller : MonoBehaviour
     {
         moveSpriteSizeX = haveMapDateObject.GetComponent<MapPositioning>().spriteSizeX;
         moveSpriteSizeZ = haveMapDateObject.GetComponent<MapPositioning>().spriteSizeZ;
-        transform.localScale = new Vector3(moveSpriteSizeX,1,moveSpriteSizeZ);
+        transform.localScale = new Vector3(moveSpriteSizeX, 1, moveSpriteSizeZ);
 
 
         //プレイヤーの初期座標を受け取り入れる
         playerPosOnMapDate = haveMapDateObject.GetComponent<MapController>().GetFirstPositionPlayer();
-        transform.position = new Vector3(playerPosOnMapDate.x*moveSpriteSizeX, 1, playerPosOnMapDate.z*moveSpriteSizeZ);
+        transform.position = new Vector3(playerPosOnMapDate.x * moveSpriteSizeX, 1, playerPosOnMapDate.z * moveSpriteSizeZ);
 
 
 
@@ -58,7 +66,7 @@ public class PlayerMoveContloller : MonoBehaviour
 
         if (transform.position != targetPos)
         {
-            if(moving==false)
+            if (moving == false)
             {
                 moveVectorOnMap = new Vector3(moveVectorOnScene.x / moveSpriteSizeX, 0, moveVectorOnScene.z / moveSpriteSizeZ);
 
@@ -67,6 +75,7 @@ public class PlayerMoveContloller : MonoBehaviour
             }
             Move();
         }
+        SetInputKey("reset");
     }
 
 
@@ -75,30 +84,31 @@ public class PlayerMoveContloller : MonoBehaviour
     {
         moveVectorOnScene = new Vector3(0, 0, 0);
         moveVectorOnMap = new Vector3(0, 0, 0);
-        if (Input.GetKey(KeyCode.RightArrow))
+        if (Input.GetKey(KeyCode.RightArrow) || right == true)
         {
             moveVectorOnScene.x = +moveSpriteSizeX;
             moveVectorOnMap.x += 1;
             return;
         }
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKey(KeyCode.LeftArrow) || left == true)
         {
             moveVectorOnScene.x = -moveSpriteSizeX;
             moveVectorOnMap.x -= 1;
             return;
         }
-        if (Input.GetKey(KeyCode.UpArrow))
+        if (Input.GetKey(KeyCode.UpArrow) || up == true)
         {
             moveVectorOnScene.z = +moveSpriteSizeZ;
             moveVectorOnMap.z += 1;
             return;
         }
-        if (Input.GetKey(KeyCode.DownArrow))
+        if (Input.GetKey(KeyCode.DownArrow) || down == true)
         {
             moveVectorOnScene.z = -moveSpriteSizeZ;
             moveVectorOnMap.z -= 1;
             return;
         }
+        return;
     }
 
     //移動先が移動可能か
@@ -106,11 +116,11 @@ public class PlayerMoveContloller : MonoBehaviour
     {
         bool targetPositionNoWallFlag = true;
 
-        int targetPosZ = (int)(playerPosOnMapDate.z + (moveVectorOnScene.z/moveSpriteSizeZ));
-        int targetPosX = (int)(playerPosOnMapDate.x + (moveVectorOnScene.x/moveSpriteSizeX));
+        //int targetPosZ = (int)(playerPosOnMapDate.z + (moveVectorOnScene.z / moveSpriteSizeZ));
+        //int targetPosX = (int)(playerPosOnMapDate.x + (moveVectorOnScene.x / moveSpriteSizeX));
 
         //壁だった場合移動できない
-        if (haveMapDateObject.GetComponent<MapController>().canMove(playerPosOnMapDate+ moveVectorOnMap) ==true)
+        if (haveMapDateObject.GetComponent<MapController>().canMove(playerPosOnMapDate + moveVectorOnMap) == true)
         {
             targetPositionNoWallFlag = false;
         }
@@ -123,9 +133,26 @@ public class PlayerMoveContloller : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
     }
 
-
-    private void OnTriggerEnter(Collider other)
+    public void SetInputKey(string key)
     {
+        switch (key)
+        {
+            case ("up"):
+                up = true;
+                break;
+            case ("down"):
+                down = true;
+                break;
+            case ("right"):
+                right = true;
+                break;
+            case ("left"):
+                left = true;
+                break;
+            default:
+                up = false; down = false; right = false; left = false;
+                break;
+        }
 
     }
 }
