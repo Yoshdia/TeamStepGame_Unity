@@ -19,6 +19,10 @@ public class MapController : MonoBehaviour
     //マップデータ上でPlayerが移動した位置を記憶
     private List<Vector3> movedPlayerPosList;
 
+    [SerializeField]
+    private GameObject whiteWall = null;
+
+
     private void Awake()
     {
         //int型とGameobject型のマップ情報をmapControllerから取得
@@ -26,11 +30,14 @@ public class MapController : MonoBehaviour
         mapDate.mapObjectDate = GetComponent<MapDate>().GetNullObjectDate();
         //MapPositioningの、マップ生成関数
         GetComponent<MapPositioning>().Positioning();
-        
+
         mapLengthMin = new Vector3(0, 0, 0);
         mapLengthMax = new Vector3(mapDate.mapNumberDate.GetLength(1), 0, mapDate.mapNumberDate.GetLength(0));
 
         movedPlayerPosList = new List<Vector3>();
+
+        whiteWall = Instantiate(whiteWall, new Vector3(0,0,0), new Quaternion(0, 0, 0, 0));
+
     }
 
     // Update is called once per frame
@@ -92,14 +99,20 @@ public class MapController : MonoBehaviour
 
         Vector3 beforePlayerPos = movedPlayerPosList[movedPlayerPosList.Count - 1];
 
+
+
         //移動予定地が前回移動した地点だった場合
         if (nextPositionOnMap == beforePlayerPos)
         {
+            movedPlayerPosList.RemoveAt(movedPlayerPosList.Count - 1);
+            if(mapDate.mapNumberDate[(int)currentPlayerPosOnMap.z, (int)currentPlayerPosOnMap.x] == (int)MapDate.eGroundName.eWhite)
+            {
+                return;
+            }
             changedSprite = true;
             nextGroundName = MapDate.eGroundName.eDefaultPannel;
             mapDate.mapNumberDate[(int)currentPlayerPosOnMap.z, (int)currentPlayerPosOnMap.x] = (int)nextGroundName;
             mapDate.mapObjectDate[(int)currentPlayerPosOnMap.z, (int)currentPlayerPosOnMap.x].GetComponent<ChangedSprite>().ChangeSprite(changedSprite);
-            movedPlayerPosList.RemoveAt(movedPlayerPosList.Count - 1);
         }
         //移動予定地が変化前だった場合
         else if (mapDate.mapNumberDate[(int)nextPositionOnMap.z, (int)nextPositionOnMap.x] == (int)MapDate.eGroundName.eDefaultPannel)
@@ -108,6 +121,10 @@ public class MapController : MonoBehaviour
             nextGroundName = MapDate.eGroundName.eChangedPannel;
             mapDate.mapNumberDate[(int)nextPositionOnMap.z, (int)nextPositionOnMap.x] = (int)nextGroundName;
             mapDate.mapObjectDate[(int)nextPositionOnMap.z, (int)nextPositionOnMap.x].GetComponent<ChangedSprite>().ChangeSprite(changedSprite);
+            movedPlayerPosList.Add(currentPlayerPosOnMap);
+        }
+        else if(mapDate.mapNumberDate[(int)nextPositionOnMap.z, (int)nextPositionOnMap.x] == (int)MapDate.eGroundName.eWhite)
+        {
             movedPlayerPosList.Add(currentPlayerPosOnMap);
         }
         else
@@ -119,10 +136,10 @@ public class MapController : MonoBehaviour
     //playerから呼ばれる。受け取ったマップ上の位置がplayerにとって移動可能かどうかを調べ可能ならtrueを返す
     public bool canMove(Vector3 pos)
     {
-        if(pos.x< mapLengthMin.x||
-            pos.x>=mapLengthMax.x||
-            pos.z<mapLengthMin.z||
-            pos.z>=mapLengthMax.z)
+        if (pos.x < mapLengthMin.x ||
+            pos.x >= mapLengthMax.x ||
+            pos.z < mapLengthMin.z ||
+            pos.z >= mapLengthMax.z)
         {
             Debug.Log("OutOfRange");
             return false;

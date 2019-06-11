@@ -31,12 +31,13 @@ public class PlayerMoveContloller : MonoBehaviour
     private float moveSpriteSizeX;
     private float moveSpriteSizeZ;
 
+
+
     void Start()
     {
         moveSpriteSizeX = haveMapDateObject.GetComponent<MapPositioning>().spriteSizeX;
         moveSpriteSizeZ = haveMapDateObject.GetComponent<MapPositioning>().spriteSizeZ;
         transform.localScale = new Vector3(moveSpriteSizeX, 1, moveSpriteSizeZ);
-
 
         //プレイヤーの初期座標を受け取り入れる
         playerPosOnMapDate = haveMapDateObject.GetComponent<MapController>().GetFirstPositionPlayer();

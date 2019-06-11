@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChangedSprite : MonoBehaviour {
+public class ChangedSprite : PannelCommon
+{
 
     [SerializeField]
-    private Sprite defaultSprite=null;
-    [SerializeField]
-    private Sprite changedSprite = null;
+    private Sprite defaultSprite = null;
+    //[SerializeField]
+    //private Sprite changedSprite = null;
 
     void Start()
     {
@@ -15,12 +16,6 @@ public class ChangedSprite : MonoBehaviour {
 
         transform.tag = "defaultPannel";
     }
-
-    public void SetSprite(Sprite sprite)
-    {
-        changedSprite = sprite;
-    }
-
 
     public void ChangeSprite(bool changed)
     { 

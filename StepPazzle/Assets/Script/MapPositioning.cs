@@ -10,21 +10,26 @@ public class MapPositioning : MonoBehaviour
     private GameObject pannelObject = null;
     [SerializeField]
     private GameObject whiteObject = null;
+    [SerializeField]
+    private GameObject jammerObject = null;
+    [SerializeField]
+    private GameObject whiteWallObject = null;
+
 
     //[SerializeField]
     //private Sprite spriteObject = null;
 
     [HideInInspector]
-    public float spriteSizeX = 6.9f;
+    public float spriteSizeX = 0;
     [HideInInspector]
-    public float spriteSizeZ = 7.0f;
+    public float spriteSizeZ = 0;
 
 
     public void Positioning()
     {
-        spriteSizeX = 0.69f; spriteSizeZ = 0.70f;
+        spriteSizeX = 0.68f; spriteSizeZ = 0.69f;
 
-        Sprite[] mapSprite = Resources.LoadAll<Sprite>("Img/image0");
+        Sprite[] mapSprite = Resources.LoadAll<Sprite>("Img/FirstImage");
         int spriteCnt = 0;
 
         //MapControllerからマップ情報をint型で取得
@@ -34,12 +39,12 @@ public class MapPositioning : MonoBehaviour
         GameObject[,] mapObjectDate = { };
         mapObjectDate = GetComponent<MapController>().GetMapObjectDate();
 
-        whiteObject.transform.localScale = new Vector3(spriteSizeX, 1, spriteSizeZ);
-        wallObject.transform.localScale = new Vector3(spriteSizeX, 1, spriteSizeZ);
+        whiteWallObject.transform.localScale = new Vector3(spriteSizeX, 0.2f, spriteSizeZ);
+        jammerObject.transform.localScale = new Vector3(spriteSizeX, 0.2f, spriteSizeZ);
 
 
         //MapControllerから配列の最大値やステージ情報を取得し配置する
-        for (int z = mapDate.GetLength(0)-1; z >= 0; z--)
+        for (int z = mapDate.GetLength(0) - 1; z >= 0; z--)
         {
             for (int x = 0; x < mapDate.GetLength(1); x++)
             {
@@ -48,46 +53,46 @@ public class MapPositioning : MonoBehaviour
                 //設置していくオブジェクトの座標や向き
                 Vector3 objectPos = new Vector3(x * spriteSizeX, 0, z * spriteSizeZ);
                 Quaternion objectQua = new Quaternion(0, 0, 0, 0);
-                //マップ情報によって書き換えられるGameObjectを初期化。初期値はイベントの無い白いブロック
+                //90度回転させ上を向かせるようにする
+                //マップ情報によって書き換えられるGameObjectを初期化。初期値としてイベントの無い白いブロックを入れる
                 GameObject setObject = whiteObject;
 
                 //壁
                 if (pannelInfo == (int)MapDate.eGroundName.eWall)
                 {
                     setObject = wallObject;
+                    objectQua = Quaternion.Euler(0, 0, 0);
+                    Instantiate(jammerObject, new Vector3(objectPos.x, 0.1f, objectPos.z), objectQua);
                 }
                 //変化前のパネル
                 if (pannelInfo == (int)MapDate.eGroundName.eDefaultPannel)
                 {
-                    //90度回転させ上を向かせるようにする
-                    objectQua = Quaternion.Euler(90, 0, 0);
                     setObject = pannelObject;
-                    setObject.GetComponent<ChangedSprite>().SetSprite(mapSprite[spriteCnt]);
-                    if (mapSprite.Length != spriteCnt)
-                    {
-                        spriteCnt++;
-
-                    }
                 }
                 //プレイヤーの初期座標またはイベントの無い白いブロック
                 if (pannelInfo == (int)MapDate.eGroundName.ePlayerPosition ||
                     pannelInfo == (int)MapDate.eGroundName.eWhite)
                 {
                     setObject = whiteObject;
+                    objectQua = Quaternion.Euler(0, 0, 0);
+                    Instantiate(whiteWallObject, new Vector3(objectPos.x, 0.1f, objectPos.z), objectQua);
                 }
+                setObject.GetComponent<PannelCommon>().SetSprite(mapSprite[spriteCnt]);
+
+                if (mapSprite.Length != spriteCnt)
+                {
+                    spriteCnt++;
+
+                }
+
+                objectQua = Quaternion.Euler(90, 0, 0);
+
                 //オブジェクトを生成
                 setObject = Instantiate(setObject, objectPos, objectQua);
                 //すべてnullで登録されていたGameObject型のマップ情報の全てにsetObjectを登録していく
                 mapObjectDate[z, x] = setObject;
                 //このScriptがタッチされているオブジェクトの子にする
                 setObject.transform.parent = transform;
-
-                //if (pannelInfo == (int)MapDate.eGroundName.eDefaultPannel)
-                //{
-                //    Vector3 spritePos = objectPos + new Vector3(0,3,0);
-                //    Instantiate(oneSprite, spritePos, new Quaternion(0,0,90,0));
-                //    //setObject.GetComponent<ChangeMaterialPannel>().changeMaterial=;
-                //}
             }
         }
     }
