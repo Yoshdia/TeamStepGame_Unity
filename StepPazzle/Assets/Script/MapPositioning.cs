@@ -5,11 +5,11 @@ using UnityEngine;
 public class MapPositioning : MonoBehaviour
 {
     [SerializeField]
-    private GameObject wallObject = null;
+    private GameObject otherPannelObject = null;
     [SerializeField]
     private GameObject pannelObject = null;
-    [SerializeField]
-    private GameObject whiteObject = null;
+
+
     [SerializeField]
     private GameObject jammerObject = null;
     [SerializeField]
@@ -28,6 +28,8 @@ public class MapPositioning : MonoBehaviour
     public void Positioning()
     {
         spriteSizeX = 0.68f; spriteSizeZ = 0.69f;
+
+        GetComponent<FootPrint>().SetSpriteSize(spriteSizeX, spriteSizeZ);
 
         Sprite[] mapSprite = Resources.LoadAll<Sprite>("Img/FirstImage");
         int spriteCnt = 0;
@@ -55,14 +57,16 @@ public class MapPositioning : MonoBehaviour
                 Quaternion objectQua = new Quaternion(0, 0, 0, 0);
                 //90度回転させ上を向かせるようにする
                 //マップ情報によって書き換えられるGameObjectを初期化。初期値としてイベントの無い白いブロックを入れる
-                GameObject setObject = whiteObject;
+                GameObject setObject = otherPannelObject;
+                GameObject wallObject = null;
 
                 //壁
                 if (pannelInfo == (int)MapDate.eGroundName.eWall)
                 {
-                    setObject = wallObject;
+                    setObject = otherPannelObject;
                     objectQua = Quaternion.Euler(0, 0, 0);
-                    Instantiate(jammerObject, new Vector3(objectPos.x, 0.1f, objectPos.z), objectQua);
+                    wallObject = Instantiate(jammerObject, new Vector3(objectPos.x, 0.1f, objectPos.z), objectQua);
+                    wallObject.transform.parent = transform;
                 }
                 //変化前のパネル
                 if (pannelInfo == (int)MapDate.eGroundName.eDefaultPannel)
@@ -73,16 +77,16 @@ public class MapPositioning : MonoBehaviour
                 if (pannelInfo == (int)MapDate.eGroundName.ePlayerPosition ||
                     pannelInfo == (int)MapDate.eGroundName.eWhite)
                 {
-                    setObject = whiteObject;
+                    setObject = otherPannelObject;
                     objectQua = Quaternion.Euler(0, 0, 0);
-                    Instantiate(whiteWallObject, new Vector3(objectPos.x, 0.1f, objectPos.z), objectQua);
+                    wallObject = Instantiate(whiteWallObject, new Vector3(objectPos.x, 0.1f, objectPos.z), objectQua);
+                    wallObject.transform.parent = transform;
                 }
                 setObject.GetComponent<PannelCommon>().SetSprite(mapSprite[spriteCnt]);
 
                 if (mapSprite.Length != spriteCnt)
                 {
                     spriteCnt++;
-
                 }
 
                 objectQua = Quaternion.Euler(90, 0, 0);
@@ -93,6 +97,7 @@ public class MapPositioning : MonoBehaviour
                 mapObjectDate[z, x] = setObject;
                 //このScriptがタッチされているオブジェクトの子にする
                 setObject.transform.parent = transform;
+                
             }
         }
     }

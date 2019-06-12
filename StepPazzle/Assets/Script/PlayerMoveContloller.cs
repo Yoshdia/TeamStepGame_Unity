@@ -27,13 +27,10 @@ public class PlayerMoveContloller : MonoBehaviour
     private bool right;
     private bool left;
 
-
     private float moveSpriteSizeX;
     private float moveSpriteSizeZ;
 
-
-
-    void Start()
+     void Start()
     {
         moveSpriteSizeX = haveMapDateObject.GetComponent<MapPositioning>().spriteSizeX;
         moveSpriteSizeZ = haveMapDateObject.GetComponent<MapPositioning>().spriteSizeZ;
@@ -43,13 +40,11 @@ public class PlayerMoveContloller : MonoBehaviour
         playerPosOnMapDate = haveMapDateObject.GetComponent<MapController>().GetFirstPositionPlayer();
         transform.position = new Vector3(playerPosOnMapDate.x * moveSpriteSizeX, 1, playerPosOnMapDate.z * moveSpriteSizeZ);
 
-
-
         //目的座標をリセット
         targetPos = transform.position;
     }
 
-    void Update()
+     void Update()
     {
         bool moving = true;
         //移動中かどうかの判定。移動中でなければ入力を受付
