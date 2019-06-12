@@ -34,7 +34,7 @@ public class MapController : MonoBehaviour
     }
 
     // Update is called once per frame
-    public bool Update()
+    public bool ClearCheck()
     {
         //GameObject型のマップ情報の中で、一つでも変化前パネルがあった場合クリアフラグを倒しゲームを続行させる
         bool clearFlag = true;

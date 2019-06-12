@@ -2,30 +2,81 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour {
+using UnityEngine.UI;
 
- //   [SerializeField]
- //   PlayerMoveContloller player =null;
- //   [SerializeField]
- //   MapController stageCreater =null;
+public class GameManager : MonoBehaviour
+{
 
- //   //player、stageCreaterを更新するかを判断するためのフラグ
- //   private bool updateStop = false;
+    [SerializeField]
+    PlayerMoveContloller player = null;
+    [SerializeField]
+    MapController stageCreater = null;
+    [SerializeField]
+    Image blackScreen = null;
 
- //   private void Start()
- //   {
- //       stageCreater = GetComponent<MapController>();
- //       player = GetComponent<PlayerMoveContloller>();
- //       player.Reset();
- //   }
+    enum gameState
+    {
+        Start,
+        Game,
+        Clear,
+        Result
+    }
 
-	//// Update is called once per frame
-	//void Update () {
- //       updateStop = stageCreater.ClearCheck();
-        
- //       if(updateStop==false)
- //       {
- //           player.UpdateInGame();
- //       }
-	//}
+    gameState state;
+
+    private void Start()
+    {
+        state = gameState.Start;
+        player.Reset();
+        blackScreen.color = new Color(0, 0, 0, 0.8f);
+    }
+
+    //// Update is called once per frame
+    void Update()
+    {
+        switch (state)
+        {
+            case (gameState.Start):
+                if(Input.GetKey(KeyCode.Return))
+                {
+                    StateChange();
+                }
+                break;
+            case (gameState.Game):
+                //stageControllerから、そのステージをクリアしたかどうかのフラグを受け取る[クリア=true]
+                bool updateStop = false;
+                updateStop = stageCreater.ClearCheck();
+                //プレイヤーの更新が終了する条件。「ゲームクリア」かつ「移動の完了」
+                bool playerUpdateEnd = (updateStop == true && player.CheckMovingEnd() == true);
+                if (playerUpdateEnd == false)
+                {
+                    player.UpdateInGame();
+                }
+                break;
+            case (gameState.Clear):
+                break;
+            case (gameState.Result):
+                break;
+        }
+    }
+
+    private void StateChange()
+    {
+        switch (state)
+        {
+            case (gameState.Start):
+                state = gameState.Game;
+                blackScreen.color = new Color(0,0,0,0);
+                break;
+            case (gameState.Game):
+                state = gameState.Clear;
+                break;
+            case (gameState.Clear):
+                state = gameState.Result;
+                break;
+            case (gameState.Result):
+
+                break;
+        }
+    }
 }

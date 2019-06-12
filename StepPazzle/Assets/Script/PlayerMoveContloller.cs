@@ -30,7 +30,7 @@ public class PlayerMoveContloller : MonoBehaviour
     private float moveSpriteSizeX;
     private float moveSpriteSizeZ;
 
-     void Start()
+     public void Reset()
     {
         moveSpriteSizeX = haveMapDateObject.GetComponent<MapPositioning>().spriteSizeX;
         moveSpriteSizeZ = haveMapDateObject.GetComponent<MapPositioning>().spriteSizeZ;
@@ -44,11 +44,11 @@ public class PlayerMoveContloller : MonoBehaviour
         targetPos = transform.position;
     }
 
-     void Update()
+    public void UpdateInGame()
     {
         bool moving = true;
         //移動中かどうかの判定。移動中でなければ入力を受付
-        if (transform.position == targetPos)
+        if (CheckMovingEnd()==true)
         {
             moving = false;
             SetTargetPosition();
@@ -127,6 +127,11 @@ public class PlayerMoveContloller : MonoBehaviour
     private void Move()
     {
         transform.position = Vector3.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
+    }
+
+    public bool CheckMovingEnd()
+    {
+        return transform.position == targetPos; 
     }
 
     public void SetInputKey(string key)
