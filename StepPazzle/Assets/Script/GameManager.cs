@@ -14,6 +14,11 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     Image blackScreen = null;
 
+    //[SerializeField]
+    //GameObject playerObj = null;
+    //[SerializeField]
+    //GameObject stageObj = null;
+
     enum gameState
     {
         Start,
@@ -26,9 +31,12 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        //state = gameState.Game;
         state = gameState.Start;
-        player.Reset();
+        //player.Reset();
+        //blackScreen.color = new Color(0, 0, 0, 0.0f);
         blackScreen.color = new Color(0, 0, 0, 0.8f);
+
     }
 
     //// Update is called once per frame
@@ -47,7 +55,8 @@ public class GameManager : MonoBehaviour
                 bool updateStop = false;
                 updateStop = stageCreater.ClearCheck();
                 //プレイヤーの更新が終了する条件。「ゲームクリア」かつ「移動の完了」
-                bool playerUpdateEnd = (updateStop == true && player.CheckMovingEnd() == true);
+                bool playerUpdateEnd = (updateStop && player.CheckMovingEnd());
+                playerUpdateEnd = false;
                 if (playerUpdateEnd == false)
                 {
                     player.UpdateInGame();
@@ -67,6 +76,15 @@ public class GameManager : MonoBehaviour
             case (gameState.Start):
                 state = gameState.Game;
                 blackScreen.color = new Color(0,0,0,0);
+
+                stageCreater = Instantiate(stageCreater);
+                stageCreater.MapReset();
+                
+                //playerの初期化に必要な処理数
+                player = Instantiate(player);
+                player.haveMapDateObject = stageCreater;
+                player.Reset();
+
                 break;
             case (gameState.Game):
                 state = gameState.Clear;

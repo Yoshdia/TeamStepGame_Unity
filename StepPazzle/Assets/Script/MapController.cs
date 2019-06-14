@@ -13,25 +13,43 @@ public class MapController : MonoBehaviour
     }
     private sMapDate mapDate;
     //mapControllerのマップ情報の配列サイズを取得
-    private Vector3 mapLengthMin;
     private Vector3 mapLengthMax;
 
     //マップデータ上でPlayerが移動した位置を記憶
     private List<Vector3> movedPlayerPosList;
 
-    private void Awake()
+    private void Start()
+    {
+
+    }
+
+    public void MapReset()
     {
         //int型とGameobject型のマップ情報をmapControllerから取得
         mapDate.mapNumberDate = GetComponent<MapDate>().GetMapDate();
         mapDate.mapObjectDate = GetComponent<MapDate>().GetNullObjectDate();
+
         //MapPositioningの、マップ生成関数
         GetComponent<MapPositioning>().Positioning();
 
-        mapLengthMin = new Vector3(0, 0, 0);
         mapLengthMax = new Vector3(mapDate.mapNumberDate.GetLength(1), 0, mapDate.mapNumberDate.GetLength(0));
 
-        movedPlayerPosList = new List<Vector3>();
+        if (movedPlayerPosList != null)
+        {
+            for (int i = movedPlayerPosList.Count - 1; i >= 0; i--)
+            {
+                movedPlayerPosList.RemoveAt(i);
+            }
+        }
+        else
+        {
+            //マップ生成時にListを初期化するためここで要素を入れておく
+            movedPlayerPosList = new List<Vector3>();
+            movedPlayerPosList.Add(new Vector3(0, 0, 0));
+        }
+
     }
+
 
     // Update is called once per frame
     public bool ClearCheck()
@@ -63,9 +81,9 @@ public class MapController : MonoBehaviour
 
         bool checkEnd = false;
 
-        for (playerPosition.z = mapLengthMin.z; playerPosition.z < mapLengthMax.z; playerPosition.z++)
+        for (playerPosition.z = 0; playerPosition.z < mapLengthMax.z; playerPosition.z++)
         {
-            for (playerPosition.x = mapLengthMin.x; playerPosition.x < mapLengthMax.x; playerPosition.x++)
+            for (playerPosition.x = 0; playerPosition.x < mapLengthMax.x; playerPosition.x++)
             {
                 if (mapDate.mapNumberDate[(int)playerPosition.z, (int)playerPosition.x] == (int)MapDate.eGroundName.ePlayerPosition)
                 {
@@ -101,7 +119,7 @@ public class MapController : MonoBehaviour
         {
             movedPlayerPosList.RemoveAt(movedPlayerPosList.Count - 1);
             //前回移動した地点だったが、白い床だった場合余計な関数を呼ばないようにする
-            if(mapDate.mapNumberDate[(int)currentPlayerPosOnMap.z, (int)currentPlayerPosOnMap.x] == (int)MapDate.eGroundName.eWhite)
+            if (mapDate.mapNumberDate[(int)currentPlayerPosOnMap.z, (int)currentPlayerPosOnMap.x] == (int)MapDate.eGroundName.eWhite)
             {
                 return;
             }
@@ -122,11 +140,11 @@ public class MapController : MonoBehaviour
             movedPlayerPosList.Add(currentPlayerPosOnMap);
             //spriteを変化させたので、そこに足跡を生成させる
             Vector3 footPos = nextPositionOnMap;
-            Vector3 footDirection = currentPlayerPosOnMap-nextPositionOnMap;
+            Vector3 footDirection = currentPlayerPosOnMap - nextPositionOnMap;
             //footQua = Quaternion.Euler(nextPositionOnMap-currentPlayerPosOnMap);
             GetComponent<FootPrint>().SetFoot(footPos, footDirection);
         }
-        else if(mapDate.mapNumberDate[(int)nextPositionOnMap.z, (int)nextPositionOnMap.x] == (int)MapDate.eGroundName.eWhite)
+        else if (mapDate.mapNumberDate[(int)nextPositionOnMap.z, (int)nextPositionOnMap.x] == (int)MapDate.eGroundName.eWhite)
         {
             movedPlayerPosList.Add(currentPlayerPosOnMap);
         }
@@ -139,9 +157,9 @@ public class MapController : MonoBehaviour
     //playerから呼ばれる。受け取ったマップ上の位置がplayerにとって移動可能かどうかを調べ可能ならtrueを返す
     public bool canMove(Vector3 pos)
     {
-        if (pos.x < mapLengthMin.x ||
+        if (pos.x < 0 ||
             pos.x >= mapLengthMax.x ||
-            pos.z < mapLengthMin.z ||
+            pos.z < 0 ||
             pos.z >= mapLengthMax.z)
         {
             Debug.Log("OutOfRange");

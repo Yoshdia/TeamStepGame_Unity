@@ -18,7 +18,7 @@ public class PlayerMoveContloller : MonoBehaviour
 
     //MapDateがコンポーネントされているGameObject
     [SerializeField]
-    private GameObject haveMapDateObject = null;
+    public MapController haveMapDateObject = null;
     //マップデータ上のPlayerの位置
     private Vector3 playerPosOnMapDate;
 
@@ -26,17 +26,20 @@ public class PlayerMoveContloller : MonoBehaviour
     private bool down;
     private bool right;
     private bool left;
-
+    //移動に必要な上下のサイズ。GameManagerから値を受け取る。
     private float moveSpriteSizeX;
     private float moveSpriteSizeZ;
 
+    //初期化に必要な処理。GameManagerから呼ばれる。
      public void Reset()
     {
+        //MapPositioningから上下の移動距離であるspriteサイズを受け取る
         moveSpriteSizeX = haveMapDateObject.GetComponent<MapPositioning>().spriteSizeX;
         moveSpriteSizeZ = haveMapDateObject.GetComponent<MapPositioning>().spriteSizeZ;
+        //PlayerのX,ZサイズをPannelと同じサイズに変更する
         transform.localScale = new Vector3(moveSpriteSizeX, 1, moveSpriteSizeZ);
 
-        //プレイヤーの初期座標を受け取り入れる
+        //プレイヤーの初期座標をMapControllerから受け取る
         playerPosOnMapDate = haveMapDateObject.GetComponent<MapController>().GetFirstPositionPlayer();
         transform.position = new Vector3(playerPosOnMapDate.x * moveSpriteSizeX, 1, playerPosOnMapDate.z * moveSpriteSizeZ);
 
@@ -44,6 +47,7 @@ public class PlayerMoveContloller : MonoBehaviour
         targetPos = transform.position;
     }
 
+    //ゲーム中毎F更新され続ける処理
     public void UpdateInGame()
     {
         bool moving = true;
@@ -73,7 +77,6 @@ public class PlayerMoveContloller : MonoBehaviour
         }
         SetInputKey("reset");
     }
-
 
     //入力に応じて移動方向を代入
     private void SetTargetPosition()
