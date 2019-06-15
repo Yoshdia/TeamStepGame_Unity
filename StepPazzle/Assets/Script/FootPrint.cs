@@ -48,6 +48,5 @@ public class FootPrint : MonoBehaviour
     {
         footList[footList.Count - 1].SetActive(false);
         footList.RemoveAt(footList.Count - 1);
-        //Destroy(footList[footList.Count - 1]);
     }
 }

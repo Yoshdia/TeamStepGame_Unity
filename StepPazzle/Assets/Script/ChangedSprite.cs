@@ -4,30 +4,30 @@ using UnityEngine;
 
 public class ChangedSprite : PannelCommon
 {
-
+    
     [SerializeField]
     private Sprite defaultSprite = null;
-    //[SerializeField]
-    //private Sprite changedSprite = null;
+    SpriteRenderer mySprite = null;
 
     void Start()
     {
-        transform.GetComponent<SpriteRenderer>().sprite = defaultSprite;
-
-        transform.tag = "defaultPannel";
+        mySprite = GetComponent<SpriteRenderer>();
+        mySprite.sprite = defaultSprite;
     }
 
+
+    //受け取ったフラグによって、踏まれた後のSpriteに変化するか踏まれる前のSpriteに変化するか
     public void ChangeSprite(bool changed)
     { 
         if(changed==true)
         {
-            transform.GetComponent<SpriteRenderer>().sprite = defaultSprite;
-            transform.tag = "defaultPannel";
+            mySprite.sprite = defaultSprite;
         }
         else
         {
-            transform.GetComponent<SpriteRenderer>().sprite = changedSprite;
-            transform.tag = "changedPannel";
+            mySprite.sprite = changedSprite;
         }
     }
+
+ 
 }

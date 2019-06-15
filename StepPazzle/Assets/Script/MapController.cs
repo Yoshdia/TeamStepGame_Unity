@@ -18,19 +18,39 @@ public class MapController : MonoBehaviour
     //マップデータ上でPlayerが移動した位置を記憶
     private List<Vector3> movedPlayerPosList;
 
-    private void Start()
-    {
+    //ステージデータを受け取る関数を呼ぶための変数
+    MapDate haveMapData = null;
 
+    MapPositioning MapCreater = null;
+
+    FootPrint footPrinter = null;
+
+    public void InitProcces()
+    {
+        GetComponent<MapPositioning>().FirstProccess();
+        haveMapData = GetComponent<MapDate>();
+        MapCreater = GetComponent<MapPositioning>();
+        footPrinter = GetComponent<FootPrint>();
     }
 
     public void MapReset()
     {
         //int型とGameobject型のマップ情報をmapControllerから取得
-        mapDate.mapNumberDate = GetComponent<MapDate>().GetMapDate();
-        mapDate.mapObjectDate = GetComponent<MapDate>().GetNullObjectDate();
+        mapDate.mapNumberDate = haveMapData.GetMapDate();
+        mapDate.mapObjectDate = haveMapData.GetNullObjectDate();
 
-        //MapPositioningの、マップ生成関数
-        GetComponent<MapPositioning>().Positioning();
+        //for (int z = mapDate.mapObjectDate.GetLength(0) - 1; z >= 0; z--)
+        //{
+        //    for (int x = 0; x < mapDate.mapObjectDate.GetLength(1); x++)
+        //    {
+        //        mapDate.mapObjectDate[z, x] = GetComponent<PannelCommon>();
+                
+        //    }
+        //}
+
+
+                //マップ生成関数
+                MapCreater.Positioning();
 
         mapLengthMax = new Vector3(mapDate.mapNumberDate.GetLength(1), 0, mapDate.mapNumberDate.GetLength(0));
 
@@ -49,7 +69,6 @@ public class MapController : MonoBehaviour
         }
 
     }
-
 
     // Update is called once per frame
     public bool ClearCheck()
@@ -112,8 +131,6 @@ public class MapController : MonoBehaviour
 
         Vector3 beforePlayerPos = movedPlayerPosList[movedPlayerPosList.Count - 1];
 
-
-
         //移動予定地が前回移動した地点だった場合
         if (nextPositionOnMap == beforePlayerPos)
         {
@@ -128,7 +145,7 @@ public class MapController : MonoBehaviour
             mapDate.mapNumberDate[(int)currentPlayerPosOnMap.z, (int)currentPlayerPosOnMap.x] = (int)nextGroundName;
             mapDate.mapObjectDate[(int)currentPlayerPosOnMap.z, (int)currentPlayerPosOnMap.x].GetComponent<ChangedSprite>().ChangeSprite(changedSprite);
             //spriteがもとに戻るので、そこにあった足跡も消す
-            GetComponent<FootPrint>().DeleteOneFoot();
+            footPrinter.DeleteOneFoot();
         }
         //移動予定地が変化前だった場合
         else if (mapDate.mapNumberDate[(int)nextPositionOnMap.z, (int)nextPositionOnMap.x] == (int)MapDate.eGroundName.eDefaultPannel)
@@ -142,7 +159,7 @@ public class MapController : MonoBehaviour
             Vector3 footPos = nextPositionOnMap;
             Vector3 footDirection = currentPlayerPosOnMap - nextPositionOnMap;
             //footQua = Quaternion.Euler(nextPositionOnMap-currentPlayerPosOnMap);
-            GetComponent<FootPrint>().SetFoot(footPos, footDirection);
+            footPrinter.SetFoot(footPos, footDirection);
         }
         else if (mapDate.mapNumberDate[(int)nextPositionOnMap.z, (int)nextPositionOnMap.x] == (int)MapDate.eGroundName.eWhite)
         {

@@ -78,6 +78,7 @@ public class GameManager : MonoBehaviour
                 blackScreen.color = new Color(0,0,0,0);
 
                 stageCreater = Instantiate(stageCreater);
+                stageCreater.InitProcces();
                 stageCreater.MapReset();
                 
                 //playerの初期化に必要な処理数
@@ -98,3 +99,4 @@ public class GameManager : MonoBehaviour
         }
     }
 }
+

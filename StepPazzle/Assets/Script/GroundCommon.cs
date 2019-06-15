@@ -15,4 +15,5 @@ public class GroundCommon : MonoBehaviour {
     {
         return groundPositionOnMap;
     }
+
 }
