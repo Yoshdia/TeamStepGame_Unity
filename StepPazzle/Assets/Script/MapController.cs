@@ -23,7 +23,7 @@ public class MapController : MonoBehaviour
 
     MapPositioning MapCreater = null;
 
-    FootPrint footPrinter = null;
+    private FootPrint footPrinter = null;
 
     public void InitProcces()
     {

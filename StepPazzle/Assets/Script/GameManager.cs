@@ -37,6 +37,9 @@ public class GameManager : MonoBehaviour
         //blackScreen.color = new Color(0, 0, 0, 0.0f);
         blackScreen.color = new Color(0, 0, 0, 0.8f);
 
+        stageCreater = Instantiate(stageCreater);
+        player = Instantiate(player);
+
     }
 
     //// Update is called once per frame
@@ -77,12 +80,11 @@ public class GameManager : MonoBehaviour
                 state = gameState.Game;
                 blackScreen.color = new Color(0,0,0,0);
 
-                stageCreater = Instantiate(stageCreater);
+                
                 stageCreater.InitProcces();
                 stageCreater.MapReset();
                 
                 //playerの初期化に必要な処理数
-                player = Instantiate(player);
                 player.haveMapDateObject = stageCreater;
                 player.Reset();
 
