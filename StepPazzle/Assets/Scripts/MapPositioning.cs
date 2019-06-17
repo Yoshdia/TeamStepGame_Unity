@@ -32,15 +32,12 @@ public class MapPositioning : MonoBehaviour
     private static int whiteNum = 20;
 
     //足跡を生成する
-    FootPrint printer=null;
+    FootPrint printer = null;
     //MapController、PannelCommonの関数を呼び出すための変数
     MapController haveMapData = null;
     //PannelCommon otherObject = null;
 
-    [HideInInspector]
-    public float spriteSizeX = 0;
-    [HideInInspector]
-    public float spriteSizeZ = 0;
+    private Vector3 spriteSize;
 
     public void FirstProccess()
     {
@@ -51,13 +48,13 @@ public class MapPositioning : MonoBehaviour
         objectPool.CreatePool(otherPannelObject, waitingOther);
 
         waitingPannel = new GameObject[pannelNum];
-        objectPool.CreatePool(pannelObject,waitingPannel);
+        objectPool.CreatePool(pannelObject, waitingPannel);
 
         waitingJammer = new GameObject[jammerNum];
-        objectPool.CreatePool(jammerObject,waitingJammer);
+        objectPool.CreatePool(jammerObject, waitingJammer);
 
         waitingWhite = new GameObject[whiteNum];
-        objectPool.CreatePool(whiteWallObject,waitingWhite);
+        objectPool.CreatePool(whiteWallObject, waitingWhite);
 
         printer = GetComponent<FootPrint>();
         haveMapData = GetComponent<MapController>();
@@ -66,9 +63,9 @@ public class MapPositioning : MonoBehaviour
     public void Positioning()
     {
         //スプライトサイズの設定。GameManagerからステージごとの値を受け取る
-        spriteSizeX = 0.68f; spriteSizeZ = 0.69f;
+        spriteSize = haveMapData.GetSpriteSize();
         //足跡を生成するFootPrintにSpriteサイズを渡し、設置位置の基準にさせる
-        printer.SetSpriteSize(spriteSizeX, spriteSizeZ);
+        printer.SetSpriteSize(spriteSize);
 
         //どのSpriteをStageにするか、そのSpriteを配列に保存する
         Sprite[] mapSprite = Resources.LoadAll<Sprite>("Img/FirstImage");
@@ -81,11 +78,14 @@ public class MapPositioning : MonoBehaviour
         //MapControllerからマップ情報をGameObject型で取得 初期はすべてnull(int型マップ情報の配列と同じサイズの配列)
         GameObject[,] mapObjectDate = { };
         mapObjectDate = haveMapData.GetMapObjectDate();
-        //それぞれのObjectサイズをSpriteサイズと等しくさせる
-        whiteWallObject.transform.localScale = new Vector3(spriteSizeX, 0.2f, spriteSizeZ);
-        jammerObject.transform.localScale = new Vector3(spriteSizeX, 0.2f, spriteSizeZ);
+        //それぞれのObjectサイズをSpriteサイズと等しくさせる(壁達のy座標を0.2にする)
+        spriteSize.y = 0.2f;
+        whiteWallObject.transform.localScale = spriteSize;
+        jammerObject.transform.localScale = spriteSize;
 
 
+        //y座標を0にしてこれから配置するオブジェクトの位置を調整
+        spriteSize.y = 0;
         //MapControllerから配列の最大値やステージ情報を取得し配置する
         for (int z = mapDate.GetLength(0) - 1; z >= 0; z--)
         {
@@ -94,7 +94,7 @@ public class MapPositioning : MonoBehaviour
                 //パネル情報。MapDateのeGroundNameで命名済み
                 int pannelInfo = mapDate[z, x];
                 //設置していくオブジェクトの座標や向き
-                Vector3 objectPos = new Vector3(x * spriteSizeX, 0, z * spriteSizeZ);
+                Vector3 objectPos = spriteSize;
                 Quaternion objectQua = new Quaternion(0, 0, 0, 0);
                 //ChangeSpriteを持ったオブジェクトは90度回転させ上を向かせるようにする
                 objectQua = Quaternion.Euler(90, 0, 0);
@@ -106,7 +106,7 @@ public class MapPositioning : MonoBehaviour
                 //壁
                 if (pannelInfo == (int)MapDate.eGroundName.eWall)
                 {
-                    setObject = objectPool.GetWaitingObject(waitingOther, objectPos,objectQua);
+                    setObject = objectPool.GetWaitingObject(waitingOther, objectPos, objectQua);
 
                     objectPos.y = 0.1f;
                     objectQua = Quaternion.Euler(0, 0, 0);
@@ -141,7 +141,7 @@ public class MapPositioning : MonoBehaviour
                 mapObjectDate[z, x] = setObject;
                 //このScriptがタッチされているオブジェクトの子にする
                 setObject.transform.parent = transform;
-                
+
             }
         }
     }

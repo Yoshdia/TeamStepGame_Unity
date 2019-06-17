@@ -17,14 +17,14 @@ public class FootPrint : MonoBehaviour
     private static int footNum = 50;
 
     //MapControllerからSpriteSizeを取得
-    private float spriteSizeX = 0;
-    private float spriteSizeZ = 0;
+    private Vector3 spriteSize;
 
     //乱数を取得する変数
     private System.Random random;
 
     private void Start()
     {
+
         //配列waitingFootにfootNum個のFootObjectを非Active状態で生成
         waitingFoot = new GameObject[footNum];
         //乱数所得
@@ -42,10 +42,10 @@ public class FootPrint : MonoBehaviour
     }
 
     //MapPositioning.Positioning()から呼ばれspriteSizeを受け取り保存する。
-    public void SetSpriteSize(float x, float z)
+    public void SetSpriteSize(Vector3 size)
     {
-        spriteSizeX = x;
-        spriteSizeZ = z;
+        spriteSize=size;
+        spriteSize.y = 0.2f;
     }
 
     public void SetFoot(Vector3 pos, Vector3 direction)
@@ -55,7 +55,6 @@ public class FootPrint : MonoBehaviour
         disPlaceVec /= 2.0f;
         //元の座標にdisPlaceVecを足し0.5ずらさせる
         pos += disPlaceVec;
-        Vector3 footPos = new Vector3(pos.x * spriteSizeX, 0.2f, pos.z * spriteSizeZ);
         //進んでる方向に足跡を回転させ更にy軸に90°回転させる
         direction.y = 90;
         Quaternion qua = Quaternion.LookRotation(direction);
@@ -70,7 +69,7 @@ public class FootPrint : MonoBehaviour
                 //アクティブにする
                 footObj.SetActive(true);
                 //座標、角度をセット
-                footObj.transform.position = footPos;
+                footObj.transform.position = spriteSize;
                 footObj.transform.rotation = qua;
 
                 //配列からリストへ渡す

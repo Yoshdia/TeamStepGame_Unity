@@ -5,6 +5,8 @@ using UnityEngine;
 //MapDateから受け取った情報をもとに、書き直したり返すクラス
 public class MapController : MonoBehaviour
 {
+    MapDate.eStageName stageName;
+
     //int型とGameObject型を持った構造体 どちらにもMapDateから値を取得する
     public struct sMapDate
     {
@@ -25,10 +27,15 @@ public class MapController : MonoBehaviour
 
     private FootPrint footPrinter = null;
 
+    Vector3 spriteSize;
+
     public void InitProcces()
     {
+        stageName = MapDate.eStageName.eSecondStage;
+
         GetComponent<MapPositioning>().FirstProccess();
         haveMapData = GetComponent<MapDate>();
+        spriteSize = haveMapData.GetSpriteSize(stageName);
         MapCreater = GetComponent<MapPositioning>();
         footPrinter = GetComponent<FootPrint>();
     }
@@ -36,7 +43,7 @@ public class MapController : MonoBehaviour
     public void MapReset()
     {
         //int型とGameobject型のマップ情報をmapControllerから取得
-        mapDate.mapNumberDate = haveMapData.GetMapDate();
+        mapDate.mapNumberDate = haveMapData.GetMapDate(stageName);
         mapDate.mapObjectDate = haveMapData.GetNullObjectDate();
 
         //マップ生成関数
@@ -192,6 +199,12 @@ public class MapController : MonoBehaviour
     {
         return mapDate.mapObjectDate;
     }
+
+    public Vector3 GetSpriteSize()
+    {
+        return spriteSize;
+    }
+
 
     //Gameシーン終了後に配置してあるMapをリセットする
     public void ResetMap()

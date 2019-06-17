@@ -14,6 +14,13 @@ public class MapDate : MonoBehaviour
         ePlayerPosition = 4
     }
 
+    public enum eStageName
+    {
+        eFirstStage,
+        eSecondStage
+    }
+
+
     int[,] mapDateFirst =
         {
     {2,0,0,0,0},
@@ -26,6 +33,16 @@ public class MapDate : MonoBehaviour
     {4,0,0,0,2}
 
     };
+
+    int[,] mapDateSecond =
+        {
+        {2,0,0,0,0 },
+        {2,0,2,2,0 },
+        {2,0,4,2,0 },
+        {2,2,2,2,0 },
+        {0,0,0,0,0 },
+    };
+
 
 
     GameObject[,] mapObjectDate =
@@ -44,9 +61,36 @@ public class MapDate : MonoBehaviour
     };
 
     //二次元配列を返す
-    public int[,] GetMapDate()
+    public int[,] GetMapDate(eStageName stage)
     {
+        switch (stage)
+        {
+            case (eStageName.eFirstStage):
+                return mapDateFirst;
+                ;
+            case (eStageName.eSecondStage):
+                return mapDateSecond;
+                ;
+        }
+
         return mapDateFirst;
+    }
+
+    public Vector3 GetSpriteSize(eStageName stage)
+    {
+        Vector3 sprite=new Vector3();
+
+        switch (stage)
+        {
+            case (eStageName.eFirstStage):
+                sprite = new Vector3(0.68f,0, 0.69f);
+                break;
+            case (eStageName.eSecondStage):
+                sprite = new Vector3(0.8f,0,0.6f);
+                break;
+        }
+        return sprite;
+
     }
 
     public GameObject[,] GetNullObjectDate()
