@@ -20,15 +20,15 @@ public class FootPrint : MonoBehaviour
     private float spriteSizeX = 0;
     private float spriteSizeZ = 0;
 
-    //乱数を取得するため
+    //乱数を取得する変数
     private System.Random random;
 
     private void Start()
     {
+        //配列waitingFootにfootNum個のFootObjectを非Active状態で生成
+        waitingFoot = new GameObject[footNum];
         //乱数所得
         random = new System.Random(foot.Length - 1);
-        //配列にfootNum個のFootObjectを非Active状態で生成しておく
-        waitingFoot = new GameObject[footNum];
         for (int num = 0; num < waitingFoot.Length; num++)
         {
             int range = random.Next(foot.Length);
@@ -60,10 +60,12 @@ public class FootPrint : MonoBehaviour
         direction.y = 90;
         Quaternion qua = Quaternion.LookRotation(direction);
 
+
+        //Footだけは、配列にあるObjectをnullにする必要があるためObjectPoolを使用しない
         for (int num = 0; num < waitingFoot.Length; num++)
         {
             GameObject footObj = waitingFoot[num];
-            if (footObj != null)
+            if (footObj)
             {
                 //アクティブにする
                 footObj.SetActive(true);
@@ -94,5 +96,22 @@ public class FootPrint : MonoBehaviour
                 break;
             }
         }
+    }
+
+    public void Reset()
+    {
+        foreach (GameObject obj in activeFoot)
+        {
+            for (int num = 0; num < waitingFoot.Length; num++)
+            {
+                if (waitingFoot[num] == null)
+                {
+                    waitingFoot[num] = obj;
+                    waitingFoot[num].SetActive(false);
+                    break;
+                }
+            }
+        }
+        activeFoot.Clear();
     }
 }

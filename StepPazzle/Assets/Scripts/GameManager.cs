@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
 
     enum gameState
     {
+        Ready,
         Start,
         Game,
         Clear,
@@ -32,7 +33,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         //state = gameState.Game;
-        state = gameState.Start;
+        state = gameState.Ready;
         //player.Reset();
         //blackScreen.color = new Color(0, 0, 0, 0.0f);
         blackScreen.color = new Color(0, 0, 0, 0.8f);
@@ -47,8 +48,11 @@ public class GameManager : MonoBehaviour
     {
         switch (state)
         {
+            case (gameState.Ready):
+                StateChange();
+                    break;
             case (gameState.Start):
-                if(Input.GetKey(KeyCode.Return))
+                if (Input.GetKey(KeyCode.Return))
                 {
                     StateChange();
                 }
@@ -59,44 +63,61 @@ public class GameManager : MonoBehaviour
                 updateStop = stageCreater.ClearCheck();
                 //プレイヤーの更新が終了する条件。「ゲームクリア」かつ「移動の完了」
                 bool playerUpdateEnd = (updateStop && player.CheckMovingEnd());
-                playerUpdateEnd = false;
+                //playerUpdateEnd = false;
                 if (playerUpdateEnd == false)
                 {
                     player.UpdateInGame();
                 }
+                else
+                {
+                    StateChange();
+                }
                 break;
             case (gameState.Clear):
+
                 break;
             case (gameState.Result):
+
                 break;
         }
     }
 
+    //stateを変える関数
     private void StateChange()
     {
         switch (state)
         {
-            case (gameState.Start):
-                state = gameState.Game;
-                blackScreen.color = new Color(0,0,0,0);
+            case (gameState.Ready):
+                state = gameState.Start;
 
-                
+                //ステージを配置させる
                 stageCreater.InitProcces();
                 stageCreater.MapReset();
-                
-                //playerの初期化に必要な処理数
+
+                //playerを初期化
                 player.haveMapDateObject = stageCreater;
                 player.Reset();
+                break;
+            //StartからGameへ
+            case (gameState.Start):
+                state = gameState.Game;
+                //暗転を消す
+                blackScreen.color = new Color(0, 0, 0, 0);
+
 
                 break;
+            //GameからClearへ
             case (gameState.Game):
                 state = gameState.Clear;
+
+                stageCreater.ResetMap();
+                
                 break;
             case (gameState.Clear):
                 state = gameState.Result;
                 break;
             case (gameState.Result):
-
+                state = gameState.Ready;
                 break;
         }
     }

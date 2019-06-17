@@ -14,7 +14,7 @@ public class MapDate : MonoBehaviour
         ePlayerPosition = 4
     }
 
-    int[,] mapDate =
+    int[,] mapDateFirst =
         {
     {2,0,0,0,0},
     {0,0,0,0,2},
@@ -26,6 +26,7 @@ public class MapDate : MonoBehaviour
     {4,0,0,0,2}
 
     };
+
 
     GameObject[,] mapObjectDate =
     {
@@ -45,7 +46,7 @@ public class MapDate : MonoBehaviour
     //二次元配列を返す
     public int[,] GetMapDate()
     {
-        return mapDate;
+        return mapDateFirst;
     }
 
     public GameObject[,] GetNullObjectDate()
