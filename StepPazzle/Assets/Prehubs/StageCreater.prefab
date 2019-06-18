@@ -55,6 +55,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32e5f127dc573914d81d9c117d3cb1f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stageName: 1
 --- !u!114 &114284503986619168
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -111,5 +112,3 @@ MonoBehaviour:
     type: 2}
   whiteWallObject: {fileID: 1068418214052000, guid: 30f7321200a566741aea50aa9ae2382a,
     type: 2}
-  spriteSizeX: 2
-  spriteSizeZ: 1.5

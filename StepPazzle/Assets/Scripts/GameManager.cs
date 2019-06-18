@@ -70,7 +70,7 @@ public class GameManager : MonoBehaviour
                 }
                 else
                 {
-                    StateChange();
+                    //StateChange();
                 }
                 break;
             case (gameState.Clear):

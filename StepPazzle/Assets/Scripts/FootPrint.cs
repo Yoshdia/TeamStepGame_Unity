@@ -69,7 +69,7 @@ public class FootPrint : MonoBehaviour
                 //アクティブにする
                 footObj.SetActive(true);
                 //座標、角度をセット
-                footObj.transform.position = spriteSize;
+                footObj.transform.position = new Vector3(pos.x*spriteSize.x,0.1f,pos.z*spriteSize.z);
                 footObj.transform.rotation = qua;
 
                 //配列からリストへ渡す

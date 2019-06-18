@@ -27,24 +27,26 @@ public class PlayerMoveContloller : MonoBehaviour
     private bool right;
     private bool left;
     //移動に必要な上下のサイズ。GameManagerから値を受け取る。
-    private float moveSpriteSizeX;
-    private float moveSpriteSizeZ;
+    private Vector3 moveSpriteSize;
 
     //初期化に必要な処理。GameManagerから呼ばれる。
      public void Reset()
     {
         //MapPositioningから上下の移動距離であるspriteサイズを受け取る
-        moveSpriteSizeX = haveMapDateObject.GetComponent<MapPositioning>().spriteSizeX;
-        moveSpriteSizeZ = haveMapDateObject.GetComponent<MapPositioning>().spriteSizeZ;
+        moveSpriteSize = haveMapDateObject.GetComponent<MapPositioning>().GetSpriteSize();
         //PlayerのX,ZサイズをPannelと同じサイズに変更する
-        transform.localScale = new Vector3(moveSpriteSizeX, 1, moveSpriteSizeZ);
+        moveSpriteSize.y = 1.0f;
+        transform.localScale = moveSpriteSize;
+        moveSpriteSize.y = 0.0f;
 
         //プレイヤーの初期座標をMapControllerから受け取る
         playerPosOnMapDate = haveMapDateObject.GetComponent<MapController>().GetFirstPositionPlayer();
-        transform.position = new Vector3(playerPosOnMapDate.x * moveSpriteSizeX, 1, playerPosOnMapDate.z * moveSpriteSizeZ);
+
+        transform.position = new Vector3(playerPosOnMapDate.x * moveSpriteSize.x, 1, playerPosOnMapDate.z * moveSpriteSize.z);
 
         //目的座標をリセット
         targetPos = transform.position;
+
     }
 
     //ゲーム中毎F更新され続ける処理
@@ -68,7 +70,7 @@ public class PlayerMoveContloller : MonoBehaviour
         {
             if (moving == false)
             {
-                moveVectorOnMap = new Vector3(moveVectorOnScene.x / moveSpriteSizeX, 0, moveVectorOnScene.z / moveSpriteSizeZ);
+                moveVectorOnMap = new Vector3(moveVectorOnScene.x / moveSpriteSize.x, 0, moveVectorOnScene.z / moveSpriteSize.z);
 
                 haveMapDateObject.GetComponent<MapController>().MovedPlayer(playerPosOnMapDate, moveVectorOnMap);
                 playerPosOnMapDate += moveVectorOnMap;
@@ -85,25 +87,25 @@ public class PlayerMoveContloller : MonoBehaviour
         moveVectorOnMap = new Vector3(0, 0, 0);
         if (Input.GetKey(KeyCode.RightArrow) || right == true)
         {
-            moveVectorOnScene.x = +moveSpriteSizeX;
+            moveVectorOnScene.x = +moveSpriteSize.x;
             moveVectorOnMap.x += 1;
             return;
         }
         if (Input.GetKey(KeyCode.LeftArrow) || left == true)
         {
-            moveVectorOnScene.x = -moveSpriteSizeX;
+            moveVectorOnScene.x = -moveSpriteSize.x;
             moveVectorOnMap.x -= 1;
             return;
         }
         if (Input.GetKey(KeyCode.UpArrow) || up == true)
         {
-            moveVectorOnScene.z = +moveSpriteSizeZ;
+            moveVectorOnScene.z = +moveSpriteSize.z;
             moveVectorOnMap.z += 1;
             return;
         }
         if (Input.GetKey(KeyCode.DownArrow) || down == true)
         {
-            moveVectorOnScene.z = -moveSpriteSizeZ;
+            moveVectorOnScene.z = -moveSpriteSize.z;
             moveVectorOnMap.z -= 1;
             return;
         }

@@ -60,7 +60,7 @@ public class MapPositioning : MonoBehaviour
         haveMapData = GetComponent<MapController>();
     }
 
-    public void Positioning()
+    public void Positioning(string fileName)
     {
         //スプライトサイズの設定。GameManagerからステージごとの値を受け取る
         spriteSize = haveMapData.GetSpriteSize();
@@ -68,7 +68,7 @@ public class MapPositioning : MonoBehaviour
         printer.SetSpriteSize(spriteSize);
 
         //どのSpriteをStageにするか、そのSpriteを配列に保存する
-        Sprite[] mapSprite = Resources.LoadAll<Sprite>("Img/FirstImage");
+        Sprite[] mapSprite = Resources.LoadAll<Sprite>("Img/"+fileName);
         //配列の引数
         int spriteCnt = 0;
 
@@ -94,7 +94,7 @@ public class MapPositioning : MonoBehaviour
                 //パネル情報。MapDateのeGroundNameで命名済み
                 int pannelInfo = mapDate[z, x];
                 //設置していくオブジェクトの座標や向き
-                Vector3 objectPos = spriteSize;
+                Vector3 objectPos = new Vector3(spriteSize.x*x,0,spriteSize.z*z);
                 Quaternion objectQua = new Quaternion(0, 0, 0, 0);
                 //ChangeSpriteを持ったオブジェクトは90度回転させ上を向かせるようにする
                 objectQua = Quaternion.Euler(90, 0, 0);
@@ -153,5 +153,10 @@ public class MapPositioning : MonoBehaviour
         objectPool.ResetWaitingObject(waitingJammer);
         objectPool.ResetWaitingObject(waitingWhite);
         printer.Reset();
+    }
+
+    public Vector3 GetSpriteSize()
+    {
+        return spriteSize;
     }
 }

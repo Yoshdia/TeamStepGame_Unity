@@ -61,14 +61,18 @@ public class MapDate : MonoBehaviour
     };
 
     //二次元配列を返す
-    public int[,] GetMapDate(eStageName stage)
+    public int[,] GetMapDate(eStageName stage,ref Vector3 pos,ref string fileName)
     {
         switch (stage)
         {
             case (eStageName.eFirstStage):
+                pos=new Vector3(0.68f, 0, 0.69f);
+                fileName = "FirstImage";
                 return mapDateFirst;
                 ;
             case (eStageName.eSecondStage):
+                pos = new Vector3(0.8f, 0, 0.6f);
+                fileName = "flower";
                 return mapDateSecond;
                 ;
         }
@@ -76,22 +80,22 @@ public class MapDate : MonoBehaviour
         return mapDateFirst;
     }
 
-    public Vector3 GetSpriteSize(eStageName stage)
-    {
-        Vector3 sprite=new Vector3();
+    //public Vector3 GetSpriteSize(eStageName stage)
+    //{
+    //    Vector3 sprite=new Vector3();
 
-        switch (stage)
-        {
-            case (eStageName.eFirstStage):
-                sprite = new Vector3(0.68f,0, 0.69f);
-                break;
-            case (eStageName.eSecondStage):
-                sprite = new Vector3(0.8f,0,0.6f);
-                break;
-        }
-        return sprite;
+    //    switch (stage)
+    //    {
+    //        case (eStageName.eFirstStage):
+    //            sprite = new Vector3(0.68f,0, 0.69f);
+    //            break;
+    //        case (eStageName.eSecondStage):
+    //            sprite = new Vector3(0.8f,0,0.6f);
+    //            break;
+    //    }
+    //    return sprite;
 
-    }
+    //}
 
     public GameObject[,] GetNullObjectDate()
     {
