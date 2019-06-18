@@ -5,9 +5,6 @@ using UnityEngine;
 //MapDateから受け取った情報をもとに、書き直したり返すクラス
 public class MapController : MonoBehaviour
 {
-    [SerializeField]
-    MapDate.eStageName stageName=MapDate.eStageName.eFirstStage;
-
     //int型とGameObject型を持った構造体 どちらにもMapDateから値を取得する
     public struct sMapDate
     {
@@ -25,8 +22,8 @@ public class MapController : MonoBehaviour
     MapDate haveMapData = null;
 
     MapPositioning MapCreater = null;
-
-    private FootPrint footPrinter = null;
+    [HideInInspector]
+    public FootPrint footPrinter = null;
 
     Vector3 spriteSize=new Vector3();
 
@@ -36,21 +33,22 @@ public class MapController : MonoBehaviour
 
         GetComponent<MapPositioning>().FirstProccess();
         haveMapData = GetComponent<MapDate>();
-        //spriteSize = haveMapData.GetSpriteSize(stageName);
+
         MapCreater = GetComponent<MapPositioning>();
-        footPrinter = GetComponent<FootPrint>();
     }
 
-    public void MapReset()
+    public void MapReset(MapDate.eStageName selectedStageName)
     {
         //int型とGameobject型のマップ情報をmapControllerから取得
         string fileName = null;
         //マップデータを受け取ると共に、spriteSizeとfileNameを参照渡しして受け取る
-        mapDate.mapNumberDate = haveMapData.GetMapDate(stageName,ref spriteSize,ref fileName);
+        mapDate.mapNumberDate = haveMapData.GetMapDate(selectedStageName, ref spriteSize,ref fileName);
         mapDate.mapObjectDate = haveMapData.GetNullObjectDate();
 
+        footPrinter.SetSpriteSize(spriteSize);
+
         //マップ生成関数
-        MapCreater.Positioning(fileName);
+        MapCreater.Positioning(fileName,spriteSize);
 
         mapLengthMax = new Vector3(mapDate.mapNumberDate.GetLength(1), 0, mapDate.mapNumberDate.GetLength(0));
 
@@ -208,10 +206,11 @@ public class MapController : MonoBehaviour
         return spriteSize;
     }
 
-
     //Gameシーン終了後に配置してあるMapをリセットする
     public void ResetMap()
     {
         MapCreater.Reset();
+        footPrinter.Reset();
+
     }
 }

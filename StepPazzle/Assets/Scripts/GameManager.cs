@@ -6,18 +6,17 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField]
+    MapDate.eStageName stageName =0;
 
     [SerializeField]
     PlayerMoveContloller player = null;
     [SerializeField]
     MapController stageCreater = null;
     [SerializeField]
+    FootPrint footPrinter = null;
+    [SerializeField]
     Image blackScreen = null;
-
-    //[SerializeField]
-    //GameObject playerObj = null;
-    //[SerializeField]
-    //GameObject stageObj = null;
 
     enum gameState
     {
@@ -39,8 +38,13 @@ public class GameManager : MonoBehaviour
         blackScreen.color = new Color(0, 0, 0, 0.8f);
 
         stageCreater = Instantiate(stageCreater);
-        player = Instantiate(player);
+        stageCreater.transform.parent = transform;
 
+        player = Instantiate(player);
+        player.transform.parent = transform;
+
+        footPrinter = Instantiate(footPrinter);
+        footPrinter.transform.parent = transform;
     }
 
     //// Update is called once per frame
@@ -90,13 +94,16 @@ public class GameManager : MonoBehaviour
             case (gameState.Ready):
                 state = gameState.Start;
 
+                footPrinter.FirstProccess();
                 //ステージを配置させる
+                stageCreater.footPrinter = footPrinter;
                 stageCreater.InitProcces();
-                stageCreater.MapReset();
+                stageCreater.MapReset(stageName);
 
                 //playerを初期化
                 player.haveMapDateObject = stageCreater;
                 player.Reset();
+
                 break;
             //StartからGameへ
             case (gameState.Start):

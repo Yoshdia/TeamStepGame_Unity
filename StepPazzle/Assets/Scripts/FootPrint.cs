@@ -22,7 +22,7 @@ public class FootPrint : MonoBehaviour
     //乱数を取得する変数
     private System.Random random;
 
-    private void Start()
+    public void FirstProccess()
     {
 
         //配列waitingFootにfootNum個のFootObjectを非Active状態で生成

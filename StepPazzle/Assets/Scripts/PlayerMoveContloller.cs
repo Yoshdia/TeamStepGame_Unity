@@ -33,7 +33,7 @@ public class PlayerMoveContloller : MonoBehaviour
      public void Reset()
     {
         //MapPositioningから上下の移動距離であるspriteサイズを受け取る
-        moveSpriteSize = haveMapDateObject.GetComponent<MapPositioning>().GetSpriteSize();
+        moveSpriteSize = haveMapDateObject.GetComponent<MapController>().GetSpriteSize();
         //PlayerのX,ZサイズをPannelと同じサイズに変更する
         moveSpriteSize.y = 1.0f;
         transform.localScale = moveSpriteSize;

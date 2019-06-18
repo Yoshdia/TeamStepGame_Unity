@@ -31,13 +31,8 @@ public class MapPositioning : MonoBehaviour
     private GameObject[] waitingWhite;
     private static int whiteNum = 20;
 
-    //足跡を生成する
-    FootPrint printer = null;
     //MapController、PannelCommonの関数を呼び出すための変数
     MapController haveMapData = null;
-    //PannelCommon otherObject = null;
-
-    private Vector3 spriteSize;
 
     public void FirstProccess()
     {
@@ -56,16 +51,15 @@ public class MapPositioning : MonoBehaviour
         waitingWhite = new GameObject[whiteNum];
         objectPool.CreatePool(whiteWallObject, waitingWhite);
 
-        printer = GetComponent<FootPrint>();
         haveMapData = GetComponent<MapController>();
     }
 
-    public void Positioning(string fileName)
+        //GameManagerからステージごとの値を受け取りステージを配置する
+    public void Positioning(string fileName,Vector3 spriteSize)
     {
-        //スプライトサイズの設定。GameManagerからステージごとの値を受け取る
-        spriteSize = haveMapData.GetSpriteSize();
+
         //足跡を生成するFootPrintにSpriteサイズを渡し、設置位置の基準にさせる
-        printer.SetSpriteSize(spriteSize);
+        //printer.SetSpriteSize(spriteSize);
 
         //どのSpriteをStageにするか、そのSpriteを配列に保存する
         Sprite[] mapSprite = Resources.LoadAll<Sprite>("Img/"+fileName);
@@ -152,11 +146,6 @@ public class MapPositioning : MonoBehaviour
         objectPool.ResetWaitingObject(waitingPannel);
         objectPool.ResetWaitingObject(waitingJammer);
         objectPool.ResetWaitingObject(waitingWhite);
-        printer.Reset();
     }
 
-    public Vector3 GetSpriteSize()
-    {
-        return spriteSize;
-    }
 }
