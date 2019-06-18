@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 114264659077278378}
   - component: {fileID: 114873553309444244}
   - component: {fileID: 114284503986619168}
+  - component: {fileID: 114360399720328824}
   m_Layer: 0
   m_Name: StageCreater
   m_TagString: Untagged
@@ -37,7 +38,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1662624321737550}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -4.404118, y: -4.1510997, z: -3.4197326}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -54,6 +55,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32e5f127dc573914d81d9c117d3cb1f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  footPrinter: {fileID: 0}
 --- !u!114 &114284503986619168
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -69,6 +71,17 @@ MonoBehaviour:
   - {fileID: 1618864331494426, guid: 3d62e8a23a9708a44844f769e2c3fc14, type: 2}
   - {fileID: 1158552983748824, guid: 3e14642a8c975b642a262ee44f8abe74, type: 2}
   - {fileID: 1514988669456144, guid: 47745546f0f3688419f6f009904b0eeb, type: 2}
+--- !u!114 &114360399720328824
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1662624321737550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa1a1a855c2e1b547bafb96bfcf4328b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114588645674486620
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -99,5 +112,3 @@ MonoBehaviour:
     type: 2}
   whiteWallObject: {fileID: 1068418214052000, guid: 30f7321200a566741aea50aa9ae2382a,
     type: 2}
-  spriteSizeX: 2
-  spriteSizeZ: 1.5

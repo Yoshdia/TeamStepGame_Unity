@@ -42,7 +42,7 @@ public class SceneChange : MonoBehaviour {
 
     public void SceneChanePicture1()
     {
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene("Picture 1");
     }
 
     //Picture2ボタンが押されたら起動アニメーション、2秒後に関数呼び出し

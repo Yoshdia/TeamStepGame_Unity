@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     [SerializeField]
-    MapDate.eStageName stageName =0;
+    MapDate.eStageName stageName = 0;
 
     [SerializeField]
     PlayerMoveContloller player = null;
@@ -17,6 +17,9 @@ public class GameManager : MonoBehaviour
     FootPrint footPrinter = null;
     [SerializeField]
     Image blackScreen = null;
+
+    [SerializeField]
+    GameObject clearCanvas = null;
 
     enum gameState
     {
@@ -74,7 +77,7 @@ public class GameManager : MonoBehaviour
                 }
                 else
                 {
-                    //StateChange();
+                    clearCanvas.SetActive(true);
                 }
                 break;
             case (gameState.Clear):
