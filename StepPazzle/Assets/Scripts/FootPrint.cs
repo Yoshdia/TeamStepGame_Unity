@@ -22,6 +22,8 @@ public class FootPrint : MonoBehaviour
     //乱数を取得する変数
     private System.Random random;
 
+    private static float footSize = 0.25f;
+
     public void FirstProccess()
     {
 
@@ -69,8 +71,9 @@ public class FootPrint : MonoBehaviour
                 //アクティブにする
                 footObj.SetActive(true);
                 //座標、角度をセット
-                footObj.transform.position = new Vector3(pos.x*spriteSize.x,0.1f,pos.z*spriteSize.z);
+                footObj.transform.position = new Vector3(pos.x*spriteSize.x,0.2f,pos.z*spriteSize.z);
                 footObj.transform.rotation = qua;
+                footObj.transform.localScale = new Vector3(footSize, footSize, 1.0f);
 
                 //配列からリストへ渡す
                 activeFoot.Add(footObj);

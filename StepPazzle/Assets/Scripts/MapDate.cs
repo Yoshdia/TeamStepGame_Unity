@@ -23,15 +23,15 @@ public class MapDate : MonoBehaviour
 
     int[,] mapDateFirst =
         {
-    {2,0,0,0,0},
+    {2,0,0,0,2},
     {0,0,0,0,2},
     {0,2,0,0,2},
     {0,0,0,0,0},
     {0,0,0,0,0},
 
     {2,0,0,0,0},
-    {4,0,0,0,2}
-
+    {4,0,0,0,2},
+    { 0,0,0,0,2}
     };
 
     int[,] mapDateSecond =
@@ -66,8 +66,8 @@ public class MapDate : MonoBehaviour
         switch (stage)
         {
             case (eStageName.eFirstStage):
-                pos=new Vector3(0.68f, 0, 0.69f);
-                fileName = "FirstImage";
+                pos=new Vector3(1.4f, 0, 1.5f);
+                fileName = "SmokeWoman_BH";
                 return mapDateFirst;
                 ;
             case (eStageName.eSecondStage):

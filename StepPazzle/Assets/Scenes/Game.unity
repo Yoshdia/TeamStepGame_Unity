@@ -572,6 +572,7 @@ MonoBehaviour:
   footPrinter: {fileID: 114741654341204182, guid: 9d2ad252d94d4bf4fbb314a5af411467,
     type: 2}
   blackScreen: {fileID: 1160193779}
+  mainCamera: {fileID: 0}
 --- !u!4 &1271675375
 Transform:
   m_ObjectHideFlags: 0
@@ -1231,7 +1232,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1949366650}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 1.5, y: 7, z: 2.5}
+  m_LocalPosition: {x: 2.8, y: 11, z: 5.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
     FootPrint footPrinter = null;
     [SerializeField]
     Image blackScreen = null;
+    [SerializeField]
+    GameObject mainCamera = null;
 
     enum gameState
     {
@@ -98,6 +100,7 @@ public class GameManager : MonoBehaviour
                 //ステージを配置させる
                 stageCreater.footPrinter = footPrinter;
                 stageCreater.InitProcces();
+
                 stageCreater.MapReset(stageName);
 
                 //playerを初期化
