@@ -27,6 +27,8 @@ public class MapController : MonoBehaviour
 
     Vector3 spriteSize=new Vector3();
 
+
+
     public void InitProcces()
     {
         //stageName = MapDate.eStageName.eFirstStage;
@@ -37,14 +39,17 @@ public class MapController : MonoBehaviour
         MapCreater = GetComponent<MapPositioning>();
     }
 
-    public void MapReset(MapDate.eStageName selectedStageName)
+    public void MapReset(MapDate.eStageName selectedStageName,ref Vector3 cameraPos)
     {
         //int型とGameobject型のマップ情報をmapControllerから取得
         string fileName = null;
-        //マップデータを受け取ると共に、spriteSizeとfileNameを参照渡しして受け取る
-        mapDate.mapNumberDate = haveMapData.GetMapDate(selectedStageName, ref spriteSize,ref fileName);
+
+
+        //マップデータを受け取ると共に、spriteSizeとfileName、mainCameraの位置と向きを参照渡しして受け取る
+        mapDate.mapNumberDate = haveMapData.GetMapDate(selectedStageName, ref spriteSize,ref fileName ,ref cameraPos);
         mapDate.mapObjectDate = haveMapData.GetNullObjectDate();
 
+        Debug.Log("" + spriteSize);
         footPrinter.SetSpriteSize(spriteSize);
 
         //マップ生成関数

@@ -57,7 +57,7 @@ public class MapPositioning : MonoBehaviour
         //GameManagerからステージごとの値を受け取りステージを配置する
     public void Positioning(string fileName,Vector3 spriteSize)
     {
-
+        Debug.Log("p:" + spriteSize);
         //足跡を生成するFootPrintにSpriteサイズを渡し、設置位置の基準にさせる
         //printer.SetSpriteSize(spriteSize);
 

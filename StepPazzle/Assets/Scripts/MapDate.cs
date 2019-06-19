@@ -61,18 +61,22 @@ public class MapDate : MonoBehaviour
     };
 
     //二次元配列を返す
-    public int[,] GetMapDate(eStageName stage,ref Vector3 pos,ref string fileName)
+    public int[,] GetMapDate(eStageName stage,ref Vector3 pos,ref string fileName, ref Vector3 cameraPos)
     {
         switch (stage)
         {
             case (eStageName.eFirstStage):
                 pos=new Vector3(1.4f, 0, 1.5f);
                 fileName = "SmokeWoman_BH";
+                cameraPos = new Vector3(2.8f,11f,5.2f);
+
+                
                 return mapDateFirst;
                 ;
             case (eStageName.eSecondStage):
                 pos = new Vector3(0.8f, 0, 0.6f);
                 fileName = "flower";
+                cameraPos = new Vector3(1.5f, 5.5f, 1.25f);
                 return mapDateSecond;
                 ;
         }

@@ -21,8 +21,9 @@ public class FootPrint : MonoBehaviour
 
     //乱数を取得する変数
     private System.Random random;
-
-    private static float footSize = 0.25f;
+    [SerializeField]
+    private float footSizeTimes = 7.0f;
+    private float footSize;
 
     public void FirstProccess()
     {
@@ -48,6 +49,7 @@ public class FootPrint : MonoBehaviour
     {
         spriteSize=size;
         spriteSize.y = 0.2f;
+        footSize = ((size.x>size.y) ? size.x: size.z) / footSizeTimes;
     }
 
     public void SetFoot(Vector3 pos, Vector3 direction)

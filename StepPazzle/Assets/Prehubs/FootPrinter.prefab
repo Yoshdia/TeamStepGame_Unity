@@ -55,3 +55,4 @@ MonoBehaviour:
   - {fileID: 1618864331494426, guid: 3d62e8a23a9708a44844f769e2c3fc14, type: 2}
   - {fileID: 1158552983748824, guid: 3e14642a8c975b642a262ee44f8abe74, type: 2}
   - {fileID: 1514988669456144, guid: 47745546f0f3688419f6f009904b0eeb, type: 2}
+  footSizeTimes: 5.5

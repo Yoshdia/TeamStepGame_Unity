@@ -101,7 +101,12 @@ public class GameManager : MonoBehaviour
                 stageCreater.footPrinter = footPrinter;
                 stageCreater.InitProcces();
 
-                stageCreater.MapReset(stageName);
+                Vector3 cameraPos = new Vector3();
+
+                stageCreater.MapReset(stageName,ref cameraPos);
+
+                mainCamera.transform.position = cameraPos;
+                mainCamera.transform.rotation = Quaternion.Euler(90,0,0);
 
                 //playerを初期化
                 player.haveMapDateObject = stageCreater;
