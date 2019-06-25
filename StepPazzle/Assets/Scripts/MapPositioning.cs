@@ -73,13 +73,13 @@ public class MapPositioning : MonoBehaviour
         GameObject[,] mapObjectDate = { };
         mapObjectDate = haveMapData.GetMapObjectDate();
         //それぞれのObjectサイズをSpriteサイズと等しくさせる(壁達のy座標を0.2にする)
-        spriteSize.y = 0.2f;
+        spriteSize.z = 0.2f;
         whiteWallObject.transform.localScale = spriteSize;
         jammerObject.transform.localScale = spriteSize;
 
 
         //y座標を0にしてこれから配置するオブジェクトの位置を調整
-        spriteSize.y = 0;
+        spriteSize.z = 0;
         //MapControllerから配列の最大値やステージ情報を取得し配置する
         for (int z = mapDate.GetLength(0) - 1; z >= 0; z--)
         {
@@ -88,10 +88,10 @@ public class MapPositioning : MonoBehaviour
                 //パネル情報。MapDateのeGroundNameで命名済み
                 int pannelInfo = mapDate[z, x];
                 //設置していくオブジェクトの座標や向き
-                Vector3 objectPos = new Vector3(spriteSize.x*x,0,spriteSize.z*z);
+                Vector3 objectPos = new Vector3(spriteSize.x*x, spriteSize.y * z, 0);
                 Quaternion objectQua = new Quaternion(0, 0, 0, 0);
                 //ChangeSpriteを持ったオブジェクトは90度回転させ上を向かせるようにする
-                objectQua = Quaternion.Euler(90, 0, 0);
+                objectQua = Quaternion.Euler(0, 0, 0);
 
                 //マップ情報によって書き換えられるGameObjectを初期化。初期値としてイベントの無い白いブロックを入れる
                 GameObject setObject = null;
@@ -102,7 +102,7 @@ public class MapPositioning : MonoBehaviour
                 {
                     setObject = objectPool.GetWaitingObject(waitingOther, objectPos, objectQua);
 
-                    objectPos.y = 0.1f;
+                    objectPos.z = -0.1f;
                     objectQua = Quaternion.Euler(0, 0, 0);
                     wallObject = objectPool.GetWaitingObject(waitingJammer, objectPos, objectQua);
                     wallObject.transform.parent = transform;
@@ -118,7 +118,7 @@ public class MapPositioning : MonoBehaviour
                 {
                     setObject = objectPool.GetWaitingObject(waitingOther, objectPos, objectQua);
 
-                    objectPos.y = 0.1f;
+                    objectPos.z = -0.1f;
                     objectQua = Quaternion.Euler(0, 0, 0);
                     wallObject = objectPool.GetWaitingObject(waitingWhite, objectPos, objectQua);
 

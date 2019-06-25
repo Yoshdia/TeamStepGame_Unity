@@ -60,7 +60,7 @@ public class FootPrint : MonoBehaviour
         //元の座標にdisPlaceVecを足し0.5ずらさせる
         pos += disPlaceVec;
         //進んでる方向に足跡を回転させ更にy軸に90°回転させる
-        direction.y = 90;
+        //direction.y = 90;
         Quaternion qua = Quaternion.LookRotation(direction);
 
 
@@ -73,7 +73,7 @@ public class FootPrint : MonoBehaviour
                 //アクティブにする
                 footObj.SetActive(true);
                 //座標、角度をセット
-                footObj.transform.position = new Vector3(pos.x*spriteSize.x,0.2f,pos.z*spriteSize.z);
+                footObj.transform.position = new Vector3(pos.x*spriteSize.x, pos.z * spriteSize.z, 0.2f);
                 footObj.transform.rotation = qua;
                 footObj.transform.localScale = new Vector3(footSize, footSize, 1.0f);
 

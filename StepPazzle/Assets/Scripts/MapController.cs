@@ -98,15 +98,16 @@ public class MapController : MonoBehaviour
     //二次元配列からプレイヤー座標を算出し返す
     public Vector3 GetFirstPositionPlayer()
     {
-        Vector3 playerPosition = new Vector3(-1, 1, -1);
+        Vector3 playerPosition = new Vector3(-1, -1, -1);
 
         bool checkEnd = false;
 
-        for (playerPosition.z = 0; playerPosition.z < mapLengthMax.z; playerPosition.z++)
+        for (playerPosition.y = 0; playerPosition.y < mapLengthMax.z; playerPosition.y++)
         {
             for (playerPosition.x = 0; playerPosition.x < mapLengthMax.x; playerPosition.x++)
             {
-                if (mapDate.mapNumberDate[(int)playerPosition.z, (int)playerPosition.x] == (int)MapDate.eGroundName.ePlayerPosition)
+                int groundName = (int)mapDate.mapNumberDate[(int)playerPosition.y, (int)playerPosition.x];
+                if (groundName == (int)MapDate.eGroundName.ePlayerPosition)
                 {
                     checkEnd = true;
                     break;
@@ -138,24 +139,24 @@ public class MapController : MonoBehaviour
         {
             movedPlayerPosList.RemoveAt(movedPlayerPosList.Count - 1);
             //前回移動した地点だったが、白い床だった場合余計な関数を呼ばないようにする
-            if (mapDate.mapNumberDate[(int)currentPlayerPosOnMap.z, (int)currentPlayerPosOnMap.x] == (int)MapDate.eGroundName.eWhite)
+            if (mapDate.mapNumberDate[(int)currentPlayerPosOnMap.y, (int)currentPlayerPosOnMap.x] == (int)MapDate.eGroundName.eWhite)
             {
                 return;
             }
             changedSprite = true;
             nextGroundName = MapDate.eGroundName.eDefaultPannel;
-            mapDate.mapNumberDate[(int)currentPlayerPosOnMap.z, (int)currentPlayerPosOnMap.x] = (int)nextGroundName;
-            mapDate.mapObjectDate[(int)currentPlayerPosOnMap.z, (int)currentPlayerPosOnMap.x].GetComponent<ChangedSprite>().ChangeSprite(changedSprite);
+            mapDate.mapNumberDate[(int)currentPlayerPosOnMap.y, (int)currentPlayerPosOnMap.x] = (int)nextGroundName;
+            mapDate.mapObjectDate[(int)currentPlayerPosOnMap.y, (int)currentPlayerPosOnMap.x].GetComponent<ChangedSprite>().ChangeSprite(changedSprite);
             //spriteがもとに戻るので、そこにあった足跡も消す
             footPrinter.DeleteOneFoot();
         }
         //移動予定地が変化前だった場合
-        else if (mapDate.mapNumberDate[(int)nextPositionOnMap.z, (int)nextPositionOnMap.x] == (int)MapDate.eGroundName.eDefaultPannel)
+        else if (mapDate.mapNumberDate[(int)nextPositionOnMap.y, (int)nextPositionOnMap.x] == (int)MapDate.eGroundName.eDefaultPannel)
         {
             changedSprite = false;
             nextGroundName = MapDate.eGroundName.eChangedPannel;
-            mapDate.mapNumberDate[(int)nextPositionOnMap.z, (int)nextPositionOnMap.x] = (int)nextGroundName;
-            mapDate.mapObjectDate[(int)nextPositionOnMap.z, (int)nextPositionOnMap.x].GetComponent<ChangedSprite>().ChangeSprite(changedSprite);
+            mapDate.mapNumberDate[(int)nextPositionOnMap.y, (int)nextPositionOnMap.x] = (int)nextGroundName;
+            mapDate.mapObjectDate[(int)nextPositionOnMap.y, (int)nextPositionOnMap.x].GetComponent<ChangedSprite>().ChangeSprite(changedSprite);
             movedPlayerPosList.Add(currentPlayerPosOnMap);
             //spriteを変化させたので、そこに足跡を生成させる
             Vector3 footPos = nextPositionOnMap;
@@ -163,7 +164,7 @@ public class MapController : MonoBehaviour
             //footQua = Quaternion.Euler(nextPositionOnMap-currentPlayerPosOnMap);
             footPrinter.SetFoot(footPos, footDirection);
         }
-        else if (mapDate.mapNumberDate[(int)nextPositionOnMap.z, (int)nextPositionOnMap.x] == (int)MapDate.eGroundName.eWhite)
+        else if (mapDate.mapNumberDate[(int)nextPositionOnMap.y, (int)nextPositionOnMap.x] == (int)MapDate.eGroundName.eWhite)
         {
             movedPlayerPosList.Add(currentPlayerPosOnMap);
         }
@@ -178,14 +179,14 @@ public class MapController : MonoBehaviour
     {
         if (pos.x < 0 ||
             pos.x >= mapLengthMax.x ||
-            pos.z < 0 ||
-            pos.z >= mapLengthMax.z)
+            pos.y < 0 ||
+            pos.y >= mapLengthMax.z)
         {
             Debug.Log("OutOfRange");
             return false;
         }
 
-        int groundName = mapDate.mapNumberDate[(int)pos.z, (int)pos.x];
+        int groundName = mapDate.mapNumberDate[(int)pos.y, (int)pos.x];
         if (groundName == (int)MapDate.eGroundName.eDefaultPannel ||
             groundName == (int)MapDate.eGroundName.eWhite ||
             pos == movedPlayerPosList[movedPlayerPosList.Count - 1])

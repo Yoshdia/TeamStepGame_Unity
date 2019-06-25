@@ -106,7 +106,7 @@ public class GameManager : MonoBehaviour
                 stageCreater.MapReset(stageName,ref cameraPos);
 
                 mainCamera.transform.position = cameraPos;
-                mainCamera.transform.rotation = Quaternion.Euler(90,0,0);
+                mainCamera.transform.rotation = Quaternion.Euler(0, 0, 0);
 
                 //playerを初期化
                 player.haveMapDateObject = stageCreater;

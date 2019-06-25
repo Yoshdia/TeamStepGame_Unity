@@ -66,9 +66,9 @@ public class MapDate : MonoBehaviour
         switch (stage)
         {
             case (eStageName.eFirstStage):
-                pos=new Vector3(1.4f, 0, 1.5f);
+                pos=new Vector3(1.4f, 1.5f, 0);
                 fileName = "SmokeWoman_BH";
-                cameraPos = new Vector3(2.8f,11f,5.2f);
+                cameraPos = new Vector3(2.8f, 5.2f, -11f);
 
                 
                 return mapDateFirst;

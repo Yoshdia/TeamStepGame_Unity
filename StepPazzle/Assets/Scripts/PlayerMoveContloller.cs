@@ -35,14 +35,14 @@ public class PlayerMoveContloller : MonoBehaviour
         //MapPositioningから上下の移動距離であるspriteサイズを受け取る
         moveSpriteSize = haveMapDateObject.GetComponent<MapController>().GetSpriteSize();
         //PlayerのX,ZサイズをPannelと同じサイズに変更する
-        moveSpriteSize.y = 1.0f;
+        moveSpriteSize.z = 1.0f;
         transform.localScale = moveSpriteSize;
-        moveSpriteSize.y = 0.0f;
+        moveSpriteSize.z = 0.0f;
 
         //プレイヤーの初期座標をMapControllerから受け取る
         playerPosOnMapDate = haveMapDateObject.GetComponent<MapController>().GetFirstPositionPlayer();
 
-        transform.position = new Vector3(playerPosOnMapDate.x * moveSpriteSize.x, 1, playerPosOnMapDate.z * moveSpriteSize.z);
+        transform.position = new Vector3(playerPosOnMapDate.x * moveSpriteSize.x, playerPosOnMapDate.y * moveSpriteSize.y, -1);
 
         //目的座標をリセット
         targetPos = transform.position;
@@ -70,7 +70,7 @@ public class PlayerMoveContloller : MonoBehaviour
         {
             if (moving == false)
             {
-                moveVectorOnMap = new Vector3(moveVectorOnScene.x / moveSpriteSize.x, 0, moveVectorOnScene.z / moveSpriteSize.z);
+                moveVectorOnMap = new Vector3(moveVectorOnScene.x / moveSpriteSize.x, moveVectorOnScene.y / moveSpriteSize.y, 0);
 
                 haveMapDateObject.GetComponent<MapController>().MovedPlayer(playerPosOnMapDate, moveVectorOnMap);
                 playerPosOnMapDate += moveVectorOnMap;
@@ -85,6 +85,7 @@ public class PlayerMoveContloller : MonoBehaviour
     {
         moveVectorOnScene = new Vector3(0, 0, 0);
         moveVectorOnMap = new Vector3(0, 0, 0);
+
         if (Input.GetKey(KeyCode.RightArrow) || right == true)
         {
             moveVectorOnScene.x = +moveSpriteSize.x;
@@ -99,14 +100,14 @@ public class PlayerMoveContloller : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.UpArrow) || up == true)
         {
-            moveVectorOnScene.z = +moveSpriteSize.z;
-            moveVectorOnMap.z += 1;
+            moveVectorOnScene.y = +moveSpriteSize.y;
+            moveVectorOnMap.y += 1;
             return;
         }
         if (Input.GetKey(KeyCode.DownArrow) || down == true)
         {
-            moveVectorOnScene.z = -moveSpriteSize.z;
-            moveVectorOnMap.z -= 1;
+            moveVectorOnScene.y = -moveSpriteSize.y;
+            moveVectorOnMap.y -= 1;
             return;
         }
         return;
@@ -119,6 +120,7 @@ public class PlayerMoveContloller : MonoBehaviour
 
         //int targetPosZ = (int)(playerPosOnMapDate.z + (moveVectorOnScene.z / moveSpriteSizeZ));
         //int targetPosX = (int)(playerPosOnMapDate.x + (moveVectorOnScene.x / moveSpriteSizeX));
+
 
         //壁だった場合移動できない
         if (haveMapDateObject.GetComponent<MapController>().canMove(playerPosOnMapDate + moveVectorOnMap) == true)
