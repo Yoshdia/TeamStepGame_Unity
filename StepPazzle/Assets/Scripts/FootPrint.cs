@@ -48,21 +48,22 @@ public class FootPrint : MonoBehaviour
     public void SetSpriteSize(Vector3 size)
     {
         spriteSize=size;
-        spriteSize.y = 0.2f;
-        footSize = ((size.x>size.y) ? size.x: size.z) / footSizeTimes;
+        spriteSize.z = 0.2f;
+        footSize = ((size.x>size.y) ? size.x: size.y) / footSizeTimes;
     }
 
     public void SetFoot(Vector3 pos, Vector3 direction)
     {
+
         //そのままfootPosに足跡を設置すると進んでいない場所にはみ出してしまうため0.5ずらす
         Vector3 disPlaceVec = direction;
         disPlaceVec /= 2.0f;
         //元の座標にdisPlaceVecを足し0.5ずらさせる
         pos += disPlaceVec;
-        //進んでる方向に足跡を回転させ更にy軸に90°回転させる
-        //direction.y = 90;
-        Quaternion qua = Quaternion.LookRotation(direction);
-
+        //進んでる方向に足跡を回転させる
+        Quaternion qua = new Quaternion(0, 0, 0, 0);
+         Vector3 quaVec =setQua(direction);
+        qua = Quaternion.Euler(quaVec);
 
         //Footだけは、配列にあるObjectをnullにする必要があるためObjectPoolを使用しない
         for (int num = 0; num < waitingFoot.Length; num++)
@@ -73,7 +74,7 @@ public class FootPrint : MonoBehaviour
                 //アクティブにする
                 footObj.SetActive(true);
                 //座標、角度をセット
-                footObj.transform.position = new Vector3(pos.x*spriteSize.x, pos.z * spriteSize.z, 0.2f);
+                footObj.transform.position = new Vector3(pos.x*spriteSize.x, pos.y * spriteSize.y, -0.4f);
                 footObj.transform.rotation = qua;
                 footObj.transform.localScale = new Vector3(footSize, footSize, 1.0f);
 
@@ -117,5 +118,19 @@ public class FootPrint : MonoBehaviour
             }
         }
         activeFoot.Clear();
+    }
+
+    private Vector3 setQua(Vector3 ve)
+    {
+        Vector3 ft = new Vector3(0, 0, 0);
+        if(ve.x!=0)
+        {
+            ft.z=(ve.x == 1) ? 90:-90;
+        }
+        else
+        {
+            ft.z= (ve.y == 1) ?180 :  0;
+        }
+        return ft;
     }
 }
