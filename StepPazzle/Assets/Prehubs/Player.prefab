@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 23806811040671478}
   - component: {fileID: 54418856884625398}
   - component: {fileID: 114868932181084818}
+  - component: {fileID: 114032188964353106}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -38,7 +39,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1297864455460462}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.91145086, y: 1.1647396, z: 1.5621171}
   m_LocalScale: {x: 1, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -53,6 +54,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -68,6 +70,7 @@ MeshRenderer:
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -110,6 +113,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114032188964353106
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1297864455460462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 887568d6ffa6ad644a0e3abc9a54d3c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mouseCasol: {fileID: 1743287513969654, guid: a07497d729e4c344ba3f3a3e1d25e672, type: 2}
 --- !u!114 &114868932181084818
 MonoBehaviour:
   m_ObjectHideFlags: 1

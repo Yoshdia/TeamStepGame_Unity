@@ -29,8 +29,10 @@ public class PlayerMoveContloller : MonoBehaviour
     //移動に必要な上下のサイズ。GameManagerから値を受け取る。
     private Vector3 moveSpriteSize;
 
+    private InputScreenTouch inputScreenTouch = null;
+
     //初期化に必要な処理。GameManagerから呼ばれる。
-     public void Reset()
+    public void Reset()
     {
         //MapPositioningから上下の移動距離であるspriteサイズを受け取る
         moveSpriteSize = haveMapDateObject.GetComponent<MapController>().GetSpriteSize();
@@ -47,6 +49,8 @@ public class PlayerMoveContloller : MonoBehaviour
         //目的座標をリセット
         targetPos = transform.position;
 
+        inputScreenTouch = GetComponent<InputScreenTouch>();
+
     }
 
     //ゲーム中毎F更新され続ける処理
@@ -54,7 +58,7 @@ public class PlayerMoveContloller : MonoBehaviour
     {
         bool moving = true;
         //移動中かどうかの判定。移動中でなければ入力を受付
-        if (CheckMovingEnd()==true)
+        if (CheckMovingEnd() == true)
         {
             moving = false;
             SetTargetPosition();
@@ -85,6 +89,8 @@ public class PlayerMoveContloller : MonoBehaviour
     {
         moveVectorOnScene = new Vector3(0, 0, 0);
         moveVectorOnMap = new Vector3(0, 0, 0);
+
+        SetInputKey(inputScreenTouch.inputKey());
 
         if (Input.GetKey(KeyCode.RightArrow) || right == true)
         {
@@ -138,7 +144,7 @@ public class PlayerMoveContloller : MonoBehaviour
 
     public bool CheckMovingEnd()
     {
-        return transform.position == targetPos; 
+        return transform.position == targetPos;
     }
 
     public void SetInputKey(string key)
