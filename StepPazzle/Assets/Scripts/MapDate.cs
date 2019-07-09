@@ -17,7 +17,8 @@ public class MapDate : MonoBehaviour
     public enum eStageName
     {
         eFirstStage,
-        eSecondStage
+        eSecondStage,
+        eDifficultStage
     }
 
 
@@ -43,6 +44,18 @@ public class MapDate : MonoBehaviour
         {0,0,0,0,0 },
     };
 
+    int[,] mapDateThird =
+    {
+        { 0,0,0,0,0,0},
+        { 0,0,0,0,0,0},
+        { 0,0,0,0,1,0},
+        { 0,0,0,0,1,0},
+        { 0,0,0,0,0,0},
+        { 0,0,0,0,0,0},
+        { 1,0,0,0,0,0},
+        { 0,0,1,0,0,0},
+    };
+
 
 
     GameObject[,] mapObjectDate =
@@ -61,16 +74,14 @@ public class MapDate : MonoBehaviour
     };
 
     //二次元配列を返す
-    public int[,] GetMapDate(eStageName stage,ref Vector3 pos,ref string fileName, ref Vector3 cameraPos)
+    public int[,] GetMapDate(eStageName stage, ref Vector3 pos, ref string fileName, ref Vector3 cameraPos)
     {
         switch (stage)
         {
             case (eStageName.eFirstStage):
-                pos=new Vector3(1.4f, 1.5f, 0);
+                pos = new Vector3(1.4f, 1.5f, 0);
                 fileName = "SmokeWoman_BH";
                 cameraPos = new Vector3(2.8f, 5.2f, -11f);
-
-                
                 return mapDateFirst;
                 ;
             case (eStageName.eSecondStage):
@@ -79,6 +90,11 @@ public class MapDate : MonoBehaviour
                 cameraPos = new Vector3(1.5f, 5.5f, 1.25f);
                 return mapDateSecond;
                 ;
+            case (eStageName.eDifficultStage):
+                pos = new Vector3(11.3f, 0.88f, 0);
+                fileName = "deff";
+                cameraPos = new Vector3(2.8f, 5.2f, -11f);
+                return mapDateThird;
         }
 
         return mapDateFirst;
