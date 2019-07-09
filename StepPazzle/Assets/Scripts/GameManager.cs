@@ -19,6 +19,10 @@ public class GameManager : MonoBehaviour
     Image blackScreen = null;
     [SerializeField]
     GameObject mainCamera = null;
+    [SerializeField]
+    EffectSpawner effectSpawner = null;
+    [SerializeField]
+    EffectSpawner effectSpawner2 = null;
 
     enum gameState
     {
@@ -47,6 +51,12 @@ public class GameManager : MonoBehaviour
 
         footPrinter = Instantiate(footPrinter);
         footPrinter.transform.parent = transform;
+
+        effectSpawner = Instantiate(effectSpawner);
+        effectSpawner.transform.parent = transform;
+
+        effectSpawner2 = Instantiate(effectSpawner2);
+        effectSpawner2.transform.parent = transform;
     }
 
     //// Update is called once per frame
@@ -97,9 +107,13 @@ public class GameManager : MonoBehaviour
                 state = gameState.Start;
 
                 footPrinter.FirstProccess();
-                //ステージを配置させる
+                effectSpawner.FirstProcces();
+                effectSpawner2.FirstProcces();
+                //ステージを配置させる;
                 stageCreater.footPrinter = footPrinter;
                 stageCreater.InitProcces();
+                stageCreater.effectSpawner = effectSpawner;
+                stageCreater.effectSpawner2 = effectSpawner2;
 
                 Vector3 cameraPos = new Vector3();
 

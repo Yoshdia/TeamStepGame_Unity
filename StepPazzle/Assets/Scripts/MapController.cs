@@ -24,6 +24,8 @@ public class MapController : MonoBehaviour
     MapPositioning MapCreater = null;
     [HideInInspector]
     public FootPrint footPrinter = null;
+    public EffectSpawner effectSpawner = null;
+    public EffectSpawner effectSpawner2 = null;
 
     Vector3 spriteSize=new Vector3();
 
@@ -51,6 +53,8 @@ public class MapController : MonoBehaviour
 
         Debug.Log("" + spriteSize);
         footPrinter.SetSpriteSize(spriteSize);
+        effectSpawner.SetSpriteSize(spriteSize);
+        effectSpawner2.SetSpriteSize(spriteSize);
 
         //マップ生成関数
         MapCreater.Positioning(fileName,spriteSize);
@@ -149,6 +153,8 @@ public class MapController : MonoBehaviour
             mapDate.mapObjectDate[(int)currentPlayerPosOnMap.y, (int)currentPlayerPosOnMap.x].GetComponent<ChangedSprite>().ChangeSprite(changedSprite);
             //spriteがもとに戻るので、そこにあった足跡も消す
             footPrinter.DeleteOneFoot();
+            Vector3 ppp=nextPositionOnMap;
+            effectSpawner2.SetEffect(ppp);
         }
         //移動予定地が変化前だった場合
         else if (mapDate.mapNumberDate[(int)nextPositionOnMap.y, (int)nextPositionOnMap.x] == (int)MapDate.eGroundName.eDefaultPannel)
@@ -163,6 +169,7 @@ public class MapController : MonoBehaviour
             Vector3 footDirection = currentPlayerPosOnMap - nextPositionOnMap;
             //footQua = Quaternion.Euler(nextPositionOnMap-currentPlayerPosOnMap);
             footPrinter.SetFoot(footPos, footDirection);
+            effectSpawner.SetEffect(footPos);
         }
         else if (mapDate.mapNumberDate[(int)nextPositionOnMap.y, (int)nextPositionOnMap.x] == (int)MapDate.eGroundName.eWhite)
         {

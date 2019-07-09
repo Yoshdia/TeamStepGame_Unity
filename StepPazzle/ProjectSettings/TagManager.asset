@@ -17,9 +17,9 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
+  - stage
+  - effect
+  - Player
   - 
   - 
   - 
@@ -42,4 +42,13 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: stage
+    uniqueID: 3580342909
+    locked: 0
+  - name: effect
+    uniqueID: 364075775
+    locked: 0
+  - name: Player
+    uniqueID: 114589137
     locked: 0

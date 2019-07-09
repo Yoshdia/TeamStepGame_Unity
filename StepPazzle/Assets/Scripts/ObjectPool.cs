@@ -15,6 +15,7 @@ public class ObjectPool : MonoBehaviour {
         }
     }
 
+
     public GameObject GetWaitingObject(GameObject[] array,Vector3 pos,Quaternion qua)
     {
         foreach(GameObject obj in array)
