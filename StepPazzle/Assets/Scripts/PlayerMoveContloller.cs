@@ -31,6 +31,11 @@ public class PlayerMoveContloller : MonoBehaviour
 
     private InputScreenTouch inputScreenTouch = null;
 
+    public void GoOutScreen()
+    {
+        transform.position = new Vector3(-100, -100, -100);
+    }
+
     //初期化に必要な処理。GameManagerから呼ばれる。
     public void Reset()
     {

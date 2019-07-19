@@ -86,14 +86,23 @@ public class GameManager : MonoBehaviour
                 }
                 else
                 {
-                    //StateChange();
+                    StateChange();
                 }
                 break;
             case (gameState.Clear):
+                if(Input.GetKey(KeyCode.RightShift))
+                {
+                    StateChange();
+                }
+
 
                 break;
             case (gameState.Result):
+                if(Input.GetKey(KeyCode.LeftShift))
+                {
 
+                StateChange();
+                }
                 break;
         }
     }
@@ -115,16 +124,8 @@ public class GameManager : MonoBehaviour
                 stageCreater.effectSpawner = effectSpawner;
                 stageCreater.effectSpawner2 = effectSpawner2;
 
-                Vector3 cameraPos = new Vector3();
-
-                stageCreater.MapReset(stageName,ref cameraPos);
-
-                mainCamera.transform.position = cameraPos;
-                mainCamera.transform.rotation = Quaternion.Euler(0, 0, 0);
-
                 //playerを初期化
                 player.haveMapDateObject = stageCreater;
-                player.Reset();
 
                 break;
             //StartからGameへ
@@ -134,12 +135,21 @@ public class GameManager : MonoBehaviour
                 blackScreen.color = new Color(0, 0, 0, 0);
 
 
+                Vector3 cameraPos = new Vector3();
+
+                stageCreater.MapReset(stageName,ref cameraPos);
+
+                mainCamera.transform.position = cameraPos;
+                mainCamera.transform.rotation = Quaternion.Euler(0, 0, 0);
+                player.Reset();
+
                 break;
             //GameからClearへ
             case (gameState.Game):
                 state = gameState.Clear;
 
                 stageCreater.ResetMap();
+                player.GoOutScreen();
                 
                 break;
             case (gameState.Clear):
@@ -147,6 +157,7 @@ public class GameManager : MonoBehaviour
                 break;
             case (gameState.Result):
                 state = gameState.Ready;
+                stageName = MapDate.eStageName.eDifficultStage;
                 break;
         }
     }

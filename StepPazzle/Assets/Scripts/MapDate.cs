@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class MapDate : MonoBehaviour
 {
-
     public enum eGroundName
     {
         eDefaultPannel = 0,
@@ -79,22 +78,40 @@ public class MapDate : MonoBehaviour
                 pos = new Vector3(1.4f, 1.5f, 0);
                 fileName = "SmokeWoman_BH";
                 cameraPos = new Vector3(2.8f, 5.2f, -11f);
+                ResetMap(mapDateFirst);
                 return mapDateFirst;
                 ;
             case (eStageName.eSecondStage):
                 pos = new Vector3(0.8f, 0, 0.6f);
                 fileName = "flower";
                 cameraPos = new Vector3(1.5f, 5.5f, 1.25f);
+                ResetMap(mapDateSecond);
                 return mapDateSecond;
                 ;
             case (eStageName.eDifficultStage):
                 pos = new Vector3(1.06f, 0.80f, 0);
                 fileName = "deff";
                 cameraPos = new Vector3(2.50f, 2.77f, -7.00f);
+                ResetMap(mapDateThird);
                 return mapDateThird;
         }
 
         return mapDateFirst;
+    }
+
+    private void ResetMap(int[,] array)
+    {
+        for (int num = 0; num < array.GetLength(0); num++)
+        {
+            for (int x = 0; x < array.GetLength(1); x++)
+            {
+                if (array[num, x] == (int)eGroundName.eChangedPannel)
+                {
+                    array[num, x] = (int)eGroundName.eDefaultPannel;
+                }
+
+            }
+        }
     }
 
     public GameObject[,] GetNullObjectDate()

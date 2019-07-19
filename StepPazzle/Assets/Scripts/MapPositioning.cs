@@ -74,9 +74,9 @@ public class MapPositioning : MonoBehaviour
         mapObjectDate = haveMapData.GetMapObjectDate();
         //それぞれのObjectサイズをSpriteサイズと等しくさせる(壁達のy座標を0.2にする)
         spriteSize.z = 0.2f;
+
         whiteWallObject.transform.localScale = spriteSize;
         jammerObject.transform.localScale = spriteSize;
-
 
         //y座標を0にしてこれから配置するオブジェクトの位置を調整
         spriteSize.z = 0;
@@ -105,6 +105,7 @@ public class MapPositioning : MonoBehaviour
                     objectPos.z = -0.1f;
                     objectQua = Quaternion.Euler(0, 0, 0);
                     wallObject = objectPool.GetWaitingObject(waitingJammer, objectPos, objectQua);
+                    wallObject.transform.localScale=new Vector3(spriteSize.x,spriteSize.y,0.2f);
                     wallObject.transform.parent = transform;
                 }
                 //変化前のパネル
@@ -121,6 +122,7 @@ public class MapPositioning : MonoBehaviour
                     objectPos.z = -0.1f;
                     objectQua = Quaternion.Euler(0, 0, 0);
                     wallObject = objectPool.GetWaitingObject(waitingWhite, objectPos, objectQua);
+                    wallObject.transform.localScale = new Vector3(spriteSize.x, spriteSize.y, 0.2f);
 
                     wallObject.transform.parent = transform;
                 }
