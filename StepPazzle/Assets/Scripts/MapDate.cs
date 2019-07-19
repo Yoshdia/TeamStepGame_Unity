@@ -21,7 +21,6 @@ public class MapDate : MonoBehaviour
         eDifficultStage
     }
 
-
     int[,] mapDateFirst =
         {
     {2,0,0,0,2},
@@ -48,15 +47,13 @@ public class MapDate : MonoBehaviour
     {
         { 0,0,0,0,0,0},
         { 0,0,0,0,0,0},
-        { 0,0,0,0,1,0},
-        { 0,0,0,0,1,0},
+        { 0,0,0,0,2,0},
+        { 0,0,0,0,2,0},
+        { 0,0,0,0,4,0},
         { 0,0,0,0,0,0},
-        { 0,0,0,0,0,0},
-        { 1,0,0,0,0,0},
-        { 0,0,1,0,0,0},
+        { 2,0,0,0,0,0},
+        { 0,0,2,0,0,0},
     };
-
-
 
     GameObject[,] mapObjectDate =
     {
@@ -91,31 +88,14 @@ public class MapDate : MonoBehaviour
                 return mapDateSecond;
                 ;
             case (eStageName.eDifficultStage):
-                pos = new Vector3(11.3f, 0.88f, 0);
+                pos = new Vector3(1.06f, 0.80f, 0);
                 fileName = "deff";
-                cameraPos = new Vector3(2.8f, 5.2f, -11f);
+                cameraPos = new Vector3(2.50f, 2.77f, -7.00f);
                 return mapDateThird;
         }
 
         return mapDateFirst;
     }
-
-    //public Vector3 GetSpriteSize(eStageName stage)
-    //{
-    //    Vector3 sprite=new Vector3();
-
-    //    switch (stage)
-    //    {
-    //        case (eStageName.eFirstStage):
-    //            sprite = new Vector3(0.68f,0, 0.69f);
-    //            break;
-    //        case (eStageName.eSecondStage):
-    //            sprite = new Vector3(0.8f,0,0.6f);
-    //            break;
-    //    }
-    //    return sprite;
-
-    //}
 
     public GameObject[,] GetNullObjectDate()
     {

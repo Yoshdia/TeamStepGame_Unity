@@ -28,7 +28,7 @@ public class ObjectPool : MonoBehaviour {
                 return obj;
             }
         }
-        return null;
+        return null; 
     }
 
     public void ResetWaitingObject(GameObject[] array)
