@@ -16,8 +16,6 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     FootPrint footPrinter = null;
     [SerializeField]
-    Image blackScreen = null;
-    [SerializeField]
     GameObject mainCamera = null;
     [SerializeField]
     EffectSpawner effectSpawner = null;
@@ -26,7 +24,6 @@ public class GameManager : MonoBehaviour
 
     enum gameState
     {
-        Ready,
         Start,
         Game,
         Clear,
@@ -37,11 +34,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        //state = gameState.Game;
-        state = gameState.Ready;
-        //player.Reset();
-        //blackScreen.color = new Color(0, 0, 0, 0.0f);
-        blackScreen.color = new Color(0, 0, 0, 0.8f);
+        state = gameState.Start;
 
         stageCreater = Instantiate(stageCreater);
         stageCreater.transform.parent = transform;
@@ -57,6 +50,12 @@ public class GameManager : MonoBehaviour
 
         effectSpawner2 = Instantiate(effectSpawner2);
         effectSpawner2.transform.parent = transform;
+
+        stageCreater.footPrinter = footPrinter;
+        stageCreater.effectSpawner = effectSpawner;
+        stageCreater.effectSpawner2 = effectSpawner2;
+
+        player.haveMapDateObject = stageCreater;
     }
 
     //// Update is called once per frame
@@ -64,9 +63,6 @@ public class GameManager : MonoBehaviour
     {
         switch (state)
         {
-            case (gameState.Ready):
-                StateChange();
-                    break;
             case (gameState.Start):
                 if (Input.GetKey(KeyCode.Return))
                 {
@@ -94,8 +90,6 @@ public class GameManager : MonoBehaviour
                 {
                     StateChange();
                 }
-
-
                 break;
             case (gameState.Result):
                 if(Input.GetKey(KeyCode.LeftShift))
@@ -112,54 +106,56 @@ public class GameManager : MonoBehaviour
     {
         switch (state)
         {
-            case (gameState.Ready):
-                state = gameState.Start;
-
-                footPrinter.FirstProccess();
-                effectSpawner.FirstProcces();
-                effectSpawner2.FirstProcces();
-                //ステージを配置させる;
-                stageCreater.footPrinter = footPrinter;
-                stageCreater.InitProcces();
-                stageCreater.effectSpawner = effectSpawner;
-                stageCreater.effectSpawner2 = effectSpawner2;
-
-                //playerを初期化
-                player.haveMapDateObject = stageCreater;
-
-                break;
             //StartからGameへ
             case (gameState.Start):
                 state = gameState.Game;
-                //暗転を消す
-                blackScreen.color = new Color(0, 0, 0, 0);
 
-
-                Vector3 cameraPos = new Vector3();
-
-                stageCreater.MapReset(stageName,ref cameraPos);
-
-                mainCamera.transform.position = cameraPos;
-                mainCamera.transform.rotation = Quaternion.Euler(0, 0, 0);
-                player.Reset();
+                GameStart();
 
                 break;
             //GameからClearへ
             case (gameState.Game):
                 state = gameState.Clear;
 
-                stageCreater.ResetMap();
-                player.GoOutScreen();
+                GameEnd();
                 
                 break;
             case (gameState.Clear):
                 state = gameState.Result;
                 break;
             case (gameState.Result):
-                state = gameState.Ready;
+                state = gameState.Start;
                 stageName = MapDate.eStageName.eDifficultStage;
                 break;
         }
+    }
+
+    private void GameStart()
+    {
+        footPrinter.FirstProccess();
+        effectSpawner.FirstProcces();
+        effectSpawner2.FirstProcces();
+        stageCreater.InitProcces();
+
+        Vector3 cameraPos = new Vector3();
+
+        stageCreater.MapReset(stageName, ref cameraPos);
+
+        mainCamera.transform.position = cameraPos;
+        mainCamera.transform.rotation = Quaternion.Euler(0, 0, 0);
+        player.Reset();
+    }
+
+    private void GameEnd()
+    {
+        stageCreater.ResetMap();
+        player.GoOutScreen();
+    }
+
+    public void Retry()
+    {
+        GameEnd();
+        GameStart();
     }
 }
 
