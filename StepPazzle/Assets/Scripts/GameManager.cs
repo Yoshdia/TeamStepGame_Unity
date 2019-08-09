@@ -64,7 +64,7 @@ public class GameManager : MonoBehaviour
         switch (state)
         {
             case (gameState.Start):
-                if (Input.GetKey(KeyCode.Return))
+                //if (Input.GetKey(KeyCode.Return))
                 {
                     StateChange();
                 }

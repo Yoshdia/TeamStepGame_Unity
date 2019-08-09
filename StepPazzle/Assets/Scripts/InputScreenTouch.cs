@@ -23,8 +23,12 @@ public class InputScreenTouch : MonoBehaviour
 
             //長押しされている場合のみ処理を行う
             //if (Input.GetMouseButton(0))
-            foreach (Touch touch in Input.touches)
+            //foreach (Touch touch in Input.touches)
+            Touch touch;
+
+            for(int i=0;i<Input.touchCount;i++)
             {
+                touch = Input.GetTouch(i);
                 if (touch.pressure >= 1.0f)
                 {
                     //一番最初に触れられた座標を記憶
@@ -64,12 +68,13 @@ public class InputScreenTouch : MonoBehaviour
 
 
                 }
-                else
+            }
+                if(Input.touchCount<1)
                 {
                     firstTouched = false;
                 }
 
-            }
+            
             //else
             //{
             //    firstTouched = false;
