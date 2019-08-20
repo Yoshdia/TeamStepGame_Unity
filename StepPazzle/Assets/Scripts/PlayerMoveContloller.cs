@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class PlayerMoveContloller : MonoBehaviour
 {
+
+    Animator animator;
     // 移動速度
     [SerializeField]
     private float speed = 5;
@@ -36,14 +38,20 @@ public class PlayerMoveContloller : MonoBehaviour
         transform.position = new Vector3(-100, -100, -100);
     }
 
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+    }
+
     //初期化に必要な処理。GameManagerから呼ばれる。
     public void Reset()
     {
         //MapPositioningから上下の移動距離であるspriteサイズを受け取る
         moveSpriteSize = haveMapDateObject.GetComponent<MapController>().GetSpriteSize();
         //PlayerのX,ZサイズをPannelと同じサイズに変更する
-        moveSpriteSize.z = 1.0f;
-        transform.localScale = moveSpriteSize;
+        float playerScale = moveSpriteSize.x > moveSpriteSize.y ? moveSpriteSize.x : moveSpriteSize.y;
+        playerScale *= 20;
+        transform.localScale = new Vector3(playerScale, playerScale, playerScale);
         moveSpriteSize.z = 0.0f;
 
         //プレイヤーの初期座標をMapControllerから受け取る
@@ -70,6 +78,7 @@ public class PlayerMoveContloller : MonoBehaviour
             //移動先に壁がない場合targetPosを更新させる
             if (TargetPositionHaveWall() == false)
             {
+                Debug.Log("walking");
                 targetPos = transform.position + moveVectorOnScene;
             }
         }
@@ -77,6 +86,7 @@ public class PlayerMoveContloller : MonoBehaviour
 
         if (transform.position != targetPos)
         {
+            animator.SetBool("Walk", true);
             if (moving == false)
             {
                 moveVectorOnMap = new Vector3(moveVectorOnScene.x / moveSpriteSize.x, moveVectorOnScene.y / moveSpriteSize.y, 0);
@@ -85,6 +95,10 @@ public class PlayerMoveContloller : MonoBehaviour
                 playerPosOnMapDate += moveVectorOnMap;
             }
             Move();
+        }
+        else
+        {
+            animator.SetBool("Walk", false);
         }
         SetInputKey("reset");
     }
@@ -97,26 +111,40 @@ public class PlayerMoveContloller : MonoBehaviour
 
         SetInputKey(inputScreenTouch.inputKey());
 
+        Quaternion playerQua = transform.rotation;
+
         if (Input.GetKey(KeyCode.RightArrow) || right == true)
         {
+            playerQua = Quaternion.Euler(-180, -90, 90);
+            transform.rotation = playerQua;
+
             moveVectorOnScene.x = +moveSpriteSize.x;
             moveVectorOnMap.x += 1;
             return;
         }
         if (Input.GetKey(KeyCode.LeftArrow) || left == true)
         {
+            playerQua = Quaternion.Euler(0, -90, 90);
+            transform.rotation = playerQua;
+
             moveVectorOnScene.x = -moveSpriteSize.x;
             moveVectorOnMap.x -= 1;
             return;
         }
         if (Input.GetKey(KeyCode.UpArrow) || up == true)
         {
+            playerQua = Quaternion.Euler(-90, -90, 90);
+            transform.rotation = playerQua;
+
             moveVectorOnScene.y = +moveSpriteSize.y;
             moveVectorOnMap.y += 1;
             return;
         }
         if (Input.GetKey(KeyCode.DownArrow) || down == true)
         {
+            playerQua = Quaternion.Euler(-270, -90, 90);
+            transform.rotation = playerQua;
+
             moveVectorOnScene.y = -moveSpriteSize.y;
             moveVectorOnMap.y -= 1;
             return;
