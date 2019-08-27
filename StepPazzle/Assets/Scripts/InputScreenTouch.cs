@@ -9,6 +9,13 @@ public class InputScreenTouch : MonoBehaviour
 {
     bool firstTouched = false;
 
+    //[SerializeField]
+    //GameObject insideObject = null;
+    //GameObject instanceInside = null;
+    //[SerializeField]
+    //GameObject frameObject = null;
+    //GameObject instanceframe = null;
+
     Vector3 firstMousePos;
 
     int inputDelay = 0;
@@ -26,8 +33,9 @@ public class InputScreenTouch : MonoBehaviour
             //foreach (Touch touch in Input.touches)
             Touch touch;
 
-            for(int i=0;i<Input.touchCount;i++)
+            for (int i = 0; i < Input.touchCount; i++)
             {
+                Vector2 insidePosition;
                 touch = Input.GetTouch(i);
                 if (touch.pressure >= 1.0f)
                 {
@@ -37,14 +45,20 @@ public class InputScreenTouch : MonoBehaviour
                         //firstMousePos = Input.mousePosition;
                         firstMousePos = touch.position;
                         firstTouched = true;
+                        insidePosition = firstMousePos;
+                        //instanceframe = Instantiate(frameObject, insidePosition, new Quaternion());
+                        //instanceInside = Instantiate(insideObject, insidePosition, new Quaternion());
                     }
 
                     //継続的に触れられている座標
                     //Vector3 nowMousePos = Input.mousePosition;
                     Vector3 nowMousePos = touch.position;
 
+
                     //二つの座標の差
                     Vector3 firstSubNowPos = firstMousePos - nowMousePos;
+
+                    Vector3 positionDirection = firstSubNowPos.normalized;
 
                     float x = firstSubNowPos.x;
                     float y = firstSubNowPos.y;
@@ -69,12 +83,12 @@ public class InputScreenTouch : MonoBehaviour
 
                 }
             }
-                if(Input.touchCount<1)
-                {
-                    firstTouched = false;
-                }
+            if (Input.touchCount < 1)
+            {
+                firstTouched = false;
+            }
 
-            
+
             //else
             //{
             //    firstTouched = false;

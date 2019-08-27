@@ -57,7 +57,7 @@ public class PlayerMoveContloller : MonoBehaviour
         //プレイヤーの初期座標をMapControllerから受け取る
         playerPosOnMapDate = haveMapDateObject.GetComponent<MapController>().GetFirstPositionPlayer();
 
-        transform.position = new Vector3(playerPosOnMapDate.x * moveSpriteSize.x, playerPosOnMapDate.y * moveSpriteSize.y, -1);
+        transform.position = new Vector3(playerPosOnMapDate.x * moveSpriteSize.x, playerPosOnMapDate.y * moveSpriteSize.y, -0.2f);
 
         //目的座標をリセット
         targetPos = transform.position;
