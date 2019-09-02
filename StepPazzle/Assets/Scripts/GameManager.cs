@@ -138,12 +138,13 @@ public class GameManager : MonoBehaviour
         stageCreater.InitProcces();
 
         Vector3 cameraPos = new Vector3();
-
-        stageCreater.MapReset(stageName, ref cameraPos);
+        float speed = 0;
+        stageCreater.MapReset(stageName, ref cameraPos,ref speed);
 
         mainCamera.transform.position = cameraPos;
         mainCamera.transform.rotation = Quaternion.Euler(0, 0, 0);
         player.Reset();
+        player.SetSpeed(speed);
     }
 
     private void GameEnd()

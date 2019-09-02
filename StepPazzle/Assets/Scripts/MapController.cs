@@ -27,9 +27,10 @@ public class MapController : MonoBehaviour
     public EffectSpawner effectSpawner = null;
     public EffectSpawner effectSpawner2 = null;
 
-    Vector3 spriteSize=new Vector3();
-
-
+    Vector3 spriteSize = new Vector3();
+    [SerializeField]
+    GameObject white = null;
+    GameObject instanceWhite = null;
 
     public void InitProcces()
     {
@@ -41,15 +42,34 @@ public class MapController : MonoBehaviour
         MapCreater = GetComponent<MapPositioning>();
     }
 
-    public void MapReset(MapDate.eStageName selectedStageName,ref Vector3 cameraPos)
+    public void MapReset(MapDate.eStageName selectedStageName, ref Vector3 cameraPos,ref float speed)
     {
         //int型とGameobject型のマップ情報をmapControllerから取得
         string fileName = null;
-
+        string monoChromeFileName = null;
+        Vector2 mapSize = new Vector2(0, 0);
 
         //マップデータを受け取ると共に、spriteSizeとfileName、mainCameraの位置と向きを参照渡しして受け取る
-        mapDate.mapNumberDate = haveMapData.GetMapDate(selectedStageName, ref spriteSize,ref fileName ,ref cameraPos);
+        mapDate.mapNumberDate = haveMapData.GetMapDate(selectedStageName, ref spriteSize, ref fileName, ref monoChromeFileName, ref cameraPos, ref mapSize,ref speed);
         mapDate.mapObjectDate = haveMapData.GetNullObjectDate();
+
+        white.transform.localScale = new Vector3(spriteSize.x*mapSize.x, spriteSize.y*mapSize.y, 0.1f);
+        Vector3 whiteP = new Vector3(0, 0,0);
+        whiteP.x =( (spriteSize.x * mapSize.x) / 2)-spriteSize.x/2;
+        whiteP.y =( (spriteSize.y * mapSize.y) / 2)-spriteSize.y/2;
+        whiteP.z = 0.2f;
+        white.transform.position = whiteP;
+
+        if (instanceWhite == null)
+        {
+            instanceWhite = Instantiate(white);
+        }
+        else
+        {
+            Destroy(instanceWhite.gameObject);
+            instanceWhite = Instantiate(white);
+        }
+
 
         Debug.Log("" + spriteSize);
         footPrinter.SetSpriteSize(spriteSize);
@@ -57,7 +77,7 @@ public class MapController : MonoBehaviour
         effectSpawner2.SetSpriteSize(spriteSize);
 
         //マップ生成関数
-        MapCreater.Positioning(fileName,spriteSize);
+        MapCreater.Positioning(fileName, monoChromeFileName, spriteSize);
 
         mapLengthMax = new Vector3(mapDate.mapNumberDate.GetLength(1), 0, mapDate.mapNumberDate.GetLength(0));
 
@@ -153,7 +173,7 @@ public class MapController : MonoBehaviour
             mapDate.mapObjectDate[(int)currentPlayerPosOnMap.y, (int)currentPlayerPosOnMap.x].GetComponent<ChangedSprite>().ChangeSprite(changedSprite);
             //spriteがもとに戻るので、そこにあった足跡も消す
             footPrinter.DeleteOneFoot();
-            Vector3 ppp=nextPositionOnMap;
+            Vector3 ppp = nextPositionOnMap;
             effectSpawner2.SetEffect(ppp);
         }
         //移動予定地が変化前だった場合
@@ -224,6 +244,7 @@ public class MapController : MonoBehaviour
     {
         MapCreater.Reset();
         footPrinter.Reset();
-
+        Destroy(instanceWhite.gameObject);
+        instanceWhite = null;
     }
 }

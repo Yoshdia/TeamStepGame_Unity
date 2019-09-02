@@ -60,7 +60,7 @@ public class InputScreenTouch : MonoBehaviour
                     float x = firstSubNowPos.x;
                     float y = firstSubNowPos.y;
 
-                    if (x > 0.5f || y > 0.5f)
+                    if (x > 1.0f || y > 1.0f)
                     {
                         //差の値で、xとyどちらが大きいか
                         string biggerPos = (Math.Abs(x) > Math.Abs(y)) ? "x" : "y";
@@ -81,8 +81,16 @@ public class InputScreenTouch : MonoBehaviour
             if (Input.touchCount < 1)
             {
                 firstTouched = false;
-                Destroy(instanceframe.gameObject);
-                Destroy(instanceInside.gameObject);
+                if (instanceframe != null)
+                {
+                    Destroy(instanceframe.gameObject);
+                    instanceframe = null;
+                }
+                if (instanceInside != null)
+                {
+                    Destroy(instanceInside.gameObject);
+                    instanceInside = null;
+                }
             }
 
             ////長押しされている場合のみ処理を行う

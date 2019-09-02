@@ -44,14 +44,15 @@ public class MapDate : MonoBehaviour
 
     int[,] mapDateThird =
     {
-        { 0,0,0,0,0,0},
-        { 0,0,0,0,0,0},
-        { 0,0,0,0,2,0},
-        { 0,0,0,0,2,0},
-        { 0,0,0,0,4,0},
-        { 0,0,0,0,0,0},
-        { 2,0,0,0,0,0},
-        { 0,0,2,0,0,0},
+        { 0,0,0,0,0, 0},
+        { 0,0,0,0,0, 0},
+        { 0,0,0,0,2, 0},
+        { 0,0,0,0,2, 0},
+        { 0,0,0,0,4, 0},
+                     
+        { 0,0,0,0,0, 0},
+        { 2,0,0,0,0, 0},
+        { 0,0,2,0,0, 0},
     };
 
     GameObject[,] mapObjectDate =
@@ -70,7 +71,7 @@ public class MapDate : MonoBehaviour
     };
 
     //二次元配列を返す
-    public int[,] GetMapDate(eStageName stage, ref Vector3 pos, ref string fileName, ref Vector3 cameraPos)
+    public int[,] GetMapDate(eStageName stage, ref Vector3 pos, ref string fileName, ref string monoChromeFileName,ref Vector3 cameraPos,ref Vector2 mapSize,ref float speed)
     {
         switch (stage)
         {
@@ -79,6 +80,8 @@ public class MapDate : MonoBehaviour
                 fileName = "SmokeWoman_BH";
                 cameraPos = new Vector3(2.8f, 5.2f, -11f);
                 ResetMap(mapDateFirst);
+                mapSize = new Vector2(5.0f,8.0f);
+                speed = 5.0f;
                 return mapDateFirst;
                 ;
             case (eStageName.eSecondStage):
@@ -86,6 +89,8 @@ public class MapDate : MonoBehaviour
                 fileName = "flower";
                 cameraPos = new Vector3(1.5f, 5.5f, 1.25f);
                 ResetMap(mapDateSecond);
+                mapSize = new Vector2(5.0f, 5.0f);
+                speed = 3.0f;
                 return mapDateSecond;
                 ;
             case (eStageName.eDifficultStage):
@@ -93,6 +98,8 @@ public class MapDate : MonoBehaviour
                 fileName = "deff";
                 cameraPos = new Vector3(2.50f, 2.77f, -7.00f);
                 ResetMap(mapDateThird);
+                mapSize = new Vector2(6.0f, 8.0f);
+                speed = 2.0f;
                 return mapDateThird;
         }
 

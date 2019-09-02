@@ -63,6 +63,7 @@ MonoBehaviour:
     type: 3}
   effectSpawner: {fileID: 0}
   effectSpawner2: {fileID: 0}
+  white: {fileID: 7187002068279869188, guid: 97201d23f47091c46b98cfc51e8a8b2a, type: 3}
 --- !u!114 &114873553309444244
 MonoBehaviour:
   m_ObjectHideFlags: 0

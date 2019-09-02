@@ -55,7 +55,7 @@ public class MapPositioning : MonoBehaviour
     }
 
         //GameManagerからステージごとの値を受け取りステージを配置する
-    public void Positioning(string fileName,Vector3 spriteSize)
+    public void Positioning(string fileName,string monoChromeFileName,Vector3 spriteSize)
     {
         Debug.Log("p:" + spriteSize);
         //足跡を生成するFootPrintにSpriteサイズを渡し、設置位置の基準にさせる
@@ -63,6 +63,7 @@ public class MapPositioning : MonoBehaviour
 
         //どのSpriteをStageにするか、そのSpriteを配列に保存する
         Sprite[] mapSprite = Resources.LoadAll<Sprite>("Img/"+fileName);
+        Sprite[] monoSprite = Resources.LoadAll<Sprite>("Img/" + monoChromeFileName);
         //配列の引数
         int spriteCnt = 0;
 
@@ -96,7 +97,7 @@ public class MapPositioning : MonoBehaviour
                 //マップ情報によって書き換えられるGameObjectを初期化。初期値としてイベントの無い白いブロックを入れる
                 GameObject setObject = null;
                 GameObject wallObject = null;
-
+                Sprite sprite = null;
                 //壁
                 if (pannelInfo == (int)MapDate.eGroundName.eWall)
                 {
@@ -107,11 +108,13 @@ public class MapPositioning : MonoBehaviour
                     wallObject = objectPool.GetWaitingObject(waitingJammer, objectPos, objectQua);
                     wallObject.transform.localScale=new Vector3(spriteSize.x,spriteSize.y,0.2f);
                     wallObject.transform.parent = transform;
+                    sprite = mapSprite[spriteCnt];
                 }
                 //変化前のパネル
                 if (pannelInfo == (int)MapDate.eGroundName.eDefaultPannel)
                 {
                     setObject = objectPool.GetWaitingObject(waitingPannel, objectPos, objectQua);
+                    sprite = mapSprite[spriteCnt];
                 }
                 //プレイヤーの初期座標またはイベントの無い白いブロック
                 if (pannelInfo == (int)MapDate.eGroundName.ePlayerPosition ||
@@ -125,8 +128,10 @@ public class MapPositioning : MonoBehaviour
                     wallObject.transform.localScale = new Vector3(spriteSize.x, spriteSize.y, 0.2f);
 
                     wallObject.transform.parent = transform;
+
+                    sprite = mapSprite[spriteCnt];
                 }
-                setObject.GetComponent<PannelCommon>().SetSprite(mapSprite[spriteCnt]);
+                setObject.GetComponent<PannelCommon>().SetSprite(sprite);
 
                 if (mapSprite.Length != spriteCnt)
                 {
