@@ -623,6 +623,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 887568d6ffa6ad644a0e3abc9a54d3c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  insideObject: {fileID: 4550721360495370449, guid: 41631127452925f479236647dab59913,
+    type: 3}
+  frameObject: {fileID: 7954802957108133702, guid: 4635c12bd1d20da4d98a15fbe46c31ee,
+    type: 3}
 --- !u!114 &7141971985776581365
 MonoBehaviour:
   m_ObjectHideFlags: 0

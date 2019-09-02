@@ -78,7 +78,7 @@ public class PlayerMoveContloller : MonoBehaviour
             //移動先に壁がない場合targetPosを更新させる
             if (TargetPositionHaveWall() == false)
             {
-                Debug.Log("walking");
+                //Debug.Log("walking");
                 targetPos = transform.position + moveVectorOnScene;
             }
         }
