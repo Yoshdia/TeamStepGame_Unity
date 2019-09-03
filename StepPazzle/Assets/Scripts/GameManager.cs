@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     [SerializeField]
-    MapDate.eStageName stageName =0;
+    MapDate.eStageName stageName = 0;
 
     [SerializeField]
     PlayerMoveContloller player = null;
@@ -86,16 +86,15 @@ public class GameManager : MonoBehaviour
                 }
                 break;
             case (gameState.Clear):
-                if(Input.GetKey(KeyCode.RightShift))
+                if (Input.GetKey(KeyCode.RightShift))
                 {
                     StateChange();
                 }
                 break;
             case (gameState.Result):
-                if(Input.GetKey(KeyCode.LeftShift))
+                if (Input.GetKey(KeyCode.LeftShift))
                 {
-
-                StateChange();
+                    StateChange();
                 }
                 break;
         }
@@ -118,14 +117,14 @@ public class GameManager : MonoBehaviour
                 state = gameState.Clear;
 
                 GameEnd();
-                
+
                 break;
             case (gameState.Clear):
                 state = gameState.Result;
                 break;
             case (gameState.Result):
                 state = gameState.Start;
-                stageName = MapDate.eStageName.eDifficultStage;
+                stageName++;
                 break;
         }
     }
@@ -139,7 +138,7 @@ public class GameManager : MonoBehaviour
 
         Vector3 cameraPos = new Vector3();
         float speed = 0;
-        stageCreater.MapReset(stageName, ref cameraPos,ref speed);
+        stageCreater.MapReset(stageName, ref cameraPos, ref speed);
 
         mainCamera.transform.position = cameraPos;
         mainCamera.transform.rotation = Quaternion.Euler(0, 0, 0);
