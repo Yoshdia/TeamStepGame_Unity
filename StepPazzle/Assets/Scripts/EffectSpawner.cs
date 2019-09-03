@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class EffectSpawner : MonoBehaviour
 {
-    private float effectSize;
+    private Vector3 effectSize;
+    float size;
     private Vector3 spriteSize;
 
     [SerializeField]
@@ -31,15 +32,17 @@ public class EffectSpawner : MonoBehaviour
     {
         spriteSize = size;
         spriteSize.z = 1.0f;
-        effectSize = ((size.x > size.y) ? size.x : size.y) / 1;
+        //effectSize = size.x;
+        effectSize = size;
+        this.size = ((size.x > size.y) ? size.x : size.y) / 1;
     }
 
     public void SetEffect(Vector3 pos)
     {
         GameObject setPool=pool.GetWaitingObject(waitingEffect,pos,new Quaternion());
         //setPool.transform.localScale = new Vector3(effectSize, effectSize, effectSize);
-        setPool.GetComponent<ParticleSystem>().startSize = effectSize*3.5f;
-        setPool.transform.position = new Vector3(pos.x * effectSize, pos.y * effectSize, -0.1f);
+        setPool.GetComponent<ParticleSystem>().startSize = size*3.5f;
+        setPool.transform.position = new Vector3((pos.x) * effectSize.x, pos.y * effectSize.y, -0.1f);
 
 
     }

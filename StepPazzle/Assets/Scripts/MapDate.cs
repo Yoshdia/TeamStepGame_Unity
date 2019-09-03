@@ -18,122 +18,123 @@ public class MapDate : MonoBehaviour
         eFirstStage,
         eSecondStage,
         eThirdStage,
-        eFourthStage,
-        eFifthStage,
-        eSixthStage,
-        eSeventhStage,
-        eEighthStage,
-        eNinthStage,
-        eTenthStage,
+        //eFourthStage,
+        //eFifthStage,
+        //eSixthStage,
+        //eSeventhStage,
+        //eEighthStage,
+        //eNinthStage,
+        //eTenthStage,
     }
 
-    int[,] mapDateFirst =
-        {
-    {2,0,0,0,2},
-    {0,0,0,0,2},
-    {0,2,0,0,2},
-    {0,0,0,0,0},
-    {0,0,0,0,0},
+    //int[,] mapDateFirst =
+    //    {
+    //{2,0,0,0,2},
+    //{0,0,0,0,2},
+    //{0,2,0,0,2},
+    //{0,0,0,0,0},
+    //{0,0,0,0,0},
 
-    {2,0,0,0,0},
-    {4,0,0,0,2},
-    { 0,0,0,0,2}
-    };
+    //{2,0,0,0,0},
+    //{4,0,0,0,2},
+    //{ 0,0,0,0,2}
+    //};
     int[,] mapDateSecond =
         {
-        {0,1,0,0,0},
-        {0,0,0,1,0},
-        {0,0,0,0,0},
-        {4,0,1,0,0},
-        {0,0,1,1,0},
+        {0,2,0,0,0},
+        {0,0,0,2,0},
+        {4,0,0,0,0},
+        {0,0,2,0,0},
+        {0,0,2,2,0},
 
         {0,0,0,0,0},
     };
+    //int[,] mapDateThird =
+    //{
+    //   { 0,1,1,1,},
+    //   { 0,0,0,1,},
+    //   { 0,0,0,0,},
+    //   { 1,0,0,0,},
+    //   { 4,0,0,0,},
+    //};
+    //int[,] mapDateFourth =
+    //{
+    //    { 0,0,0,0,0 ,0 },
+    //    { 0,1,0,0,0 ,0} ,
+    //    { 1,4,0,1,0 ,1} ,
+    //    { 0,0,0,0,0 ,0} ,
+    //    { 0,0,0,0,0 ,0} ,
+
+    //    { 0,0,0,0,0 ,0} ,
+    //    { 0,0,1,0,0 ,0} ,
+    //};
+    //int[,] mapDateFifth =
+    //{
+    //    { 1,1,0,0,0},
+    //    { 1,0,0,4,0},
+    //    { 0,0,0,0,1},
+    //    { 0,0,0,0,0},
+    //    { 1,0,0,0,0},
+
+    //    { 0,0,0,0,1},
+    //    { 0,0,0,1,1 } ,
+    //};
+    int[,] mapDateFirst =
+    {
+        { 2,0,0,2},
+        { 0,0,0,0},
+        { 2,0,0,0},
+        { 0,0,0,4},
+        { 0,0,0,2 },
+    };
+    //int[,] mapDateSeventh =
+    //{
+    //    { 1,1,0,0,0 ,1},
+    //    { 1,1,0,0,0 ,1},
+    //    { 0,0,0,0,1 ,1},
+    //    { 0,0,0,0,0 ,1},
+    //    { 1,1,0,0,0 ,1},
+
+    //    { 1,4,0,0,0 ,0},
+    //    { 1,0,0,0,1 ,0},
+    //};
+    //int[,] mapDateEighth =
+    //{
+    //    { 4,0,0,0,0 ,0},
+    //    { 0,0,0,0,0 ,0},
+    //    { 0,1,0,0,0 ,0},
+    //    { 1,0,0,0,0 ,1},
+    //    { 0,0,0,0,0 ,0},
+
+    //    { 0,0,1,1,0 ,0},
+    //    { 0,0,0,0,0 ,0},
+    //    { 0,0,0,0,0 ,0 },
+    //};
+    //int[,] mapDateNinth =
+    //{
+    //    { 0,0,0,0,0 ,0},
+    //    { 1,0,0,0,0 ,0},
+    //    { 0,0,0,0,0 ,0},
+    //    { 0,0,0,0,0 ,1},
+    //    { 0,0,1,0,0 ,0},
+
+    //    { 0,0,0,0,0 ,0},
+    //    { 0,1,0,0,0 ,0},
+    //    { 0,0,1,0,0 ,0},
+    //};
     int[,] mapDateThird =
     {
-       { 0,1,1,1,},
-       { 0,0,0,1,},
-       { 0,0,0,0,},
-       { 1,0,0,0,},
-       { 4,0,0,0,},
-    };
-    int[,] mapDateFourth =
-    {
-        { 0,0,0,0,0 ,0 },
-        { 0,1,0,0,0 ,0} ,
-        { 1,4,0,1,0 ,1} ,
-        { 0,0,0,0,0 ,0} ,
-        { 0,0,0,0,0 ,0} ,
-                        
-        { 0,0,0,0,0 ,0} ,
-        { 0,0,1,0,0 ,0} ,
-    };
-    int[,] mapDateFifth =
-    {
-        { 1,1,0,0,0},
-        { 1,0,0,4,0},
-        { 0,0,0,0,1},
-        { 0,0,0,0,0},
-        { 1,0,0,0,0},
-
-        { 0,0,0,0,1},
-        { 0,0,0,1,1 } ,
-    };
-    int[,] mapDateSixth =
-    {
-        { 1,0,0,1},
-        { 0,0,0,0},
-        { 1,0,0,0},
-        { 0,0,0,4},
-        { 0,0,0,1 },
-    };
-    int[,] mapDateSeventh =
-    {
-        { 1,1,0,0,0 ,1},
-        { 1,1,0,0,0 ,1},
-        { 0,0,0,0,1 ,1},
-        { 0,0,0,0,0 ,1},
-        { 1,1,0,0,0 ,1},
-
-        { 1,4,0,0,0 ,0},
-        { 1,0,0,0,1 ,0},
-    };
-    int[,] mapDateEighth =
-    {
-        { 4,0,0,0,0,0},
-        { 0,0,0,0,0,0},
-        { 0,1,0,0,0,0},
-        { 1,0,0,0,0,1},
-        { 0,0,0,0,0,0},
-        { 0,0,1,1,0,0},
-        { 0,0,0,0,0,0},
-        { 0,0,0,0,0,0 },
-    };
-    int[,] mapDateNinth =
-    {
-        { 0,0,0,0,0 ,0},
-        { 1,0,0,0,0 ,0},
-        { 0,0,0,0,0 ,0},
-        { 0,0,0,0,0 ,1},
-        { 0,0,1,0,0 ,0},
-
-        { 0,0,0,0,0 ,0},
-        { 0,1,0,0,0 ,0},
-        { 0,0,1,0,0 ,0},
-    };
-    int[,] mapDateTenth =
-    {
         { 0,0,0,0,0 ,0},
         { 0,0,0,0,0 ,0},
-        { 0,1,0,0,0 ,0},
-        { 1,0,0,0,0 ,1},
-        { 0,0,0,0,0 ,1},
+        { 0,2,0,0,0 ,0},
+        { 2,0,0,0,0 ,2},
+        { 0,0,0,0,0 ,2},
 
         { 0,0,0,0,0 ,0},
         { 0,0,4,0,0 ,0},
-        { 0,0,0,1,0 ,0 },
+        { 0,0,0,2,0 ,0 },
     };
-         
+
     GameObject[,] mapObjectDate =
     {
         {null, null,null,null,null, null,null},
@@ -155,14 +156,30 @@ public class MapDate : MonoBehaviour
         switch (stage)
         {
             case (eStageName.eFirstStage):
-                pos = new Vector3(1.4f, 1.5f, 0);
-                fileName = "SmokeWoman_BH";
+                pos = new Vector3(2.00f, 2.56f, 0);
+                fileName = "Stage1silhouette";
                 cameraPos = new Vector3(2.8f, 5.2f, -11f);
                 ResetMap(mapDateFirst);
-                mapSize = new Vector2(5.0f, 8.0f);
-                speed = 5.0f;
+                mapSize = new Vector2(4.0f, 5.0f);
+                speed = 10.0f;
                 return mapDateFirst;
                 ;
+            case (eStageName.eSecondStage):
+                pos = new Vector3(1.40f,2.00f,0);
+                fileName = "Stage2silhouette";
+                cameraPos = new Vector3(2.8f, 5.2f, -11f);
+                ResetMap(mapDateSecond);
+                mapSize = new Vector2(5,6);
+                speed = 7.0f;
+                return mapDateSecond;
+            case (eStageName.eThirdStage):
+                pos = new Vector3(1.16f,1.50f,0);
+                fileName = "Stage3silhouette";
+                cameraPos = new Vector3(2.8f, 5.2f, -11f);
+                ResetMap(mapDateThird);
+                mapSize = new Vector2(6,8);
+                speed = 6.5f;
+                return mapDateThird;
                 //case (eStageName.):
                 //    pos = new Vector3();
                 //    fileName = "";
@@ -171,6 +188,7 @@ public class MapDate : MonoBehaviour
                 //    mapSize = new Vector2();
                 //    speed = ;
                 //    return ;
+
 
                 //case (eStageName.eSecondStage):
                 //    pos = new Vector3(0.8f, 0, 0.6f);
