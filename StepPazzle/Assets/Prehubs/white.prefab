@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 5161971649640710066}
   - component: {fileID: 4976259032936672465}
   - component: {fileID: 9184736252929444230}
-  m_Layer: 0
+  - component: {fileID: 7565317806835403200}
+  m_Layer: 10
   m_Name: white
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,8 +28,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7187002068279869188}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.6499999, y: 2.8, z: 0.2}
-  m_LocalScale: {x: 6.3599997, y: 6.4, z: 0.1}
+  m_LocalPosition: {x: 2.8, y: 5.25, z: 0.2}
+  m_LocalScale: {x: 7, y: 12, z: 0.1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -91,3 +92,14 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!210 &7565317806835403200
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7187002068279869188}
+  m_Enabled: 1
+  m_SortingLayerID: -714624387
+  m_SortingLayer: 1
+  m_SortingOrder: 0

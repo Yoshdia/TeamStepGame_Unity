@@ -39,7 +39,7 @@ public class EffectSpawner : MonoBehaviour
         GameObject setPool=pool.GetWaitingObject(waitingEffect,pos,new Quaternion());
         //setPool.transform.localScale = new Vector3(effectSize, effectSize, effectSize);
         setPool.GetComponent<ParticleSystem>().startSize = effectSize*3.5f;
-        setPool.transform.position = new Vector3(pos.x * effectSize, pos.y * effectSize, 1);
+        setPool.transform.position = new Vector3(pos.x * effectSize, pos.y * effectSize, -0.1f);
 
 
     }

@@ -46,6 +46,9 @@ TagManager:
   - name: stage
     uniqueID: 3580342909
     locked: 0
+  - name: step
+    uniqueID: 1601262135
+    locked: 0
   - name: effect
     uniqueID: 364075775
     locked: 0

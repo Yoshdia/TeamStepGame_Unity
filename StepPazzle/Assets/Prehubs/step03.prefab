@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4882084556725794}
   - component: {fileID: 212927617836939030}
+  - component: {fileID: 8197292118360589308}
   m_Layer: 0
   m_Name: step03
   m_TagString: Untagged
@@ -79,3 +80,14 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!210 &8197292118360589308
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1514988669456144}
+  m_Enabled: 1
+  m_SortingLayerID: 1601262135
+  m_SortingLayer: 2
+  m_SortingOrder: 0

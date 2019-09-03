@@ -31,6 +31,10 @@ public class PlayerMoveContloller : MonoBehaviour
     //移動に必要な上下のサイズ。GameManagerから値を受け取る。
     private Vector3 moveSpriteSize;
 
+    AudioSource audioSource;
+    [SerializeField]
+    AudioClip stepClip;
+
     private InputScreenTouch inputScreenTouch = null;
 
     public void GoOutScreen()
@@ -41,6 +45,7 @@ public class PlayerMoveContloller : MonoBehaviour
     private void Awake()
     {
         animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     //初期化に必要な処理。GameManagerから呼ばれる。
@@ -88,6 +93,15 @@ public class PlayerMoveContloller : MonoBehaviour
             animator.SetBool("Walk", true);
             if (moving == false)
             {
+                if (audioSource.isPlaying)
+                {
+                    audioSource.Play();
+                    audioSource.SetScheduledStartTime(0);
+                }
+                else
+                {
+                    audioSource.PlayOneShot(stepClip);
+                }
                 moveVectorOnMap = new Vector3(moveVectorOnScene.x / moveSpriteSize.x, moveVectorOnScene.y / moveSpriteSize.y, 0);
 
                 haveMapDateObject.GetComponent<MapController>().MovedPlayer(playerPosOnMapDate, moveVectorOnMap);
@@ -98,6 +112,7 @@ public class PlayerMoveContloller : MonoBehaviour
         else
         {
             animator.SetBool("Walk", false);
+            audioSource.Stop();
         }
         SetInputKey("reset");
     }

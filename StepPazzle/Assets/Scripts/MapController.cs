@@ -32,6 +32,12 @@ public class MapController : MonoBehaviour
     GameObject white = null;
     GameObject instanceWhite = null;
 
+    AudioSource audioSource;
+    [SerializeField]
+    AudioClip changeClip;
+    [SerializeField]
+    AudioClip deleteClip;
+
     public void InitProcces()
     {
         //stageName = MapDate.eStageName.eFirstStage;
@@ -40,6 +46,7 @@ public class MapController : MonoBehaviour
         haveMapData = GetComponent<MapDate>();
 
         MapCreater = GetComponent<MapPositioning>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     public void MapReset(MapDate.eStageName selectedStageName, ref Vector3 cameraPos,ref float speed)
@@ -175,6 +182,7 @@ public class MapController : MonoBehaviour
             footPrinter.DeleteOneFoot();
             Vector3 ppp = nextPositionOnMap;
             effectSpawner2.SetEffect(ppp);
+            audioSource.PlayOneShot(changeClip);
         }
         //移動予定地が変化前だった場合
         else if (mapDate.mapNumberDate[(int)nextPositionOnMap.y, (int)nextPositionOnMap.x] == (int)MapDate.eGroundName.eDefaultPannel)
@@ -190,6 +198,7 @@ public class MapController : MonoBehaviour
             //footQua = Quaternion.Euler(nextPositionOnMap-currentPlayerPosOnMap);
             footPrinter.SetFoot(footPos, footDirection);
             effectSpawner.SetEffect(footPos);
+            audioSource.PlayOneShot(deleteClip);
         }
         else if (mapDate.mapNumberDate[(int)nextPositionOnMap.y, (int)nextPositionOnMap.x] == (int)MapDate.eGroundName.eWhite)
         {
